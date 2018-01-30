@@ -1,0 +1,44 @@
+---
+title             : "Modeling Social Attitudes with Beta Regression Hurdle Models"
+shorttitle        : "Beta Regression"
+
+author: 
+  - name          : "Mark H. White II"
+    affiliation   : "1"
+    corresponding : yes
+    email         : "markhwhiteii@gmail.com"
+
+affiliation:
+  - id            : "1"
+    institution   : "University of Kansas"
+
+author_note: >
+  Author note will go here.
+
+abstract: >
+  Abstract will go here.
+  
+keywords          : "beta regression, hurdle models, norms, social attitudes"
+
+bibliography      : ["r-references.bib"]
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : no
+
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+---
+
+\newpage
+
+# References
+```{r create_r-references}
+papaja::r_refs(file = "r-references.bib")
+```
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
