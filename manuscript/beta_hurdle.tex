@@ -158,6 +158,8 @@
 
 
 
+\section{Statistical Background}\label{statistical-background}
+
 \subsection{The Beta Distribution}\label{the-beta-distribution}
 
 The beta distribution can be used to model the residuals in a
@@ -176,13 +178,13 @@ the mean toward zero and one, respectively. If \(\alpha\) is larger than
 \(\beta\), the mean leans toward zero; if the reverse is true, the mean
 leans toward one. One of the benefits of the beta distribution is that
 it is flexible and can take a number of distributional shapes. ADD
-FIGURE 1 HERE.
+FIGURE 1 HERE TO SHOW VARIOUS SHAPES.
 
 These parameters are not intuitive to applied researchers used to using
 regression and analysis of variance, however. Rigby, Stasinopoulos,
 Heller, and De Bastiani (2017) \enquote{reparameterized} the beta
 distribution to make it easier understand in a regression framework (but
-see Ferrari and Cribari-Neto (2004) for a different parameterization).
+see Ferrari \& Cribari-Neto, 2004 for a different parameterization).
 Instead of predicting \(\alpha\) and \(\beta\), they parameterize the
 beta distribution with two different parameters: \(\mu\) (called the
 \enquote{location} parameter) and \(\sigma\) (called the \enquote{scale}
@@ -287,8 +289,63 @@ predicting the location, \(\mu\), and shape, \(\sigma\). Since there is
 no mixture with values of being 0 or 1, the latter two mixture
 parameters, \(\nu\) and \(\tau\), are not included.
 
-\subsection{Applications to Social and Personality
-Psychology}\label{applications-to-social-and-personality-psychology}
+\section{Applications to Social and Personality Psychology (NEW
+NAME?)}\label{applications-to-social-and-personality-psychology-new-name}
+
+These beta regression models are often used when dealing with rates and
+proportions, given that these are naturally bounded \(0 \leq y \leq 1\)
+(Buntaine, 2011; Eskelson, Madsen, Hagar, \& Temesgen, 2011; Gallardo,
+Bovea, Colomer, \& Prades, 2012; Hubben et al., 2008; Peplonska et al.,
+2012). The beta distribution is doubly bounded continuous distribution,
+meaning that, although it is on a continuous scale, values cannot be
+greater than the upper bound, \(u\), or lesser than the lower bound,
+\(l\). Although researchers generally model variables on Likert scales
+and sliding scales (e.g., feeling thermometers) as being conditionally
+normally distributed, these variables are, by definition, not strictly
+normal.
+
+Observations from a normal distribution can take on any value on the
+real number line. Observations from a standard, 1 (Strongly Disagree) to
+7 (Strongly Agree) Likert scale can only take on values between 1 and 7.
+There are no meaningful negative consequences of using the normal
+distribution to model a variable with observed \(M = 4.0\) and
+\(SD = 0.8\), given that virtually all of the distribution falls between
+1 and 7 anyways. However, measures in prejudice and politics are often
+skewed toward one of the poles, such as \(M = 2.0\) and \(SD = 1.5\). In
+this case, one might observe predicted values outside the bounds, and
+the model is likely to violate the assumption of homoskedasticity, as
+well. SHOW EXAMPLES IN FIGURE 2. While some advocate for using robust
+estimators for standard errors to address this problem {[}CITE{]}, one
+can explicitly take into account that the response is doubly bounded by
+using the beta regression models described above.
+
+If one observes a dependent variable limited between two bounds, there
+is a straightforward way to rescale the variable to the
+\(0 \leq y \leq 1\) range:
+
+\begin{center}
+$y'_i = (y_i - l) / (u - l)$
+\end{center}
+
+where \(y\) is the variable on the original scale, \(y'\) is the
+transformed variable, \(u\) is the upper bound (i.e., the largest
+possible value on the scale), \(l\) is the lower bound (i.e., the
+smallest possible value on the scale), and the \(i\) subscript denotes
+an individual's score. On a standard 7-point Likert scale, \(l = 1\) and
+\(u = 7\). This transformation allows a researcher to explicitly model
+conditional variance, floor effects, and ceiling effects.
+
+\subsection{Conditional variance}\label{conditional-variance}
+
+\subsection{Ceiling and floor effects}\label{ceiling-and-floor-effects}
+
+\section{Variance as a Proxy for
+Norms}\label{variance-as-a-proxy-for-norms}
+
+\section{Ceiling and Floor Effects as
+Hurdles}\label{ceiling-and-floor-effects-as-hurdles}
+
+\section{Implementation in GAMLSS}\label{implementation-in-gamlss}
 
 \newpage
 
@@ -297,15 +354,42 @@ Psychology}\label{applications-to-social-and-personality-psychology}
 \setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\hypertarget{ref-buntaine2011does}{}
+Buntaine, M. T. (2011). Does the Asian Development Bank respond to past
+environmental performance when allocating environmentally risky
+financing? \emph{World Development}, \emph{39}(3), 336--350.
+
 \hypertarget{ref-coxe2013generalized}{}
 Coxe, S., West, S. G., \& Aiken, L. S. (2013). Generalized linear
 models. In T. D. Little (Ed.), \emph{The Oxford handbook of quantitative
 methods, volume 2} (pp. 26--51). New York, NY: Oxford University Press.
 
+\hypertarget{ref-eskelson2011estimating}{}
+Eskelson, B. N., Madsen, L., Hagar, J. C., \& Temesgen, H. (2011).
+Estimating riparian understory vegetation cover with beta regression and
+copula models. \emph{Forest Science}, \emph{57}(3), 212--221.
+
 \hypertarget{ref-ferrari2004beta}{}
 Ferrari, S., \& Cribari-Neto, F. (2004). Beta regression for modelling
 rates and proportions. \emph{Journal of Applied Statistics},
 \emph{31}(7), 799--815.
+
+\hypertarget{ref-gallardo2012analysis}{}
+Gallardo, A., Bovea, M. D., Colomer, F. J., \& Prades, M. (2012).
+Analysis of collection systems for sorted household waste in Spain.
+\emph{Waste Management}, \emph{32}(9), 1623--1633.
+
+\hypertarget{ref-hubben2008societal}{}
+Hubben, G. A. A., Bishai, D., Pechlivanoglou, P., Cattelan, A. M.,
+Grisetti, R., Facchin, C., \ldots{} Tramarin, A. (2008). The societal
+burden of HIV/AIDS in Northern Italy: An analysis of costs and quality
+of life. \emph{AIDS Care}, \emph{20}(4), 449--455.
+
+\hypertarget{ref-peplonska2012rotating}{}
+Peplonska, B., Bukowska, A., Sobala, W., Reszka, E., Gromadzińska, J.,
+Wasowicz, W., \ldots{} Ursin, G. (2012). Rotating night shift work and
+mammographic density. \emph{Cancer, Epidemiology, Biomarkers, \&
+Prevention}, \emph{21}(7), 1028--1037.
 
 \hypertarget{ref-rigby2017distributions}{}
 Rigby, R., Stasinopoulos, M., Heller, G., \& De Bastiani, F. (2017).

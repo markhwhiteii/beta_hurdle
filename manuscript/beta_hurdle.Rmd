@@ -33,6 +33,8 @@ class             : "man"
 output            : papaja::apa6_pdf
 ---
 
+# Statistical Background
+
 ## The Beta Distribution
 
 The beta distribution can be used to model the residuals in a generalized linear model when the values of the dependent variable are bounded $0 < y < 1$ [@coxe2013generalized]. The probability density function (pdf) of the beta distribution is determined by two parameters, $\alpha$ and $\beta$, that are called "shape" parameters:  
@@ -41,9 +43,9 @@ The beta distribution can be used to model the residuals in a generalized linear
 $f(y;\alpha,\beta)={\Gamma(\alpha+\beta)\over\Gamma(\alpha)\Gamma(\beta)}y^{\alpha-1}(1-y)^{\beta-1}$
 \end{center}
 
-where $\Gamma(.)$ is the gamma function. The two shape parameters pull the mean toward zero and one, respectively. If $\alpha$ is larger than $\beta$, the mean leans toward zero; if the reverse is true, the mean leans toward one. One of the benefits of the beta distribution is that it is flexible and can take a number of distributional shapes. ADD FIGURE 1 HERE.  
+where $\Gamma(.)$ is the gamma function. The two shape parameters pull the mean toward zero and one, respectively. If $\alpha$ is larger than $\beta$, the mean leans toward zero; if the reverse is true, the mean leans toward one. One of the benefits of the beta distribution is that it is flexible and can take a number of distributional shapes. ADD FIGURE 1 HERE TO SHOW VARIOUS SHAPES.  
 
-These parameters are not intuitive to applied researchers used to using regression and analysis of variance, however. @rigby2017distributions "reparameterized" the beta distribution to make it easier understand in a regression framework (but see @ferrari2004beta for a different parameterization). Instead of predicting $\alpha$ and $\beta$, they parameterize the beta distribution with two different parameters: $\mu$ (called the "location" parameter) and $\sigma$ (called the "scale" parameter), where $\mu={\alpha\over(\alpha+\beta)}$ and $\sigma=\sqrt{1\over(\alpha+\beta+1)}$. $\mu$ is equivalent to the mean, and $\sigma$ is related positively to the variance. (Note that $\sigma$ is *not* the standard deviation, even though $\sigma$ refers to the standard deviation in many other contexts.) The variance is equivalent to $\sigma^2\mu(1-\mu)$. There are two important things to note from this equation: First, the greater the $\sigma$, the greater the variance; Second, the variance depends on the mean. This means that beta regression, covered shortly, will be naturally heteroskedastic.  
+These parameters are not intuitive to applied researchers used to using regression and analysis of variance, however. @rigby2017distributions "reparameterized" the beta distribution to make it easier understand in a regression framework [but see @ferrari2004beta for a different parameterization]. Instead of predicting $\alpha$ and $\beta$, they parameterize the beta distribution with two different parameters: $\mu$ (called the "location" parameter) and $\sigma$ (called the "scale" parameter), where $\mu={\alpha\over(\alpha+\beta)}$ and $\sigma=\sqrt{1\over(\alpha+\beta+1)}$. $\mu$ is equivalent to the mean, and $\sigma$ is related positively to the variance. (Note that $\sigma$ is *not* the standard deviation, even though $\sigma$ refers to the standard deviation in many other contexts.) The variance is equivalent to $\sigma^2\mu(1-\mu)$. There are two important things to note from this equation: First, the greater the $\sigma$, the greater the variance; Second, the variance depends on the mean. This means that beta regression, covered shortly, will be naturally heteroskedastic.  
 
 But how can we model dependent variables that equal zero and/or one?  
 
@@ -98,9 +100,37 @@ where $e^x$ is the natural exponential function. A regression model can also be 
 
 where $\nu = p_c / (1 - p_c)$ and everything else is the same as above. The same link functions are used as above, but the fourth parameter, $\tau$, is not included, as the dependent variable can only take on values of $c$ or from the beta distribution. Lastly, if no zeros or ones are observed, the beta distribution alone can be used as the pdf. This results in a beta regression where the researcher is only predicting the location, $\mu$, and shape, $\sigma$. Since there is no mixture with values of being 0 or 1, the latter two mixture parameters, $\nu$ and $\tau$, are not included.  
 
-## Applications to Social and Personality Psychology
+## Modeling Bounded Variables Outside the Unit Interval
+
+These beta regression models are often used when dealing with rates and proportions, given that these are naturally bounded $0 \leq y \leq 1$ [@buntaine2011does; @eskelson2011estimating; @gallardo2012analysis; @hubben2008societal; @peplonska2012rotating]. The beta distribution is doubly bounded continuous distribution, meaning that, although it is on a continuous scale, values cannot be greater than the upper bound, $u$, or lesser than the lower bound, $l$. Although researchers generally model variables on Likert scales and sliding scales (e.g., feeling thermometers) as being conditionally normally distributed, these variables are, by definition, not strictly normal.  
+
+Observations from a normal distribution can take on any value on the real number line. Observations from a standard, 1 (Strongly Disagree) to 7 (Strongly Agree) Likert scale can only take on values between 1 and 7. There are no meaningful negative consequences of using the normal distribution to model a variable with observed $M = 4.0$ and $SD = 0.8$, given that virtually all of the distribution falls between 1 and 7 anyways. However, measures in prejudice and politics are often skewed toward one of the poles, such as $M = 2.0$ and $SD = 1.5$. In this case, one might observe predicted values outside the bounds, and the model is likely to violate the assumption of homoskedasticity, as well. SHOW EXAMPLES IN FIGURE 2. While some advocate for using robust estimators for standard errors to address this problem [CITE], one can explicitly take into account that the response is doubly bounded by using the beta regression models described above.  
+
+If one observes a dependent variable limited between two bounds, there is a straightforward way to rescale the variable to the $0 \leq y \leq 1$ range:  
+
+\begin{center}
+$y'_i = (y_i - l) / (u - l)$
+\end{center}
+
+where $y$ is the variable on the original scale, $y'$ is the transformed variable, $u$ is the upper bound (i.e., the largest possible value on the scale), $l$ is the lower bound (i.e., the smallest possible value on the scale), and the $i$ subscript denotes an individual's score. On a standard 7-point Likert scale, $l = 1$ and $u = 7$. This transformation allows a researcher to explicitly model conditional variance, floor effects, and ceiling effects.  
+
+### Conditional variance
 
 
+
+### Ceiling and floor effects
+
+
+
+# Variance as a Proxy for Norms
+
+
+
+# Ceiling and Floor Effects as Hurdles
+
+
+
+# Implementation in GAMLSS
 
 
 
