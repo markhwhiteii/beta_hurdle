@@ -15,6 +15,8 @@
 * ceiling and/or floor effects  
     - likening it to hurdle model  
     - captures relationship better than ols  
+* implementation in gamlss
+    - write a wrapper or no?
 
 ### notes
 - maybe stick with inflated terminology before framing it as a hurdle model? otherwise, will need to explain what a hurdle model is, which ruins flow of explaining the distribution  
