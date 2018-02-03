@@ -1,12 +1,13 @@
 library(tidyverse)
-medians <- read_csv("../data/variance_norm.csv") %>% 
+rawdat <- read_csv("../data/variance_norm.csv")
+medians <- rawdat %>% 
   summarise_all(funs(median(., na.rm = TRUE))) %>%
   gather(var, value) %>% 
   separate(var, c("var", "group")) %>% 
   spread(var, value) %>% 
   transmute(group = group, accept_m = accept, prej_m = (100 - prej))
 
-variances <- read_csv("../data/variance_norm.csv") %>% 
+variances <- rawdat %>% 
   summarise_all(funs(var(., na.rm = TRUE))) %>%
   gather(var, value) %>% 
   separate(var, c("var", "group")) %>% 
@@ -46,3 +47,24 @@ ggplot(dat, aes(x = accept_m, y = prej_m)) +
   theme(text = element_text(size = 16))
 
 cor.test(~ accept_m + prej_m, dat)
+
+## showing pc index, from crandall (1994)
+pcdat <- rawdat %>% 
+  select(starts_with("prej_")) %>% 
+  summarise_all(funs(sum(. == 100, na.rm = TRUE))) %>% 
+  gather(var, value) %>% 
+  transmute(group = gsub("[^0-9]", "", var), pc_index = value) %>% 
+  full_join(medians[, -3], by = "group")
+
+pcfit <- MASS::glm.nb(pc_index ~ accept_m, pcdat)
+summary(pcfit)
+
+fake_x <- seq(0, 100, .25)
+pcpred <- predict(pcfit, data.frame(accept_m = fake_x), type = "response")
+
+ggplot() +
+  theme_minimal() +
+  geom_point(aes(x = pcdat$accept_m, y = pcdat$pc_index)) +
+  geom_line(aes(x = fake_x, y = pcpred)) +
+  labs(x = "Social Acceptability of Prejudice (Median)", y = "PC Index") +
+  theme(text = element_text(size = 16))
