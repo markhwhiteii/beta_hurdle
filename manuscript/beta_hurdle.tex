@@ -398,7 +398,7 @@ is predicted by one of the observed predictor variables, and since beta
 regression models predict a shape parameter, \(\sigma\), a researcher
 can explicitly model this relationship. This allows researchers to ask
 questions about conditional variance: \enquote{Does the variance in
-\(y\) increase as \(x\) also increases}? Since the focus of OLS
+\(y\) increase as \(x\) also increases?} Since the focus of OLS
 regression is the \emph{location} parameter (e.g., conditional mean),
 researchers might be ignoring interesting, potentially
 theoretically-relevant parts of their data. After discussing floor and
@@ -408,78 +408,84 @@ aspects.
 \subsubsection{Floor and ceiling
 effects}\label{floor-and-ceiling-effects}
 
-Floor and ceiling effects occur when there are many observations at the
-lower and upper bound of the scale, respectively (Everitt \& Skrondal,
-2010). Variables displaying these effects are likely to violate numerous
-assumptions of ordinary least squares regression, such as conditional
-normality and homoskedasticity of variance. Variables displaying these
-effects can be thought of as being censored or truncated; a common
-regression technique for censored or truncated variables are Tobit
-models (Smithson \& Merkle, 2013). Censoring occurs when all scores
-beyond some threshold are recorded at that threshold. If a researcher is
-measuring reaction times, censoring occurs if, for example, the
-researcher decides that any times above five seconds are scored as five.
-If many people score above five, this censoring can cause a ceiling
-effect. Truncating occurs when people who score beyond some treshold are
-excluded from the data. If the researcher simply does not record trials
-that take longer than five seconds, then the data are considered to be
-truncated. Tobit models can be useful in these situations. However,
-standard Tobit models assume that the underlying dimension is still
-normal. A good application of this is in measuring the abilities of
-intelligent children (McBee, 2010). The test may be too easy for the
-population, resulting in a ceiling effect. Nonetheless, the ability
-being measured is assumed to be normally distributed.
+Floor and ceiling effects occur when there are many observations of the
+dependent variable at the lower and upper bound of the scale,
+respectively (Everitt \& Skrondal, 2010). Variables displaying these
+effects are likely to violate numerous assumptions of ordinary least
+squares regression, such as conditional normality and homoskedasticity
+of variance, and can be modeled as censored or truncated. Censoring
+occurs when all scores beyond some threshold are recorded at that
+threshold. For example, if a researcher is measuring reaction times,
+censoring occurs if they decide that any times above 5 seconds are
+scored as 5. If many people took longer than 5 seconds, this censoring
+can cause a ceiling effect. Truncating occurs when people who score
+beyond some treshold are excluded from the data. If the researcher
+simply does not record trials that take longer than 5 seconds, then the
+data are truncated. A common regression technique for censored or
+truncated variables are Tobit models (McBee, 2010; Smithson \& Merkle,
+2013). However, standard Tobit models assume that the underlying latent
+construct is normally distributed.
 
-In the realm of prejudice and politics, I argue that it is useful to
-\emph{not} think of prejudice as coming from a latent normal
-distribution. Instead, people engage in a decision-making process. Using
-prejudice as an example, people decide whether or not they are going to
-admit to feeling any prejudice (i.e., scoring at the floor or above the
-floor); if they decide to admit any prejudice, then they decide how much
-to report. As another example: When measuring attitudes toward a
-polarizing political figure, people decide whether or not to respond
-entirely in the negative (i.e., at the floor), entirely in the positive
-(i.e., at the ceiling), or somewhere in between. This could result in a
-bimodal distribution, with both ceiling and floor effects.
+In the realm of prejudice and politics, I argue that it is \emph{not}
+useful to think of prejudice as coming from a latent normal
+distribution. I find it unlikely that if, instead of a Likert scales
+going from 1 to 7, it extended from -7 to +7, one would observe a normal
+distribution for the Attitude Towards Blacks scale, for example (Brigham
+(1993)). I find it likely that participants would opt for the new
+floor---the negative 7. This can be thought of as a decision-making
+process. Using prejudice as an example, people decide whether or not
+they are going to admit to feeling any prejudice. If they decide not to,
+they simply circle or click all 1s (i.e., the floor). If they decide to
+admit prejudice, they respond to the items. As another example: When
+offering one's attitudes toward a polarizing political figure, a
+participant decides whether or not to respond entirely in the negative
+(i.e., at the floor), entirely in the positive (i.e., at the ceiling),
+or somewhere in between. This could result in a bimodal distribution,
+with both ceiling and floor effects.
 
 This decision making process can be modeled with the inflated beta
-regression models described above (at zero and one, zero only, or one
-only). While these are often referred to as \enquote{zero-one inflated
-beta regression} models in papers on beta regression, a more general
-name used for these types of models are \enquote{two-part} models (Coxe
-et al., 2013); when one assumes a decision-making process behind the two
-parts, they are often referred to as \enquote{hurdle} models in the
-econometrics literature (Cameron \& Trivedi, 2005; Wooldridge, 2010).
+regression models described above. Inflations at zero, one, or
+zero-and-one allow researchers to measuring ceiling effects, floor
+effects, and both simultaneously. While methodologists in beta
+regression refer to these models as \enquote{inflated} models, a more
+general label is \enquote{two-part} models (Coxe et al., 2013). When one
+assumes a decision-making process behind the two parts, these models are
+often referred to as \enquote{hurdle} models in the econometrics
+literature (Cameron \& Trivedi, 2005; Wooldridge, 2010).
 
-Hurdle models are a generalization of the Type I Tobit model (Cragg,
-1971). (But note that, unlike the standard Tobit model, the latent
-dependent construct is assumed to be conditionally \emph{beta}
-distributed, which can take on many distributional forms, Figure 1.)
-They are often used to model count processes with excess zeros (see
-Carlevaro, Croissant, \& Hoareau, 2017 for a review of applications).
-The log likelihood function for these models can be separated in two
-parts: First, a logistic regression modeling the probability of zero
-versus greater than zero; second, a truncated negative binomial model
-using just the cases with observed dependent values greater than zero.
-The inflated beta regressions can be seen as hurdle models, as the
-zero-and-one inflated model's log likelihood can also be separated in
-two parts: First, a multinomial logistic regression modeling the
-probability of observing a zero, one, or a value between zero and one;
-Second, a beta regression model using just the cases with observed
-values between zero and one. Similarly, The inflated beta regression at
+Cragg (1971) demonstrated that hurdle models are a generalization of the
+Type I Tobit model (but note that, unlike the standard Tobit model, the
+latent dependent construct is assumed to be conditionally \emph{beta}
+distributed, which can take on many distributional forms; see Figure 1).
+In economics, hurdle models are often used when dependent variables are
+counts with excess 0s (see Carlevaro, Croissant, \& Hoareau, 2017 for a
+review of applications). The log likelihood function for these models
+can be separated in two parts: First, a logistic (or probit) regression
+modeling the probability of observing \(y = 0\) versus \(y > 0\);
+second, a truncated negative binomial model using just the cases where
+\(y > 0\).
+
+The inflated beta regressions can be seen as hurdle models, as the log
+likelihood for the zero-and-one inflated beta regression can also be
+separated in two parts: First, a multinomial logistic regression
+modeling the probabilities of observing a \(y = 0\), \(y = 1\), or
+\(0 < y < 1\); second, a beta regression model using just the cases
+where \(0 < y < 1\). Similarly, the inflated beta regression at
 \emph{either} zero \emph{or} one has a log likelihood function that can
 be separated in two parts: First, a logistic regression modeling the
-probability of observing where the inflation occurs or between zero and
-one; Second, a beta regression modeling just the cases with dependent
-values between zero and one (Rigby et al., 2017).
+probability of observing \(y = c\) or \(0 < y < 1\); second, a beta
+regression modeling just the cases where \(0 < y < 1\) (Rigby et al.,
+2017).
 
-Since their likelihoods can be separated, this makes a critical
+Since their likelihoods can be separated, this implies a critical
 assumption: That the two processes are independent, given the observed
 predictors. In other words, the error terms of each submodel are assumed
-to be independent of one another. Dependencies between them can be
-modeled (referred to as ``selection'' models; Carlevaro et al., 2017;
-Wooldridge, 2010), but I will not demonstrate these models here, as they
-are not extended to beta regression.
+to be independent of one another (where submodels refer to models
+predicting each parameter, \(\mu\), \(\sigma\), \(\nu\), or \(\tau\),
+separately). Dependencies between them can be modeled (referred to as
+``selection'' models; Carlevaro et al., 2017; Wooldridge, 2010), but I
+will not discuss these models here, as they are not extended to beta
+regression.
 
 \section{Norms Produce Invariance and Ceiling and Floor
 Effects}\label{norms-produce-invariance-and-ceiling-and-floor-effects}
@@ -497,6 +503,10 @@ Show example from FoRS data
 \setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\hypertarget{ref-brigham1993college}{}
+Brigham, J. C. (1993). College students? Racial attitudes. \emph{Journal
+of Applied Social Psychology}, \emph{23}(23), 1933--1967.
+
 \hypertarget{ref-buntaine2011does}{}
 Buntaine, M. T. (2011). Does the Asian Development Bank respond to past
 environmental performance when allocating environmentally risky
