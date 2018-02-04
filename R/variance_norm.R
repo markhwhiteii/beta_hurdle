@@ -1,5 +1,11 @@
 library(tidyverse)
 rawdat <- read_csv("../data/variance_norm.csv")
+nrow(rawdat)
+responses <- t(summarise_all(rawdat, funs(sum(!is.na(.)))))
+min(responses)
+max(responses)
+mean(responses)
+
 medians <- rawdat %>% 
   summarise_all(funs(median(., na.rm = TRUE))) %>%
   gather(var, value) %>% 
@@ -23,10 +29,9 @@ dat <- full_join(dat, group_names)
 
 ## primary analysis: norms produce invariance
 ggplot(dat, aes(x = accept_m, y = prej_var)) + 
-  geom_point(color = "midnightblue") +
+  geom_point(shape = 1) +
   geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
-              se = FALSE, color = "firebrick") +
-  geom_smooth(method = "loess", se = FALSE, color = "forestgreen") +
+              se = FALSE, color = "black") +
   theme_minimal() +
   labs(x = "Social Acceptability of Prejudice (Median)", 
        y = "Reported Prejudice (Variance)") +
@@ -39,8 +44,8 @@ summary(quad)$r.squared - summary(lin)$r.squared
 
 ## replicating crandall, eshleman, & o'brien (2002)
 ggplot(dat, aes(x = accept_m, y = prej_m)) +
-  geom_point(color = "midnightblue") +
-  geom_smooth(method = "lm", se = FALSE, color = "firebrick") +
+  geom_point(shape = 1) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
   theme_minimal() +
   labs(x = "Social Acceptability of Prejudice (Median)", 
        y = "Reported Prejudice (Median)") +
@@ -64,7 +69,7 @@ pcpred <- predict(pcfit, data.frame(accept_m = fake_x), type = "response")
 
 ggplot() +
   theme_minimal() +
-  geom_point(aes(x = pcdat$accept_m, y = pcdat$pc_index)) +
-  geom_line(aes(x = fake_x, y = pcpred)) +
+  geom_point(aes(x = pcdat$accept_m, y = pcdat$pc_index), shape = 1) +
+  geom_line(aes(x = fake_x, y = pcpred), size = 1) +
   labs(x = "Social Acceptability of Prejudice (Median)", y = "PC Index") +
   theme(text = element_text(size = 16))
