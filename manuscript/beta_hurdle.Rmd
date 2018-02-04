@@ -1,5 +1,5 @@
 ---
-title             : "Modeling Normative Aspects of Social Attitudes with Beta Regression"
+title             : "Using Beta Regression to Model Normative Aspects of Prejudice and Political Attitudes: With Applications in R"
 shorttitle        : "Beta Regression"
 
 author: 
@@ -33,25 +33,52 @@ class             : "man"
 output            : papaja::apa6_pdf
 ---
 
+```{r message = FALSE, warning = FALSE, error = FALSE, echo = FALSE}
+library(tidyverse)
+```
+
 # Statistical Background
 
 ## The Beta Distribution
 
-The beta distribution can be used to model the residuals in a generalized linear model when the values of the dependent variable are bounded $0 < y < 1$ [@coxe2013generalized]. The probability density function (pdf) of the beta distribution is determined by two parameters, $\alpha$ and $\beta$, that are called "shape" parameters:  
+The beta distribution can be used in a generalized linear model when the values of the dependent variable are bounded $0 < y < 1$ [@coxe2013generalized]. The probability density function (pdf) of the beta distribution is determined by two parameters, $\alpha$ and $\beta$, that are called "shape" parameters:  
 
 \begin{center}
 $f(y;\alpha,\beta)={\Gamma(\alpha+\beta)\over\Gamma(\alpha)\Gamma(\beta)}y^{\alpha-1}(1-y)^{\beta-1}$
 \end{center}
 
-where $\Gamma(.)$ is the gamma function. The two shape parameters pull the mean toward zero and one, respectively. If $\alpha$ is larger than $\beta$, the mean leans toward zero; if the reverse is true, the mean leans toward one. One of the benefits of the beta distribution is that it is flexible and can take a number of distributional shapes. ADD FIGURE 1 HERE TO SHOW VARIOUS SHAPES.  
+where $\Gamma(.)$ is the gamma function. One of the benefits of the beta distribution is that it is flexible and can take a number of distributional shapes (Figure 1).  
 
-The values of these parameters are not meaningful to applied researchers, however. @rigby2017distributions "reparameterized" the beta distribution to make it easier understand in a regression framework [but see @ferrari2004beta for a different parameterization]. Instead of predicting $\alpha$ and $\beta$, they parameterize the beta distribution with two different parameters: $\mu$ (called the "location" parameter) and $\sigma$ (called the "scale" parameter), where $\mu={\alpha\over(\alpha+\beta)}$ and $\sigma=\sqrt{1\over(\alpha+\beta+1)}$. $\mu$ is equivalent to the mean, and $\sigma$ is related positively to the variance. (Note that $\sigma$ is *not* the standard deviation, even though $\sigma$ refers to the standard deviation in many other contexts.) The variance is equivalent to $\sigma^2\mu(1-\mu)$. There are two important things to note from this equation: First, the greater the $\sigma$, the greater the variance; second, the variance depends on the mean, which means that beta regression, covered shortly, will be naturally heteroskedastic.  
+```{r echo = FALSE, fig.cap = "Beta probability density functions with various combinations of shape parameters."}
+shapes <- expand.grid(c(1.0, 5.0), c(1.0, 5.0))
+names(shapes) <- c("shape1", "shape2")
+shapes <- rbind(shapes, data.frame(shape1 = 0.8, shape2 = 0.8))
+x_ <- seq(.001, .999, length = 500)
+x <- c()
+p <- c()
+shape1 <- c()
+shape2 <- c()
+for (i in 1:nrow(shapes)) {
+  x <- append(x, x_)
+  p <- append(p, dbeta(x_, shapes[i, 1], shapes[i, 2]))
+  shape1 <- append(shape1, rep(shapes[i, 1], length(x_)))
+  shape2 <- append(shape2, rep(shapes[i, 2], length(x_)))
+}
+dat <- data.frame(x, p, shape1 = shape1, shape2 = shape2)
+dat$shapes <- as.factor(paste0("a = ", dat$shape1, ", b = ", dat$shape2))
+ggplot(dat, aes(x = x, y = p, linetype = shapes)) +
+  geom_line() +
+  theme_minimal() +
+  theme(legend.position = c(.5, .75), text = element_text(size = 16),
+        legend.title = element_blank(), axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+```
 
-Using this distribution in a regression framework cannot handle the values zero and one, however. How can we model dependent variables that also include observations at zero and one?
+These parameters are not inherently meaningful to researchers, however. @rigby2017distributions "reparameterized" the beta distribution so that the two parameters determining the shape of the distribution would be more useful in a regression framework [but see @ferrari2004beta for a different parameterization]. Instead of predicting $\alpha$ and $\beta$, they parameterize (i.e., algebraically rearrange parameters) so that beta regression predicts two different parameters: $\mu$ (called the "location" parameter) and $\sigma$ (called the "scale" parameter), where $\mu={\alpha\over(\alpha+\beta)}$ and $\sigma=\sqrt{1\over(\alpha+\beta+1)}$. $\mu$ is equivalent to the mean, and $\sigma$ is related positively to the variance (note that $\sigma$ is *not* the standard deviation, even though $\sigma$ commonly refers to the standard deviation). The variance is equivalent to $\sigma^2\mu(1-\mu)$, and there are two things to note from this equation: First, the greater the $\sigma$, the greater the variance; second, the variance depends on the mean, which means that beta regression will be naturally heteroskedastic (covered shortly). Using this distribution in a regression framework cannot handle the dependent variable taking on values 0 and 1—how can we model dependent variables in the range $0 \leq y \leq 1$?  
 
 ## Zero-One Inflated Beta Distribution
 
-@rigby2017distributions show that the beta distribution can be "inflated" at zero or one—that is, zeros and ones can be included in the distribution. When the dependent variable contains zeroes and ones (i.e., $0 \leq y \leq 1$), the pdf for this beta inflated distribution, $\text{beinf}$, is:  
+@rigby2017distributions show that the beta distribution can be "inflated" at 0 and 1, meaning the dependent variable contains 0s and 1s (i.e., $0 \leq y \leq 1$), the pdf for this beta inflated distribution, $\text{beinf}$, is:  
 
 \begin{center}
 \[
@@ -64,11 +91,11 @@ Using this distribution in a regression framework cannot handle the values zero 
 \]
 \end{center}
 
-for $0 \leq y \leq 1$, where $f(y;\mu,\sigma)$ is the beta pdf with $\mu$ and $\sigma$ bounded *between* zero and one. The two additional parameters, $\nu$ and $\tau$, are mixture parameters. $p_0$ is the probability that a case equals zero, $p_1$ is the probability that a case equals one, and $p_2$ (i.e., $1 - p_0 - p_1$) is the probability that the case comes from the beta distribution. In terms of these two additional parameters, $p_0 = {\nu \over (1 + \nu + \tau)}$ and $p_1 = {\tau \over (1 + \nu + \tau)}$. Rearranging these algebraically, $\nu$ is the odds that a case is zero to being from the beta distribution, $\nu = p_0 / p_2$, and $\tau$ is the odds that a case is a one to being from the beta distribution, $\tau = p_1 / p_2$.  
+for $0 \leq y \leq 1$, where $f(y;\mu,\sigma)$ is the beta pdf with $\mu$ and $\sigma$ bounded *between* zero and one. The two additional parameters, $\nu$ and $\tau$, are related to $p_0$ and $p_1$, respectively. $p_0$ is the probability that a case equals zero, $p_1$ is the probability that a case equals one, and $p_2$ (i.e., $1 - p_0 - p_1$) is the probability that the case comes from the beta distribution. In terms of these two additional parameters, $p_0 = {\nu \over (1 + \nu + \tau)}$ and $p_1 = {\tau \over (1 + \nu + \tau)}$. Rearranging these algebraically, $\nu$ is the odds that a case is 0 to being $0 < y < 1$, $\nu = p_0 / p_2$, and $\tau$ is the odds that a case is a 1 to being $0 < y < 1$, $\tau = p_1 / p_2$.  
 
 ## Beta Regression Models
 
-The goal now is to predict these four parameters, $\mu, \sigma, \nu, \tau$, from any number of predictor variables. All four parameters can be predicted by an identical set of predictors, none of the same predictors, or anywhere in between. Both $\mu$ and $\sigma$ have to be between zero and one, so we can use the logistic link function to fit predicted values in this range; both $\nu$ and $\tau$ have to be greater than zero, so we can use the log link function to fit predicted values in this range. Imagine we have one predictor, $x$. We could include this variable as a predictor of all four variables with the equations:  
+The goal for a researcher now is to predict these four parameters, $\mu, \sigma, \nu, \tau$, from any number of predictor variables of theoretical interest. All four parameters can be predicted by an identical set of predictors, none of the same predictors, or any mixture. Both $\mu$ and $\sigma$ have to be between zero and one (since the beta distribution is bounded between 0 and 1), so one can use the logistic link function to fit predicted values in this range. Both $\nu$ and $\tau$ have to be greater than zero (since they are odds), so one can use the log link function to fit predicted values in this range. Imagine a researcher has one predictor of interest, $x$. They could include this variable as a predictor of all four variables with the equations:  
 
 \begin{center}
 $\text{log}({\mu \over 1 - \mu}) = \beta_{10} + \beta_{11}X$\\
@@ -77,7 +104,7 @@ $\text{log}(\nu) = \beta_{30} + \beta_{31}X$\\
 $\text{log}(\tau) = \beta_{40} + \beta_{41}X$
 \end{center}
 
-Or, equivalently stated:  
+Or equivalently:  
 
 \begin{center}
 $\mu={1\over1+e^{-(\beta_{10}+\beta_{11}X)}}$\\
@@ -86,7 +113,7 @@ $\nu = e^{\beta_{30} + \beta_{31}X}$\\
 $\tau = e^{\beta_{40} + \beta_{41}X}$
 \end{center}
 
-where $e^x$ is the natural exponential function. A regression model can also be used when the dependent variable contains zeros but no ones (e.g., $0 \leq y < 1$) or when it contains ones but no zeros (e.g., $0 < y \leq 1$). Let $c$ be the value—0 or 1—that is included. The pdf is:  
+where $e^x$ is the natural exponential function. A different inflated beta distribution can also be used when the dependent variable contains 0s but not 1s (e.g., $0 \leq y < 1$) or when it contains 1s but not 0s (e.g., $0 < y \leq 1$). Let $c$ be the value—0 or 1—that is included (i.e., inflated). The pdf is:  
 
 \begin{center}
 \[
@@ -98,13 +125,13 @@ where $e^x$ is the natural exponential function. A regression model can also be 
 \]
 \end{center}
 
-where $\nu = p_c / (1 - p_c)$ and everything else is the same as above. The same link functions are used as above, but the fourth parameter, $\tau$, is not included, as the dependent variable can only take on values of $c$ or from the beta distribution. Lastly, if no zeros or ones are observed, the beta distribution alone can be used as the pdf. This results in a beta regression where the researcher is only predicting the location, $\mu$, and shape, $\sigma$. Since there is no mixture with values of being 0 or 1, the latter two mixture parameters, $\nu$ and $\tau$, are not included.  
+where $\nu = p_c / (1 - p_c)$ and the remaining notation is the same as in the zero-and-one inflated beta distribution. The same link functions are used, but the fourth parameter, $\tau$, is not included, since the distribution is only inflated at $c$. Lastly, if no 0s or 1s are observed, the beta distribution alone can be used as the pdf. This results in a beta regression where the researcher is only predicting the location, $\mu$, and shape, $\sigma$. Since there is no inflation at 0 or 1, the latter two parameters, $\nu$ and $\tau$, are not included.  
 
-## Modeling Bounded Variables Outside the Unit Interval
+## Modeling Bounded Variables Beyond the Zero Through One Range
 
-These beta regression models are often used when dealing with rates and proportions, given that these are naturally bounded $0 \leq y \leq 1$ [@buntaine2011does; @eskelson2011estimating; @gallardo2012analysis; @hubben2008societal; @peplonska2012rotating]. The beta distribution is doubly bounded continuous distribution, meaning that, although it is on a continuous scale, values cannot be greater than the upper bound, $u$, or lesser than the lower bound, $l$. In the case of the beta distribution, $l = 0$ and $u = 1$.  
+These beta regression models are commonly used when rates and proportions are dependent variables, given that these are naturally bounded $0 \leq y \leq 1$ [@buntaine2011does; @eskelson2011estimating; @gallardo2012analysis; @hubben2008societal; @peplonska2012rotating]. More generally, however, the beta distribution is a doubly bounded continuous distribution: Although it is on a continuous scale, values cannot be exceed the upper bound, $u$, or be less than the lower bound, $l$. In the case of the zero-and-one inflated beta distribution, $l = 0$ and $u = 1$.  
 
-One can view many scales researchers use as doubly bounded and continuous. Although researchers generally model variables on Likert scales and sliding scales (e.g., feeling thermometers) as being conditionally normally distributed, these variables are, by definition, not strictly normal. Observations from a normal distribution can take on any value on the real number line. Observations from a standard 7-point Likert scale can only take on values 1 through 7. In studying controversial issues like prejudice and politics, many participants score at the lower or upper bounds, causing floor or ceiling effects; in these cases, the assumptions of normality and homoskedasticity are likely to be violated. One can explicitly take into account that the response is doubly bounded and heteroskedastic by using the beta regression models described above, using a simple linear rescaling of the data.  
+Most scales used to measure prejudice and political attitudes are doubly bounded and continuous. Although researchers generally model variables on Likert scales and sliding scales (e.g., feeling thermometers) as being conditionally normally distributed (i.e., using ordinary least squares regression), these variables are not strictly normal. Observations from a normal distribution can take on any value on the real number line, while observations from a standard 7-point Likert scale can only take on values 1 through 7—and in studying controversial and polarizing issues like prejudice and politics, many participants score at the lower or upper bounds, causing floor or ceiling effects. In these cases, the assumptions of normality and homoskedasticity are likely to be violated. Many times researchers create, update, or seek out measures to so that the distributional form of the dependent variable takes on a normal shape—statistical assumptions are directing the phenomenon researchers choose to observe and the theoretical questions that they ask. Instead, one can explicitly take into account that the response is doubly bounded and heteroskedastic by using the beta regression models described above, using a simple linear rescaling of the data.  
 
 If one observes a dependent variable limited between two bounds, there is a straightforward way to rescale the variable to the $0 \leq y \leq 1$ range:  
 
@@ -116,9 +143,11 @@ where $y$ is the variable on the original scale, $y'$ is the rescaled variable, 
 
 ### Conditional variance
 
-Having an outcome that is a doubly bounded continuous variable can produce heteroskedasticity. One of the assumptions of an ordinary least squares (OLS) regression is homoskedasticity—that the variance of the errors are unrelated to any predictor or any linear combination of predictors. A regression equation with one independent variable $x$ is often written as $y_i = \beta_0 + \beta_1x_i + \epsilon_i$, where $\epsilon_i$ is how far one's osbserved value $y_i$ is from their predicted value (i.e., the residual). Let $\hat{y_i}$ be the predicted value for observation $i$, where $\hat{y_i} = \beta_0 + \beta_1x_i$. We can simplify the equation to: $y_i = \hat{y_i} + \epsilon_i$ where the residuals $\epsilon$ are normally distributed with a mean of zero and some variance—that is, $\epsilon \sim N(0, \sigma^2_\epsilon)$. We can further simplify this to: $y_i|x_i \sim N(\hat{y_i}, \sigma^2_\epsilon)$, which means that each observation of the dependent variable we make, given the predictors we use, are normally distributed with a mean of that individual's predicted score and some variance. The assumption of homoskedasticity is found in that $\sigma^2_\epsilon$ does *not* have a subscript $i$. This means that there is one *common variance* of the residuals. Imagine one runs a regression and observes $\hat{y_i} = 2.5 + 1.5 \times x_i$ and $\sigma^2_\epsilon = 9$. For the first individual in the data, say we observe $x_1 = 0$, while we observe $x_2 = 5$ for the second individual. The model then assumes that the first person comes from a normal distribution with a mean of 4 (i.e., $\hat{y_1}$) and a variance of 9 (i.e., $\sigma^2_\epsilon$), while the second person comes from a normal distribution with a mean of 10 (i.e., $\hat{y_2}$) and that same variance of 9 (i.e., $\sigma^2_\epsilon)$. The assumption is violated when these variances are not constant across all levels of the predictor variables (or any linear combination of the predictor variables). The violation of this assumption can cause Type I or Type II errors, depending on the type of heteroskedasticity and the source [CITE].  
+Observing a dependent variable that is doubly bounded and continuous can produce heteroskedasticity. One of the assumptions of an OLS regression is homoskedasticity—that the variance of the errors are unrelated to any predictor, any linear combination of predictors, and the predicted values. A regression equation with one predictor variable $x$ is often written as $y_i = \beta_0 + \beta_1x_i + \epsilon_i$, where $\epsilon_i$ is how far an osbserved value $y_i$ is from the predicted value (i.e., the residual). Let $\hat{y_i}$ be the predicted value for observation $i$, where $\hat{y_i} = \beta_0 + \beta_1x_i$. We can simplify the equation to $y_i = \hat{y_i} + \epsilon_i$, where the residuals $\epsilon$ are normally distributed with a mean of 0 and some variance—that is, $\epsilon \sim N(0, \sigma^2_\epsilon)$. We can further simplify this to: $y_i|x_i \sim N(\hat{y_i}, \sigma^2_\epsilon)$, which means that each observation of the dependent variable we make, given the predictors we use, is normally distributed with a mean of that observation's predicted score and some variance. The assumption of homoskedasticity is found in that $\sigma^2_\epsilon$ does *not* have a subscript $i$. This means that there is one *common variance* of the residuals.  
 
-There are a number of ways to test for and address violations of this assumption [CITE]. Many common ways of dealing with heteroskedasticity treat it as a nuisance to be dealt with, such as robust standard errors, a transformation of the dependent variable, or weighted least squares [CITE]. Heteroskedasticity can come from various sources [CITE], one being that the variance is influenced by one of the observed predictor variables. Instead of treating this as a nuisance to be corrected for when calculating $p$-values, explicitly modeling this conditional variance could be an interesting phenomenon per se. Since the beta regression models predict a shape parameter, $\sigma$, a researcher can draw conclusions like: "As $x$ increases, the variance in $y$ increases." Since we generally focus on the *location* parameter in OLS regression, researchers are essentially ignoring interesting, potentially theoretically-relevant parts of their data.  
+Imagine one runs a regression and observes $\hat{y_i} = 2.5 + 1.5 \times x_i$ and $\sigma^2_\epsilon = 9$. Say that the first individual's score on $x$ is 0, $x_1 = 0$, and the second individual's score is $x_2 = 5$. The model then assumes that the first person comes from a normal distribution with a mean of 4 (i.e., $\hat{y_1}$) and a variance of 9 (i.e., $\sigma^2_\epsilon$), while the second person comes from a normal distribution with a mean of 10 and that same variance of 9. The violation of this assumption can lead to inflated Type I errors or diminished statistical power, depending on the type and source of the heteroskedasticity [@hayes2007using; @long2000using; @rosopa2013managing].  
+
+While common remedies for heteroskedasticity (e.g., robust standard errors, transforming the dependent variable, weighted least squares) treat it as a nuisance to be corrected for when calculating $p$-values [@hayes2007using; @long2000using; @rosopa2013managing], it could be that explicitly modeling this conditional variance is an interesting phenomenon per se. Heteroskedasticity can arise when the error variance is predicted by one of the observed predictor variables, and since beta regression models predict a shape parameter, $\sigma$, a researcher can explicitly model this relationship. This allows researchers to ask questions about conditional variance: "Does the variance in $y$ increase as $x$ also increases"? Since the focus of OLS regression is the *location* parameter (e.g., conditional mean), researchers might be ignoring interesting, potentially theoretically-relevant parts of their data. After discussing floor and ceiling effects, I will argue that normative influences are one of these aspects.  
 
 ### Floor and ceiling effects
 

@@ -1,0 +1,10 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-2-1.pdf}
+\caption{\label{fig:unnamed-chunk-2}Beta probability density functions with
+various combinations of shape parameters.}
+\end{figure*}
+\efloatseparator
+ 
