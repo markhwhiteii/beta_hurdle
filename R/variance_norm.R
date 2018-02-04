@@ -38,6 +38,7 @@ ggplot(dat, aes(x = accept_m, y = prej_var)) +
   theme(text = element_text(size = 16))
 
 lin <- lm(prej_var ~ accept_m, dat)
+summary(lin)
 quad <- lm(prej_var ~ poly(accept_m, 2), dat)
 summary(quad)
 summary(quad)$r.squared - summary(lin)$r.squared
