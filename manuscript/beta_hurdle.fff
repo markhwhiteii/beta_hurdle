@@ -8,3 +8,23 @@ various combinations of shape parameters.}
 \end{figure*}
 \efloatseparator
  
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-3-1.pdf}
+\caption{\label{fig:unnamed-chunk-3}The stronger the normative influence on
+prejudice, the smaller the variance of reported prejudice.}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-4-1.pdf}
+\caption{\label{fig:unnamed-chunk-4}The more socially acceptable the
+prejudice, the less people opt for the politically correct response.}
+\end{figure*}
+\efloatseparator
+ 

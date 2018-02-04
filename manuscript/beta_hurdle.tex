@@ -20,6 +20,46 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
 
 % Table formatting
 \usepackage{longtable, booktabs}
@@ -194,7 +234,7 @@ various combinations of shape parameters.}
 \end{figure}
 
 These parameters are not inherently meaningful to researchers, however.
-Rigby, Stasinopoulos, Heller, and De Bastiani (2017)
+R. Rigby, Stasinopoulos, Heller, and De Bastiani (2017)
 \enquote{reparameterized} the beta distribution so that the two
 parameters determining the shape of the distribution would be more
 useful in a regression framework (but see Ferrari \& Cribari-Neto, 2004
@@ -218,7 +258,7 @@ variables in the range \(0 \leq y \leq 1\)?
 \subsection{Zero-One Inflated Beta
 Distribution}\label{zero-one-inflated-beta-distribution}
 
-Rigby et al. (2017) show that the beta distribution can be
+R. Rigby et al. (2017) show that the beta distribution can be
 \enquote{inflated} at 0 and 1, meaning the dependent variable contains
 0s and 1s (i.e., \(0 \leq y \leq 1\)), the pdf for this beta inflated
 distribution, \(\text{beinf}\), is:
@@ -474,7 +514,7 @@ where \(0 < y < 1\). Similarly, the inflated beta regression at
 \emph{either} zero \emph{or} one has a log likelihood function that can
 be separated in two parts: First, a logistic regression modeling the
 probability of observing \(y = c\) or \(0 < y < 1\); second, a beta
-regression modeling just the cases where \(0 < y < 1\) (Rigby et al.,
+regression modeling just the cases where \(0 < y < 1\) (R. Rigby et al.,
 2017).
 
 Since their likelihoods can be separated, this implies a critical
@@ -487,14 +527,217 @@ separately). Dependencies between them can be modeled (referred to as
 will not discuss these models here, as they are not extended to beta
 regression.
 
-\section{Norms Produce Invariance and Ceiling and Floor
-Effects}\label{norms-produce-invariance-and-ceiling-and-floor-effects}
+\section{Norms Produce Invariance, Ceiling and Floor
+Effects}\label{norms-produce-invariance-ceiling-and-floor-effects}
 
-Data from MTurk
+Louis, Mavor, and Terry (2003) argue that norms produce invariance. In
+this section, I demonstrate the relationship between normative strength
+and invariance of attitudes empirically. I replicated the methodology
+used by Crandall, Eshleman, and O'brien (2002). In their Study 1, the
+authors presented participants with 105 social groups (e.g., Black
+people, librarians, deaf people, ugly people, Nazis, drug dealers).
+Participants were assigned to one of two groups. Half of the
+participants indicated how negatively they felt toward the group (i.e.,
+prejudice), while the other half indicated how socially acceptable they
+perceived it was to feel and express negativity toward that group (i.e.,
+acceptability). Crandall and colleagues averaged the prejudice and
+acceptability scores at the group level, resulting in an \(N = 105\) and
+two variables for each group: prejudice and acceptability. They found
+that expressed prejudice and acceptability of prejudice correlated at
+\(r = .96\); people report prejudices that are socially acceptable (see
+Cary and Page-Gould (2014) for a replication).
+
+I recruited 405 people from Amazon's Mechanical Turk website and
+randomly assigned them to either a \emph{prejudice} or
+\emph{acceptability} condition. All participants answered questions
+about 30 groups, randomly sampled from a pool of 120 groups. In the
+prejudice condition, participants were asked \enquote{How do you feel
+toward each of these groups?} and to indicate how they feel on a scale
+from \enquote{very negatively (0) to very positively (100).} I
+reverse-scored these items so that higher scores indicated more
+prejudice. In the acceptability condition, participants were asked
+\enquote{How OK is it in society for people to feel and say negative
+things about each of these groups?} and to indicate their perception on
+a scale from \enquote{totally unacceptable (0) to completely acceptable
+(100) for people to feel and say negative things about these groups.}
+
+To demonstrate the relationship between norms and invariance, I
+calculated the median social acceptability score and the variance of the
+self-reported prejudice scores for each of the 120 groups. There was no
+linear relationship between social acceptability and variance of
+reported prejudice, \(b = 0.31, SE = 0.84, t(118) = 0.37, p = .714\);
+however, there was a quadratic relationship regressing variance of
+reported prejudice on median social acceptability,
+\(\Delta R^2 = .28, b = -1250.07, SE = 187.44, t(117) = -6.67, p < .001\)
+(Figure 2). The closer a prejudice was perceived to be by some
+participants as totally unacceptable (0) or compeltely acceptable (100),
+the lower was the variance of self-reported prejudice by other
+participants.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-3-1.pdf}
+\caption{\label{fig:unnamed-chunk-3}The stronger the normative influence on
+prejudice, the smaller the variance of reported prejudice.}
+\end{figure}
+
+I also investigated normative influences on floor effects. Crandall
+(1994) proposed a measure for anti-fat prejudice. In Study 5 of this
+paper, Crandall makes the argument that anti-fat attitudes are more
+socially acceptable (and less subject to social desirability biases)
+than anti-Black prejudice. He does this by demonstrating the
+decision-making process described above in the hurdle model: How often
+do people \emph{always} select the least prejudiced option? That is, how
+often do people respond \emph{always} at the lower bound of the
+distribution? He calls the proportion of people at the floor of a scale
+the \enquote{politically correct (PC) index,} as this shows how often
+people respond in the most socially acceptable (i.e., politically
+correct) way possible. He finds that anti-fat prejudice is less subject
+to these floor effects: 10\% of participants always responded at the
+lower bound for anti-Black prejudice; this was only 3\% for Crandall's
+anti-fat scale.
+
+To show that norms produce floor effects, I calculated Crandall's PC
+index for each of the 120 groups by counting how many people responded
+with a 0 on the prejudice thermometer (i.e., \enquote{totally positive}
+feelings). Using a negative binomial regression (Venables \& Ripley,
+2002) for these count data, I regressed the PC index on median social
+acceptability of the prejudice. Perceived social acceptability of the
+prejudice by one group of participants negatively predicted the PC
+index, calculated using a separate group of participants,
+\(b = -0.03, SE = 0.002, Z = -10.97, p < .001\) (Figure 3). The more
+socially acceptable a prejudice, the less people opt for the
+\enquote{politically correct} floor of the scale.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-4-1.pdf}
+\caption{\label{fig:unnamed-chunk-4}The more socially acceptable the
+prejudice, the less people opt for the politically correct response.}
+\end{figure}
+
+This evidence shows that norms do positively predict invariance;
+predicting the scale parameter, \(\sigma\), in beta regression could be
+used to investigate how much people adhere to norms regarding the
+expression of certain attitudes. These data also show that normative
+influence can lead to floor effects (or ceiling effects); predicting the
+shape parameters, \(\nu\) and \(\tau\), in beta regression could also be
+used to examine how much people adhere to norms. I now turn to
+demonstrating how these beta regression models can be used in R (R Core
+Team, 2017) via the \texttt{gamlss} package (R. A. Rigby \&
+Stasinopoulos, 2005).
 
 \section{Implementation in GAMLSS}\label{implementation-in-gamlss}
 
-Show example from FoRS data
+The \texttt{gamlss} name stands for generalized additive models for
+location (i.e., \(\mu\)), scale (i.e., \(\sigma\)), and shape (i.e.,
+\(\nu\) and \(\tau\)). This package gives researchers the ability to use
+a wide variety of models, including beta regression models. A number of
+algorithms to estimate the coefficients can be used, described in detail
+by M. D. Stasinopoulos, Rigby, Heller, Voudouris, and De Bastiani
+(2017). To first demonstrate that the package works according to the
+parameterization discussed in the Statistical Background section, I will
+generate a zero-and-one inflated beta distribution and estimate the
+parameters with an intercepts-only regression using the \texttt{gamlss}
+function. Then, I will demonstrate how to model prejudice as a function
+of ideology using real data.
+
+\subsection{Intercepts-Only
+Regression}\label{intercepts-only-regression}
+
+We can set a number of parameters for this zero-one-inflated regression
+using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{5000}
+\NormalTok{mu <-}\StringTok{ }\FloatTok{0.40}
+\NormalTok{sigma <-}\StringTok{ }\FloatTok{0.60}
+\NormalTok{p0 <-}\StringTok{ }\FloatTok{0.13}
+\NormalTok{p1 <-}\StringTok{ }\FloatTok{0.17}
+\NormalTok{p2 <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p0 }\OperatorTok{-}\StringTok{ }\NormalTok{p1}
+\NormalTok{a <-}\StringTok{ }\NormalTok{mu }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{sigma }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{(sigma }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\NormalTok{b <-}\StringTok{ }\NormalTok{a }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{mu) }\OperatorTok{/}\StringTok{ }\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+The sample size \texttt{n} \(= 5000\), the mean \texttt{mu} \(= 0.40\),
+the shape parameter \texttt{sigma} \(= 0.60\), the probability of being
+0 is \texttt{p0} \(= 0.13\), the probability of being 1 is \texttt{p1}
+\(= 0.17\), and the probability of being between 0 and 1 is \texttt{p2}
+\(= 1 - p_0 - p_1 = .70\). Using the equations in the Statistical
+Background section, we can convert \texttt{mu} and \texttt{sigma} back
+to the original shape parameters \texttt{a} (\(\alpha\)) and \texttt{b}
+(\(\beta\)). The dependent variable \texttt{y} can now be generated
+using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1839}\NormalTok{)}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, n)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{n) \{}
+\NormalTok{  rand <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (rand }\OperatorTok{<=}\StringTok{ }\NormalTok{p0) \{}
+\NormalTok{    y[i] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ ((p0 }\OperatorTok{<}\StringTok{ }\NormalTok{rand) }\OperatorTok{&}\StringTok{ }\NormalTok{(rand }\OperatorTok{<=}\StringTok{ }\NormalTok{p0 }\OperatorTok{+}\StringTok{ }\NormalTok{p1)) \{}
+\NormalTok{    y[i] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    y[i] <-}\StringTok{ }\KeywordTok{rbeta}\NormalTok{(}\DecValTok{1}\NormalTok{, a, b)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+I generate a random number, \texttt{rand}, between 0 to 1. If
+\texttt{rand} \(\leq\) \texttt{p0}, then the case is 0; if \texttt{rand}
+\(>\) \texttt{p0} and \texttt{rand} \(\leq\) \texttt{p0\ +\ p1}, then
+the case is 1; otherwise, the case comes from a beta distribution with
+shape parameters of \texttt{a} and \texttt{b}. The \texttt{gamlss}
+function has four arguments for formulas---one for each of the
+parameters. It also has an argument, \texttt{family}, that determines
+what distribution will be used in fitting the model. For a zero-and-one
+inflated beta regression, the family is \texttt{BEINF()}. One can fit
+the intercepts-only model using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{gamlss}\NormalTok{(}
+  \DataTypeTok{formula =}\NormalTok{ x }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for mu}
+  \DataTypeTok{formula.sigma =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for sigma}
+  \DataTypeTok{formula.nu =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for nu}
+  \DataTypeTok{formula.tau =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for tau}
+  \DataTypeTok{family =} \KeywordTok{BEINF}\NormalTok{() }\CommentTok{# distribution for model}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can use the inverse link functions to transform the coefficients back
+into the original scale. Then we can compare it to the parameters we set
+above. The estimated parameters are estimated using the code, according
+to the equations and link functions described in the Statistical
+Background section:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# define the inverse of the logit link function}
+\CommentTok{# the exp function is the inverse of the log link}
+\NormalTok{inv_logit <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{exp}\NormalTok{(x) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(x))}
+\NormalTok{fit_mu <-}\StringTok{ }\KeywordTok{inv_logit}\NormalTok{(fit}\OperatorTok{$}\NormalTok{mu.coefficients)}
+\NormalTok{fit_sigma <-}\StringTok{ }\KeywordTok{inv_logit}\NormalTok{(fit}\OperatorTok{$}\NormalTok{sigma.coefficients)}
+\NormalTok{fit_nu <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(fit}\OperatorTok{$}\NormalTok{nu.coefficients)}
+\NormalTok{fit_tau <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(fit}\OperatorTok{$}\NormalTok{tau.coefficients)}
+\NormalTok{fit_p0 <-}\StringTok{ }\NormalTok{fit_nu }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{fit_nu }\OperatorTok{+}\StringTok{ }\NormalTok{fit_tau)}
+\NormalTok{fit_p1 <-}\StringTok{ }\NormalTok{fit_tau }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{fit_nu }\OperatorTok{+}\StringTok{ }\NormalTok{fit_tau)}
+\end{Highlighting}
+\end{Shaded}
+
+The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are \(.41\),
+\(.60\), \(.13\), and \(.17\), respectively. These are close estimates
+to the population parameters set above. I now turn to a model using real
+data.
+
+\subsection{Modeling Prejudice from Political
+Ideology}\label{modeling-prejudice-from-political-ideology}
 
 \newpage
 
@@ -521,6 +764,12 @@ Carlevaro, F., Croissant, Y., \& Hoareau, S. (2017). \emph{Multiple
 hurdle Tobit models in R: The mhurdle package}. Retrieved from
 \url{https://cran.r-project.org/web/packages/mhurdle/vignettes/mhurdle.pdf}
 
+\hypertarget{ref-cary2014prevalence}{}
+Cary, L. A., \& Page-Gould, E. (2014). The prevalence and impact of
+sexism, racism and homophobia in online gaming environments. Poster
+presented at the annual meeting of the Society for Personality and
+Social Psychology, Austin, TX.
+
 \hypertarget{ref-coxe2013generalized}{}
 Coxe, S., West, S. G., \& Aiken, L. S. (2013). Generalized linear
 models. In T. D. Little (Ed.), \emph{The Oxford handbook of quantitative
@@ -530,6 +779,17 @@ methods, volume 2} (pp. 26--51). New York, NY: Oxford University Press.
 Cragg, J. G. (1971). Some statistical models for limited dependent
 variables with application to the demand for durable goods.
 \emph{Econometrica: Journal of the Econometric Society}, 829--844.
+
+\hypertarget{ref-crandall1994prejudice}{}
+Crandall, C. S. (1994). Prejudice against fat people: Ideology and
+self-interest. \emph{Journal of Personality and Social Psychology},
+\emph{66}(5), 882.
+
+\hypertarget{ref-crandall2002social}{}
+Crandall, C. S., Eshleman, A., \& O'brien, L. (2002). Social norms and
+the expression and suppression of prejudice: The struggle for
+internalization. \emph{Journal of Personality and Social Psychology},
+\emph{82}(3), 359.
 
 \hypertarget{ref-eskelson2011estimating}{}
 Eskelson, B. N., Madsen, L., Hagar, J. C., \& Temesgen, H. (2011).
@@ -567,6 +827,12 @@ Long, J. S., \& Ervin, L. H. (2000). Using heteroscedasticity consistent
 standard errors in the linear regression model. \emph{The American
 Statistician}, \emph{54}(3), 217--224.
 
+\hypertarget{ref-louis2003reflections}{}
+Louis, W. R., Mavor, K. I., \& Terry, D. J. (2003). Reflections on the
+statistical analysis of personality and norms in war, peace, and
+prejudice: Are deviant minorities the problem? \emph{Analyses of Social
+Issues and Public Policy}, \emph{3}(1), 189--198.
+
 \hypertarget{ref-mcbee2010modeling}{}
 McBee, M. (2010). Modeling outcomes with floor or ceiling effects: An
 introduction to the tobit model. \emph{Gifted Child Quarterly},
@@ -577,6 +843,16 @@ Peplonska, B., Bukowska, A., Sobala, W., Reszka, E., Gromadzińska, J.,
 Wasowicz, W., \ldots{} Ursin, G. (2012). Rotating night shift work and
 mammographic density. \emph{Cancer, Epidemiology, Biomarkers, \&
 Prevention}, \emph{21}(7), 1028--1037.
+
+\hypertarget{ref-rcore2017}{}
+R Core Team. (2017). \emph{R: A language and environment for statistical
+computing}. Vienna, Austria: R Foundation for Statistical Computing.
+Retrieved from \url{https://www.R-project.org/}
+
+\hypertarget{ref-rigby2005generalized}{}
+Rigby, R. A., \& Stasinopoulos, D. M. (2005). Generalized additive
+models for location, scale and shape,(with discussion). \emph{Applied
+Statistics}, \emph{54.3}, 507--554.
 
 \hypertarget{ref-rigby2017distributions}{}
 Rigby, R., Stasinopoulos, M., Heller, G., \& De Bastiani, F. (2017).
@@ -593,6 +869,15 @@ Methods}, \emph{18}(3), 335.
 Smithson, M., \& Merkle, E. C. (2013). \emph{Generalized linear models
 for categorical and continuous limited dependent variables}. Boca Raton,
 FL: CRC Press.
+
+\hypertarget{ref-stasinopoulos2017flexible}{}
+Stasinopoulos, M. D., Rigby, R. A., Heller, G. Z., Voudouris, V., \& De
+Bastiani, F. (2017). \emph{Flexible regression and smoothing: Using
+GAMLSS in R}. Boca Raton, FL: CRC Press.
+
+\hypertarget{ref-venables2002modern}{}
+Venables, W. N., \& Ripley, B. D. (2002). \emph{Modern applied
+statistics with s}. New York, NY: Springer.
 
 \hypertarget{ref-wooldridge2010econometric}{}
 Wooldridge, J. M. (2010). \emph{Econometric analysis of cross section

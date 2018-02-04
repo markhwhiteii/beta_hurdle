@@ -163,13 +163,142 @@ The inflated beta regressions can be seen as hurdle models, as the log likelihoo
 
 Since their likelihoods can be separated, this implies a critical assumption: That the two processes are independent, given the observed predictors. In other words, the error terms of each submodel are assumed to be independent of one another (where submodels refer to models predicting each parameter, $\mu$, $\sigma$, $\nu$, or $\tau$, separately). Dependencies between them can be modeled [referred to as "selection" models; @carlevaro2016multiple; @wooldridge2010econometric], but I will not discuss these models here, as they are not extended to beta regression.  
 
-# Norms Produce Invariance and Ceiling and Floor Effects
+# Norms Produce Invariance, Ceiling and Floor Effects
 
-Data from MTurk  
+@louis2003reflections argue that norms produce invariance. In this section, I demonstrate the relationship between normative strength and invariance of attitudes empirically. I replicated the methodology used by @crandall2002social. In their Study 1, the authors presented participants with 105 social groups (e.g., Black people, librarians, deaf people, ugly people, Nazis, drug dealers). Participants were assigned to one of two groups. Half of the participants indicated how negatively they felt toward the group (i.e., prejudice), while the other half indicated how socially acceptable they perceived it was to feel and express negativity toward that group (i.e., acceptability). Crandall and colleagues averaged the prejudice and acceptability scores at the group level, resulting in an $N = 105$ and two variables for each group: prejudice and acceptability. They found that expressed prejudice and acceptability of prejudice correlated at $r = .96$; people report prejudices that are socially acceptable (see @cary2014prevalence for a replication).  
+
+I recruited 405 people from Amazon's Mechanical Turk website and randomly assigned them to either a *prejudice* or *acceptability* condition. All participants answered questions about 30 groups, randomly sampled from a pool of 120 groups. In the prejudice condition, participants were asked "How do you feel toward each of these groups?" and to indicate how they feel on a scale from "very negatively (0) to very positively (100)." I reverse-scored these items so that higher scores indicated more prejudice. In the acceptability condition, participants were asked "How OK is it in society for people to feel and say negative things about each of these groups?" and to indicate their perception on a scale from "totally unacceptable (0) to completely acceptable (100) for people to feel and say negative things about these groups."  
+
+To demonstrate the relationship between norms and invariance, I calculated the median social acceptability score and the variance of the self-reported prejudice scores for each of the 120 groups. There was no linear relationship between social acceptability and variance of reported prejudice, $b = 0.31, SE = 0.84, t(118) = 0.37, p = .714$; however, there was a quadratic relationship regressing variance of reported prejudice on median social acceptability, $\Delta R^2 = .28, b = -1250.07, SE = 187.44, t(117) = -6.67, p < .001$ (Figure 2). The closer a prejudice was perceived to be by some participants as totally unacceptable (0) or compeltely acceptable (100), the lower was the variance of self-reported prejudice by other participants.  
+
+```{r echo = FALSE, fig.cap = "The stronger the normative influence on prejudice, the smaller the variance of reported prejudice."}
+rawdat <- read_csv("../data/variance_norm.csv")
+medians <- rawdat %>% 
+  summarise_all(funs(median(., na.rm = TRUE))) %>%
+  gather(var, value) %>% 
+  separate(var, c("var", "group")) %>% 
+  spread(var, value) %>% 
+  transmute(group = group, accept_m = accept, prej_m = (100 - prej))
+variances <- rawdat %>% 
+  summarise_all(funs(var(., na.rm = TRUE))) %>%
+  gather(var, value) %>% 
+  separate(var, c("var", "group")) %>% 
+  spread(var, value) %>% 
+  transmute(group = group, accept_var = accept, prej_var = prej)
+dat <- full_join(medians, variances)
+ggplot(dat, aes(x = accept_m, y = prej_var)) + 
+  geom_point(shape = 1) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              se = FALSE, color = "black") +
+  theme_minimal() +
+  labs(x = "Social Acceptability of Prejudice (Median)", 
+       y = "Reported Prejudice (Variance)") +
+  theme(text = element_text(size = 16))
+```
+
+I also investigated normative influences on floor effects. @crandall1994prejudice proposed a measure for anti-fat prejudice. In Study 5 of this paper, Crandall makes the argument that anti-fat attitudes are more socially acceptable (and less subject to social desirability biases) than anti-Black prejudice. He does this by demonstrating the decision-making process described above in the hurdle model: How often do people *always* select the least prejudiced option? That is, how often do people respond *always* at the lower bound of the distribution? He calls the proportion of people at the floor of a scale the "politically correct (PC) index," as this shows how often people respond in the most socially acceptable (i.e., politically correct) way possible. He finds that anti-fat prejudice is less subject to these floor effects: 10% of participants always responded at the lower bound for anti-Black prejudice; this was only 3% for Crandall's anti-fat scale.  
+
+To show that norms produce floor effects, I calculated Crandall's PC index for each of the 120 groups by counting how many people responded with a 0 on the prejudice thermometer (i.e., "totally positive" feelings). Using a negative binomial regression [@venables2002modern] for these count data, I regressed the PC index on median social acceptability of the prejudice. Perceived social acceptability of the prejudice by one group of participants negatively predicted the PC index, calculated using a separate group of participants, $b = -0.03, SE = 0.002, Z = -10.97, p < .001$ (Figure 3). The more socially acceptable a prejudice, the less people opt for the "politically correct" floor of the scale.  
+
+```{r echo = FALSE, fig.cap = "The more socially acceptable the prejudice, the less people opt for the politically correct response."}
+pcdat <- rawdat %>% 
+  select(starts_with("prej_")) %>% 
+  summarise_all(funs(sum(. == 100, na.rm = TRUE))) %>% 
+  gather(var, value) %>% 
+  transmute(group = gsub("[^0-9]", "", var), pc_index = value) %>% 
+  full_join(medians[, -3], by = "group")
+pcfit <- MASS::glm.nb(pc_index ~ accept_m, pcdat)
+fake_x <- seq(0, 100, .25)
+pcpred <- predict(pcfit, data.frame(accept_m = fake_x), type = "response")
+ggplot() +
+  theme_minimal() +
+  geom_point(aes(x = pcdat$accept_m, y = pcdat$pc_index), shape = 1) +
+  geom_line(aes(x = fake_x, y = pcpred), size = 1) +
+  labs(x = "Social Acceptability of Prejudice (Median)", y = "PC Index") +
+  theme(text = element_text(size = 16))
+```
+
+This evidence shows that norms do positively predict invariance; predicting the scale parameter, $\sigma$, in beta regression could be used to investigate how much people adhere to norms regarding the expression of certain attitudes. These data also show that normative influence can lead to floor effects (or ceiling effects); predicting the shape parameters, $\nu$ and $\tau$, in beta regression could also be used to examine how much people adhere to norms. I now turn to demonstrating how these beta regression models can be used in R [@rcore2017] via the `gamlss` package [@rigby2005generalized].  
 
 # Implementation in GAMLSS
 
-Show example from FoRS data  
+```{r message = FALSE, warning = FALSE, error = FALSE, echo = FALSE}
+library(gamlss)
+```
+
+The `gamlss` name stands for generalized additive models for location (i.e., $\mu$), scale (i.e., $\sigma$), and shape (i.e., $\nu$ and $\tau$). This package gives researchers the ability to use a wide variety of models, including beta regression models. A number of algorithms to estimate the coefficients can be used, described in detail by @stasinopoulos2017flexible. To first demonstrate that the package works according to the parameterization discussed in the Statistical Background section, I will generate a zero-and-one inflated beta distribution and estimate the parameters with an intercepts-only regression using the `gamlss` function. Then, I will demonstrate how to model prejudice as a function of ideology using real data.  
+
+## Intercepts-Only Regression
+
+We can set a number of parameters for this zero-one-inflated regression using the following code:  
+
+```{r echo = TRUE}
+n <- 5000
+mu <- 0.40
+sigma <- 0.60
+p0 <- 0.13
+p1 <- 0.17
+p2 <- 1 - p0 - p1
+a <- mu * (1 - sigma ^ 2) / (sigma ^ 2)
+b <- a * (1 - mu) / mu
+```
+
+The sample size `n` $= 5000$, the mean `mu` $= 0.40$, the shape parameter `sigma` $= 0.60$, the probability of being 0 is `p0` $= 0.13$, the probability of being 1 is `p1` $= 0.17$, and the probability of being between 0 and 1 is `p2` $= 1 - p_0 - p_1 = .70$. Using the equations in the Statistical Background section, we can convert `mu` and `sigma` back to the original shape parameters `a` ($\alpha$) and `b` ($\beta$). The dependent variable `y` can now be generated using the following code:  
+
+```{r echo = TRUE}
+set.seed(1839)
+y <- vector("numeric", n)
+for (i in 1:n) {
+  rand <- runif(1)
+  if (rand <= p0) {
+    y[i] <- 0
+  } else if ((p0 < rand) & (rand <= p0 + p1)) {
+    y[i] <- 1
+  } else {
+    y[i] <- rbeta(1, a, b)
+  }
+}
+```
+
+I generate a random number, `rand`, between 0 to 1. If `rand` $\leq$ `p0`, then the case is 0; if `rand` $>$ `p0` and `rand` $\leq$ `p0 + p1`, then the case is 1; otherwise, the case comes from a beta distribution with shape parameters of `a` and `b`. The `gamlss` function has four arguments for formulas—one for each of the parameters. It also has an argument, `family`, that determines what distribution will be used in fitting the model. For a zero-and-one inflated beta regression, the family is `BEINF()`. One can fit the intercepts-only model using the following code:  
+
+```{r include = FALSE}
+fit <- gamlss(
+  formula = x ~ 1, # formula for mu
+  formula.sigma = ~ 1, # formula for sigma
+  formula.nu = ~ 1, # formula for nu
+  formula.tau = ~ 1, # formula for tau
+  family = BEINF() # distribution for model
+)
+```
+```{r eval = FALSE, echo = TRUE}
+fit <- gamlss(
+  formula = x ~ 1, # formula for mu
+  formula.sigma = ~ 1, # formula for sigma
+  formula.nu = ~ 1, # formula for nu
+  formula.tau = ~ 1, # formula for tau
+  family = BEINF() # distribution for model
+)
+```
+
+We can use the inverse link functions to transform the coefficients back into the original scale. Then we can compare it to the parameters we set above. The estimated parameters are estimated using the code, according to the equations and link functions described in the Statistical Background section:  
+
+```{r echo = TRUE}
+# define the inverse of the logit link function
+# the exp function is the inverse of the log link
+inv_logit <- function(x) exp(x) / (1 + exp(x))
+fit_mu <- inv_logit(fit$mu.coefficients)
+fit_sigma <- inv_logit(fit$sigma.coefficients)
+fit_nu <- exp(fit$nu.coefficients)
+fit_tau <- exp(fit$tau.coefficients)
+fit_p0 <- fit_nu / (1 + fit_nu + fit_tau)
+fit_p1 <- fit_tau / (1 + fit_nu + fit_tau)
+```
+
+The estimates for $\mu$, $\sigma$, $p_0$, and $p_1$ are $.41$, $.60$, $.13$, and $.17$, respectively. These are close estimates to the population parameters set above. I now turn to a model using real data.  
+
+## Modeling Prejudice from Political Ideology
+
 
 
 \newpage
