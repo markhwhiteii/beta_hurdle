@@ -639,8 +639,8 @@ by M. D. Stasinopoulos, Rigby, Heller, Voudouris, and De Bastiani
 parameterization discussed in the Statistical Background section, I will
 generate a zero-and-one inflated beta distribution and estimate the
 parameters with an intercepts-only regression using the \texttt{gamlss}
-function. Then, I will demonstrate how to model prejudice as a function
-of ideology using real data.
+function. Then, I will demonstrate how to model social attitudes with
+real data.
 
 \subsection{Intercepts-Only
 Regression}\label{intercepts-only-regression}
@@ -719,9 +719,7 @@ Background section:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# define the inverse of the logit link function}
-\CommentTok{# the exp function is the inverse of the log link}
-\NormalTok{inv_logit <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{exp}\NormalTok{(x) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(x))}
+\NormalTok{inv_logit <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{exp}\NormalTok{(x) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(x)) }\CommentTok{# inverse of link function}
 \NormalTok{fit_mu <-}\StringTok{ }\KeywordTok{inv_logit}\NormalTok{(fit}\OperatorTok{$}\NormalTok{mu.coefficients)}
 \NormalTok{fit_sigma <-}\StringTok{ }\KeywordTok{inv_logit}\NormalTok{(fit}\OperatorTok{$}\NormalTok{sigma.coefficients)}
 \NormalTok{fit_nu <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(fit}\OperatorTok{$}\NormalTok{nu.coefficients)}
@@ -736,8 +734,142 @@ The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are \(.41\),
 to the population parameters set above. I now turn to a model using real
 data.
 
-\subsection{Modeling Prejudice from Political
-Ideology}\label{modeling-prejudice-from-political-ideology}
+\subsection{Modeling Political
+Ideology}\label{modeling-political-ideology}
+
+The social dominance orientation (SDO) scale measures how much one
+supports social hierarchy and inequality in society (Ho et al., 2015;
+Pratto, Sidanius, Stallworth, \& Malle, 1994). In personality
+psychology, it has a robust, oft-replicated positive relationship with
+political conservatism (Duriez \& Van Hiel, 2002; Hiel \& Mervielde,
+2002; Ho et al., 2015; Pratto et al., 2000; Pratto, Stallworth, \&
+Conway-Lanz, 1998; Pratto, Stallworth, \& Sidanius, 1997; Wilson \&
+Sibley, 2013); some consider SDO a central aspect of contemporary
+American conservatism (Eidelman, Crandall, Goodman, \& Blanchar, 2012;
+Jost, Glaser, Kruglanski, \& Sulloway, 2003). However, openly admitting
+that some groups are inherently better than others is a socially
+unacceptable thing to express, often leading to floor effects. I regress
+SDO on conservatism in both an OLS and beta regression framework to
+compare and contrast the two methods.
+
+The data come from Study 1 of White II and Crandall (2017), where 175
+participants answered an 8-item SDO scale on a 7-point Likert scale (Ho
+et al., 2015) and two 7-point items that assessed conservatism (i.e.,
+identification from Democrat to Republican and liberal to conservative,
+averaged together). Figure 4 shows the histogram of the SDO scale---30\%
+of the sample responded with 1s for each of the 8 items, demonstrating a
+floor effect.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-11-1.pdf}
+\caption{}
+\end{figure}
+
+The two variables correlated at \(r = .50, p < .001\). Figure 5 shows
+the predicted values against the standardized residuals from regressiong
+SDO on conservatism using OLS, with a marginal histogram showing the
+distribution of residuals. A loess line is drawn, and a slight jitter
+has been added to the points, given that many points overlapped with one
+another. One can see a spread of residuals getting wider as predicted
+values increases, suggesting heteroskedasticity; moreover, the histogram
+shows that the residuals are positively skewed, violating the assumption
+of conditional normality. How does this look using beta regression?
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-12-1.pdf}
+\caption{}
+\end{figure}
+
+First, I need to rescale the data. SDO was measured on a 1-to-7 scale,
+so \(l = 1\) and \(u = 7\). One can use the following R code to rescale
+a variable to \(0 \leq y \leq 1\), following the equation described in
+the Modeling Bounded Variables Beyond the Zero Through One Range
+section:
+
+The last thing a researcher has to do is decide which argument to use
+for the \texttt{family} argument in the \texttt{gamlss} function.
+Researchers can follow this guide:
+
+\begin{itemize}
+\item
+  If no 0s and no 1s are observed, a standard beta regression can be
+  used. The \texttt{family} argument is \texttt{BE()}, and only
+  \texttt{mu} and \texttt{sigma} will have submodels predicting these
+  parameters.
+\item
+  If 0s are observed but 1s are not, a zero-inflated beta regression can
+  be used. The \texttt{family} argument is \texttt{BEINF0()}, and
+  \texttt{mu}, \texttt{sigma}, and \texttt{nu} will have submodels
+  predicting these parameters.
+\item
+  If 0s are not observed but 1s are, a one-inflated beta regression can
+  be used. The \texttt{family} argument is \texttt{BEINF1()}, and
+  \texttt{mu}, \texttt{sigma}, and \texttt{nu} will have submodels
+  predicting these parameters.
+\item
+  If 0s and 1s are observed, a zero-and-one inflated beta regression can
+  be used. The \texttt{family} argument is \texttt{BEINF()}, and
+  \texttt{mu}, \texttt{sigma}, \texttt{nu}, and \texttt{tau} will have
+  submodels predicting these parameters.
+\end{itemize}
+
+One can check to see the minimum and maximum observed by using the
+\texttt{range()} function in R. In this case, \texttt{range(dat\$sdo)}
+returns \texttt{0\ 1}, showing that both 0s and 1s are observed. Now, I
+run the beta regression model using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_beinf <-}\StringTok{ }\KeywordTok{gamlss}\NormalTok{(sdo }\OperatorTok{~}\StringTok{ }\NormalTok{rw_polid, }\OperatorTok{~}\StringTok{ }\NormalTok{rw_polid, }\OperatorTok{~}\StringTok{ }\NormalTok{rw_polid, }\OperatorTok{~}\StringTok{ }\NormalTok{rw_polid,}
+                    \DataTypeTok{data =}\NormalTok{ dat, }\DataTypeTok{family =} \KeywordTok{BEINF}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, one can use the \texttt{summary()} function to examine the
+results. Table 1 shows the coefficients tables for each of the four
+submodels from the summary.
+
+\begin{table}[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:unnamed-chunk-16}}
+\begin{tabular}{llrrrr}
+\toprule
+Submodel & Variable & $b$ & $SE$ & $t$ & $p$\\
+\midrule
+$\mu$ & Intercept & -2.03 & 0.20 & -10.15 & < .001\\
+ & Conservatism & 0.28 & 0.05 & 5.46 & < .001\\
+$\sigma$ & Intercept & -0.97 & 0.22 & -4.42 & < .001\\
+ & Conservatism & 0.14 & 0.06 & 2.48 & .014\\
+$\nu$ & Intercept & 0.82 & 0.38 & 2.13 & .034\\
+ & Conservatism & -0.54 & 0.12 & -4.46 & < .001\\
+$\tau$ & Intercept & -13.33 & 6.91 & -1.93 & .055\\
+ & Conservatism & 1.70 & 1.15 & 1.47 & .143\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table}
+
+Figure 6 shows the OLS and sigma of the residuals around it. It is
+constant and goes into where observations cannot be made.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-17-1.pdf}
+\caption{}
+\end{figure}
+
+Figure 7 demonstrates the heteroskedasticity of the model, also showing
+how variance increases as does conservatism.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-18-1.pdf}
+\caption{}
+\end{figure}
 
 \newpage
 
@@ -791,6 +923,17 @@ the expression and suppression of prejudice: The struggle for
 internalization. \emph{Journal of Personality and Social Psychology},
 \emph{82}(3), 359.
 
+\hypertarget{ref-duriez2002march}{}
+Duriez, B., \& Van Hiel, A. (2002). The march of modern fascism: A
+comparison of social dominance orientation and authoritarianism.
+\emph{Personality and Individual Differences}, \emph{32}(7), 1199--1213.
+
+\hypertarget{ref-eidelman2012low}{}
+Eidelman, S., Crandall, C. S., Goodman, J. A., \& Blanchar, J. C.
+(2012). Low-effort thought promotes political conservatism.
+\emph{Personality and Social Psychology Bulletin}, \emph{38}(6),
+808--820.
+
 \hypertarget{ref-eskelson2011estimating}{}
 Eskelson, B. N., Madsen, L., Hagar, J. C., \& Temesgen, H. (2011).
 Estimating riparian understory vegetation cover with beta regression and
@@ -816,11 +959,29 @@ standard error estimators in OLS regression: An introduction and
 software implementation. \emph{Behavior Research Methods}, \emph{39}(4),
 709--722.
 
+\hypertarget{ref-hiel2002explaining}{}
+Hiel, A. V., \& Mervielde, I. (2002). Explaining conservative beliefs
+and political preferences: A comparison of social dominance orientation
+and authoritarianism. \emph{Journal of Applied Social Psychology},
+\emph{32}(5), 965--976.
+
+\hypertarget{ref-ho2015nature}{}
+Ho, A. K., Sidanius, J., Kteily, N., Sheehy-Skeffington, J., Pratto, F.,
+Henkel, K. E., \ldots{} Stewart, A. L. (2015). The nature of social
+dominance orientation: Theorizing and measuring preferences for
+intergroup inequality using the new SDO\(_7\) scale. \emph{Journal of
+Personality and Social Psychology}, \emph{109}(6), 1003.
+
 \hypertarget{ref-hubben2008societal}{}
 Hubben, G. A. A., Bishai, D., Pechlivanoglou, P., Cattelan, A. M.,
 Grisetti, R., Facchin, C., \ldots{} Tramarin, A. (2008). The societal
 burden of HIV/AIDS in Northern Italy: An analysis of costs and quality
 of life. \emph{AIDS Care}, \emph{20}(4), 449--455.
+
+\hypertarget{ref-jost2003political}{}
+Jost, J. T., Glaser, J., Kruglanski, A. W., \& Sulloway, F. J. (2003).
+Political conservatism as motivated social cognition.
+\emph{Psychological Bulletin}, \emph{129}(3), 339.
 
 \hypertarget{ref-long2000using}{}
 Long, J. S., \& Ervin, L. H. (2000). Using heteroscedasticity consistent
@@ -843,6 +1004,29 @@ Peplonska, B., Bukowska, A., Sobala, W., Reszka, E., Gromadzińska, J.,
 Wasowicz, W., \ldots{} Ursin, G. (2012). Rotating night shift work and
 mammographic density. \emph{Cancer, Epidemiology, Biomarkers, \&
 Prevention}, \emph{21}(7), 1028--1037.
+
+\hypertarget{ref-pratto2000social}{}
+Pratto, F., Liu, J. H., Levin, S., Sidanius, J., Shih, M., Bachrach, H.,
+\& Hegarty, P. (2000). Social dominance orientation and the
+legitimization of inequality across cultures. \emph{Journal of
+Cross-Cultural Psychology}, \emph{31}(3), 369--409.
+
+\hypertarget{ref-pratto1994social}{}
+Pratto, F., Sidanius, J., Stallworth, L. M., \& Malle, B. F. (1994).
+Social dominance orientation: A personality variable predicting social
+and political attitudes. \emph{Journal of Personality and Social
+Psychology}, \emph{67}(4), 741.
+
+\hypertarget{ref-pratto1998social}{}
+Pratto, F., Stallworth, L. M., \& Conway-Lanz, S. (1998). Social
+dominance orientation and the ideological legitimization of social
+policy. \emph{Journal of Applied Social Psychology}, \emph{28}(20),
+1853--1875.
+
+\hypertarget{ref-pratto1997gender}{}
+Pratto, F., Stallworth, L. M., \& Sidanius, J. (1997). The gender gap:
+Differences in political attitudes and social dominance orientation.
+\emph{British Journal of Social Psychology}, \emph{36}(1), 49--68.
 
 \hypertarget{ref-rcore2017}{}
 R Core Team. (2017). \emph{R: A language and environment for statistical
@@ -878,6 +1062,17 @@ GAMLSS in R}. Boca Raton, FL: CRC Press.
 \hypertarget{ref-venables2002modern}{}
 Venables, W. N., \& Ripley, B. D. (2002). \emph{Modern applied
 statistics with s}. New York, NY: Springer.
+
+\hypertarget{ref-white2017freedom}{}
+White II, M. H., \& Crandall, C. S. (2017). Freedom of racist speech:
+Ego and expressive threats. \emph{Journal of Personality and Social
+Psychology}, \emph{113}(3), 413.
+
+\hypertarget{ref-wilson2013social}{}
+Wilson, M. S., \& Sibley, C. G. (2013). Social dominance orientation and
+right-wing authoritarianism: Additive and interactive effects on
+political conservatism. \emph{Political Psychology}, \emph{34}(2),
+277--284.
 
 \hypertarget{ref-wooldridge2010econometric}{}
 Wooldridge, J. M. (2010). \emph{Econometric analysis of cross section

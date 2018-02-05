@@ -35,6 +35,7 @@ output            : papaja::apa6_pdf
 
 ```{r message = FALSE, warning = FALSE, error = FALSE, echo = FALSE}
 library(tidyverse)
+library(knitr)
 ```
 
 # Statistical Background
@@ -226,7 +227,7 @@ This evidence shows that norms do positively predict invariance; predicting the 
 library(gamlss)
 ```
 
-The `gamlss` name stands for generalized additive models for location (i.e., $\mu$), scale (i.e., $\sigma$), and shape (i.e., $\nu$ and $\tau$). This package gives researchers the ability to use a wide variety of models, including beta regression models. A number of algorithms to estimate the coefficients can be used, described in detail by @stasinopoulos2017flexible. To first demonstrate that the package works according to the parameterization discussed in the Statistical Background section, I will generate a zero-and-one inflated beta distribution and estimate the parameters with an intercepts-only regression using the `gamlss` function. Then, I will demonstrate how to model prejudice as a function of ideology using real data.  
+The `gamlss` name stands for generalized additive models for location (i.e., $\mu$), scale (i.e., $\sigma$), and shape (i.e., $\nu$ and $\tau$). This package gives researchers the ability to use a wide variety of models, including beta regression models. A number of algorithms to estimate the coefficients can be used, described in detail by @stasinopoulos2017flexible. To first demonstrate that the package works according to the parameterization discussed in the Statistical Background section, I will generate a zero-and-one inflated beta distribution and estimate the parameters with an intercepts-only regression using the `gamlss` function. Then, I will demonstrate how to model social attitudes with real data.  
 
 ## Intercepts-Only Regression
 
@@ -264,11 +265,11 @@ I generate a random number, `rand`, between 0 to 1. If `rand` $\leq$ `p0`, then 
 
 ```{r include = FALSE}
 fit <- gamlss(
-  formula = x ~ 1, # formula for mu
-  formula.sigma = ~ 1, # formula for sigma
-  formula.nu = ~ 1, # formula for nu
-  formula.tau = ~ 1, # formula for tau
-  family = BEINF() # distribution for model
+  formula = x ~ 1,
+  formula.sigma = ~ 1,
+  formula.nu = ~ 1,
+  formula.tau = ~ 1,
+  family = BEINF()
 )
 ```
 ```{r eval = FALSE, echo = TRUE}
@@ -284,9 +285,7 @@ fit <- gamlss(
 We can use the inverse link functions to transform the coefficients back into the original scale. Then we can compare it to the parameters we set above. The estimated parameters are estimated using the code, according to the equations and link functions described in the Statistical Background section:  
 
 ```{r echo = TRUE}
-# define the inverse of the logit link function
-# the exp function is the inverse of the log link
-inv_logit <- function(x) exp(x) / (1 + exp(x))
+inv_logit <- function(x) exp(x) / (1 + exp(x)) # inverse of link function
 fit_mu <- inv_logit(fit$mu.coefficients)
 fit_sigma <- inv_logit(fit$sigma.coefficients)
 fit_nu <- exp(fit$nu.coefficients)
@@ -297,9 +296,123 @@ fit_p1 <- fit_tau / (1 + fit_nu + fit_tau)
 
 The estimates for $\mu$, $\sigma$, $p_0$, and $p_1$ are $.41$, $.60$, $.13$, and $.17$, respectively. These are close estimates to the population parameters set above. I now turn to a model using real data.  
 
-## Modeling Prejudice from Political Ideology
+## Modeling Political Ideology
 
+The social dominance orientation (SDO) scale measures how much one supports social hierarchy and inequality in society [@ho2015nature; @pratto1994social]. In personality psychology, it has a robust, oft-replicated positive relationship with political conservatism [@duriez2002march; @hiel2002explaining; @ho2015nature; @pratto2000social; @pratto1998social; @pratto1997gender; @wilson2013social]; some consider SDO a central aspect of contemporary American conservatism [@eidelman2012low; @jost2003political]. However, openly admitting that some groups are inherently better than others is a socially unacceptable thing to express, often leading to floor effects. I regress SDO on conservatism in both an OLS and beta regression framework to compare and contrast the two methods.  
 
+The data come from Study 1 of @white2017freedom, where 175 participants answered an 8-item SDO scale on a 7-point Likert scale [@ho2015nature] and two 7-point items that assessed conservatism (i.e., identification from Democrat to Republican and liberal to conservative, averaged together). Figure 4 shows the histogram of the SDO scale—30% of the sample responded with 1s for each of the 8 items, demonstrating a floor effect.  
+
+```{r message = FALSE, warning = FALSE}
+library(ggExtra)
+library(gridExtra)
+dat <- read_csv("../data/fors_study1.csv")
+ggplot(dat, aes(x = sdo)) +
+  theme_minimal() +
+  geom_histogram(bins = 30) +
+  labs(x = "Social Dominance Orientation", y = "Count") +
+  theme(text = element_text(size = 16))
+```
+
+The two variables correlated at $r = .50, p < .001$. Figure 5 shows the predicted values against the standardized residuals from regressiong SDO on conservatism using OLS, with a marginal histogram showing the distribution of residuals. A loess line is drawn, and a slight jitter has been added to the points, given that many points overlapped with one another. One can see a spread of residuals getting wider as predicted values increases, suggesting heteroskedasticity; moreover, the histogram shows that the residuals are positively skewed, violating the assumption of conditional normality. How does this look using beta regression?  
+
+```{r message = FALSE, warning = FALSE}
+fit_ols_yhat <- lm(sdo ~ rw_polid, dat)$fitted.values
+yhat_stdres <- ggplot(mapping = aes(
+  x = fit_ols_yhat, y = rstandard(lm(sdo ~ rw_polid, dat))
+  )) +
+  theme_minimal() +
+  geom_jitter(shape = 1, width = .1, height = .1) +
+  geom_smooth(method = "loess", se = FALSE, color = "black") +
+  labs(x = "Predicted Values",
+       y = "Standardized Residuals") +
+  theme(text = element_text(size = 16))
+ggMarginal(yhat_stdres, type = "histogram", margins = "y")
+```
+
+First, I need to rescale the data. SDO was measured on a 1-to-7 scale, so $l = 1$ and $u = 7$. One can use the following R code to rescale a variable to $0 \leq y \leq 1$, following the equation described in the Modeling Bounded Variables Beyond the Zero Through One Range section:  
+
+```{r}
+dat$sdo <- (dat$sdo - 1) / (7 - 1)
+```
+
+The last thing a researcher has to do is decide which argument to use for the `family` argument in the `gamlss` function. Researchers can follow this guide:  
+
+* If no 0s and no 1s are observed, a standard beta regression can be used. The `family` argument is `BE()`, and only `mu` and `sigma` will have submodels predicting these parameters.  
+
+* If 0s are observed but 1s are not, a zero-inflated beta regression can be used. The `family` argument is `BEINF0()`, and `mu`, `sigma`, and `nu` will have submodels predicting these parameters.  
+
+* If 0s are not observed but 1s are, a one-inflated beta regression can be used. The `family` argument is `BEINF1()`, and `mu`, `sigma`, and `nu` will have submodels predicting these parameters.  
+
+* If 0s and 1s are observed, a zero-and-one inflated beta regression can be used. The `family` argument is `BEINF()`, and `mu`, `sigma`, `nu`, and `tau` will have submodels predicting these parameters.  
+
+One can check to see the minimum and maximum observed by using the `range()` function in R. In this case, `range(dat$sdo)` returns `0 1`, showing that both 0s and 1s are observed. Now, I run the beta regression model using the following code:  
+
+```{r include = FALSE}
+fit_beinf <- gamlss(
+  sdo ~ rw_polid,
+  ~ rw_polid,
+  ~ rw_polid,
+  ~ rw_polid,
+  data = dat,
+  family = BEINF()
+)
+```
+```{r eval = FALSE, echo = TRUE}
+fit_beinf <- gamlss(sdo ~ rw_polid, ~ rw_polid, ~ rw_polid, ~ rw_polid,
+                    data = dat, family = BEINF())
+```
+
+Finally, one can use the `summary()` function to examine the results. Table 1 shows the coefficients tables for each of the four submodels from the summary.  
+
+```{r results = "asis"}
+table1 <- data.frame(
+  Submodel = c("$\\mu$", "", "$\\sigma$", "", "$\\nu$", "", "$\\tau$", ""),
+  Variable = rep(c("Intercept", "Conservatism"), 4),
+  b = c(-2.03, 0.28, -0.97, 0.14, 0.82, -0.54, -13.33, 1.70),
+  SE = c(0.20, 0.05, 0.22, 0.06, 0.38, 0.12, 6.91, 1.15),
+  t = c(-10.15, 5.46, -4.42, 2.48, 2.13, -4.46, -1.93, 1.47),
+  p = c("< .001", "< .001", "< .001", ".014", ".034", "< .001", ".055", ".143")
+)
+papaja::apa_table(
+  table1, escape = FALSE, align = c("l", "l", "r", "r", "r", "r"),
+  col.names = c("Submodel", "Variable", "$b$", "$SE$", "$t$", "$p$")
+)
+```
+
+Figure 6 shows the OLS and sigma of the residuals around it. It is constant and goes into where observations cannot be made.  
+
+```{r message = FALSE, warning = FALSE}
+fit_ols <- lm(sdo ~ rw_polid, dat)
+ggplot(dat, aes(x = rw_polid, y = sdo)) +
+  theme_minimal() +
+  geom_jitter(shape = 1) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  geom_line(aes(y = fit_ols$fitted.values + summary(fit_ols)$sigma), 
+            size = .75, linetype = 2) +
+  geom_line(aes(y = fit_ols$fitted.values - summary(fit_ols)$sigma), 
+            size = .75, linetype = 2) +
+  labs(x = "Conservatism", 
+       y = "Social Dominance Orientation") +
+  theme(text = element_text(size = 16))
+```
+
+Figure 7 demonstrates the heteroskedasticity of the model, also showing how variance increases as does conservatism.  
+
+```{r message = FALSE, warning = FALSE}
+b_sig <- sqrt(fit_beinf$sigma.fv ^ 2 * fit_beinf$mu.fv * (1 - fit_beinf$mu.fv))
+ggplot(dat, aes(x = rw_polid, y = sdo)) +
+  theme_minimal() +
+  geom_jitter(shape = 1) +
+  geom_line(aes(y = fit_beinf$mu.fv), 
+            size = 1.0, linetype = 1) +
+  geom_line(aes(y = fit_beinf$mu.fv + b_sig), 
+            size = .75, linetype = 2) +
+  geom_line(aes(y = fit_beinf$mu.fv - b_sig), 
+            size = .75, linetype = 2) +
+  labs(x = "Conservatism", 
+       y = "Social Dominance Orientation") +
+  theme(text = element_text(size = 16))
+```
 
 \newpage
 

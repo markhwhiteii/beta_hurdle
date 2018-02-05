@@ -1,0 +1,25 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:unnamed-chunk-16}}
+\begin{tabular}{llrrrr}
+\toprule
+Submodel & Variable & $b$ & $SE$ & $t$ & $p$\\
+\midrule
+$\mu$ & Intercept & -2.03 & 0.20 & -10.15 & < .001\\
+ & Conservatism & 0.28 & 0.05 & 5.46 & < .001\\
+$\sigma$ & Intercept & -0.97 & 0.22 & -4.42 & < .001\\
+ & Conservatism & 0.14 & 0.06 & 2.48 & .014\\
+$\nu$ & Intercept & 0.82 & 0.38 & 2.13 & .034\\
+ & Conservatism & -0.54 & 0.12 & -4.46 & < .001\\
+$\tau$ & Intercept & -13.33 & 6.91 & -1.93 & .055\\
+ & Conservatism & 1.70 & 1.15 & 1.47 & .143\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 
