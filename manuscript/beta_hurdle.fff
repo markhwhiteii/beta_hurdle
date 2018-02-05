@@ -33,7 +33,8 @@ prejudice, the less people opt for the politically correct response.}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-11}The distribution of SDO scores contains
+a floor effect.}
 \end{figure*}
 \efloatseparator
  
@@ -42,16 +43,8 @@ prejudice, the less people opt for the politically correct response.}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-12-1.pdf}
-\caption{}
-\end{figure*}
-\efloatseparator
- 
-\begin{figure*}[hbt]
-\ifnextchar[{\eatarg}{}
-
-\centering
-\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-17-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-12}The residuals plot shows
+heteroskedasticity and conditional non-normality.}
 \end{figure*}
 \efloatseparator
  
@@ -60,7 +53,22 @@ prejudice, the less people opt for the politically correct response.}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-18-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-18}SDO regressed on conservatism, using
+OLS regression. Dotted lines represent are one standard deviation (i.e.,
+estimated standard deviation of the residuals) above and below the solid
+regression line.}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-19-1.pdf}
+\caption{\label{fig:unnamed-chunk-19}SDO regressed on conservatism, using
+beta regression. Dotted lines represent are one standard deviation
+(i.e., estimated standard deviation of the residuals) above and below
+the solid regression line.}
 \end{figure*}
 \efloatseparator
  

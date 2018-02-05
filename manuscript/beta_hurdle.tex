@@ -470,9 +470,9 @@ In the realm of prejudice and politics, I argue that it is \emph{not}
 useful to think of prejudice as coming from a latent normal
 distribution. I find it unlikely that if, instead of a Likert scales
 going from 1 to 7, it extended from -7 to +7, one would observe a normal
-distribution for the Attitude Towards Blacks scale, for example (Brigham
-(1993)). I find it likely that participants would opt for the new
-floor---the negative 7. This can be thought of as a decision-making
+distribution for the Attitude Towards Blacks scale, for example
+(Brigham, 1993). I find it likely that participants would opt for the
+new floor---the negative 7. This can be thought of as a decision-making
 process. Using prejudice as an example, people decide whether or not
 they are going to admit to feeling any prejudice. If they decide not to,
 they simply circle or click all 1s (i.e., the floor). If they decide to
@@ -517,35 +517,34 @@ probability of observing \(y = c\) or \(0 < y < 1\); second, a beta
 regression modeling just the cases where \(0 < y < 1\) (R. Rigby et al.,
 2017).
 
-Since their likelihoods can be separated, this implies a critical
-assumption: That the two processes are independent, given the observed
-predictors. In other words, the error terms of each submodel are assumed
-to be independent of one another (where submodels refer to models
-predicting each parameter, \(\mu\), \(\sigma\), \(\nu\), or \(\tau\),
-separately). Dependencies between them can be modeled (referred to as
-``selection'' models; Carlevaro et al., 2017; Wooldridge, 2010), but I
-will not discuss these models here, as they are not extended to beta
-regression.
+Since their likelihoods can be separated, this implies an assumption:
+The two processes are independent, given the observed predictors. In
+other words, the error terms of each submodel are assumed to be
+independent of one another (where submodels refer to models predicting
+each parameter, \(\mu\), \(\sigma\), \(\nu\), or \(\tau\), separately).
+Dependencies between them can be modeled (referred to as ``selection''
+models; Carlevaro et al., 2017; Wooldridge, 2010), but I will not
+discuss these models here, as they are not extended to beta regression.
 
 \section{Norms Produce Invariance, Ceiling and Floor
 Effects}\label{norms-produce-invariance-ceiling-and-floor-effects}
 
-Louis, Mavor, and Terry (2003) argue that norms produce invariance. In
-this section, I demonstrate the relationship between normative strength
-and invariance of attitudes empirically. I replicated the methodology
-used by Crandall, Eshleman, and O'brien (2002). In their Study 1, the
-authors presented participants with 105 social groups (e.g., Black
-people, librarians, deaf people, ugly people, Nazis, drug dealers).
-Participants were assigned to one of two groups. Half of the
-participants indicated how negatively they felt toward the group (i.e.,
-prejudice), while the other half indicated how socially acceptable they
-perceived it was to feel and express negativity toward that group (i.e.,
-acceptability). Crandall and colleagues averaged the prejudice and
-acceptability scores at the group level, resulting in an \(N = 105\) and
-two variables for each group: prejudice and acceptability. They found
-that expressed prejudice and acceptability of prejudice correlated at
-\(r = .96\); people report prejudices that are socially acceptable (see
-Cary and Page-Gould (2014) for a replication).
+Louis, Mavor, and Terry (2003) argue that norms produce invariance. I
+empirically demonstrate the relationship between normative strength and
+invariance of attitudes, replicating the methodology used by Crandall,
+Eshleman, and O'Brien (2002). In their Study 1, the authors presented
+participants with 105 social groups (e.g., Black people, librarians,
+deaf people, ugly people, Nazis, drug dealers). Participants were
+assigned to one of two groups: Half of the participants indicated how
+negatively they felt toward the group (i.e., self-reported prejudice),
+while the other half indicated how socially acceptable they perceived it
+was to feel and express negative feelings toward that group (i.e.,
+acceptability of prejudice). Crandall and colleagues averaged the
+prejudice and acceptability scores at the group level, resulting in an
+\(N = 105\) and two variables for each group: prejudice and
+acceptability. They found that expressed prejudice and acceptability of
+prejudice correlated at \(r = .96\); people report prejudices that are
+socially acceptable (see Cary \& Page-Gould, 2014 for a replication).
 
 I recruited 405 people from Amazon's Mechanical Turk website and
 randomly assigned them to either a \emph{prejudice} or
@@ -554,7 +553,7 @@ about 30 groups, randomly sampled from a pool of 120 groups. In the
 prejudice condition, participants were asked \enquote{How do you feel
 toward each of these groups?} and to indicate how they feel on a scale
 from \enquote{very negatively (0) to very positively (100).} I
-reverse-scored these items so that higher scores indicated more
+reverse-scored these items so that higher scores indicate more
 prejudice. In the acceptability condition, participants were asked
 \enquote{How OK is it in society for people to feel and say negative
 things about each of these groups?} and to indicate their perception on
@@ -567,12 +566,12 @@ self-reported prejudice scores for each of the 120 groups. There was no
 linear relationship between social acceptability and variance of
 reported prejudice, \(b = 0.31, SE = 0.84, t(118) = 0.37, p = .714\);
 however, there was a quadratic relationship regressing variance of
-reported prejudice on median social acceptability,
+reported prejudice on social acceptability,
 \(\Delta R^2 = .28, b = -1250.07, SE = 187.44, t(117) = -6.67, p < .001\)
-(Figure 2). The closer a prejudice was perceived to be by some
-participants as totally unacceptable (0) or compeltely acceptable (100),
-the lower was the variance of self-reported prejudice by other
-participants.
+(Figure 2). The more participants perceived prejudice to be influenced
+by norms---either being totally unacceptable (0) or completely
+acceptable (100)---the lower was the variance of self-reported prejudice
+by other participants.
 
 \begin{figure}
 \centering
@@ -582,29 +581,29 @@ prejudice, the smaller the variance of reported prejudice.}
 \end{figure}
 
 I also investigated normative influences on floor effects. Crandall
-(1994) proposed a measure for anti-fat prejudice. In Study 5 of this
+(1994) proposed a measure for anti-fat prejudice; in Study 5 of this
 paper, Crandall makes the argument that anti-fat attitudes are more
 socially acceptable (and less subject to social desirability biases)
 than anti-Black prejudice. He does this by demonstrating the
 decision-making process described above in the hurdle model: How often
 do people \emph{always} select the least prejudiced option? That is, how
-often do people respond \emph{always} at the lower bound of the
+often do people \emph{always} respond at the lower bound of the
 distribution? He calls the proportion of people at the floor of a scale
 the \enquote{politically correct (PC) index,} as this shows how often
 people respond in the most socially acceptable (i.e., politically
-correct) way possible. He finds that anti-fat prejudice is less subject
+correct) way possible. He finds that his anti-fat scale is less subject
 to these floor effects: 10\% of participants always responded at the
-lower bound for anti-Black prejudice; this was only 3\% for Crandall's
-anti-fat scale.
+lower bound for anti-Black prejudice; this was only 3\% for the anti-fat
+scale.
 
 To show that norms produce floor effects, I calculated Crandall's PC
 index for each of the 120 groups by counting how many people responded
-with a 0 on the prejudice thermometer (i.e., \enquote{totally positive}
-feelings). Using a negative binomial regression (Venables \& Ripley,
-2002) for these count data, I regressed the PC index on median social
+with a 0 on the reverse-scored prejudice scale (i.e., \enquote{totally
+positive} feelings). Using a negative binomial regression (Venables \&
+Ripley, 2002) for these count data, I regressed the PC index on social
 acceptability of the prejudice. Perceived social acceptability of the
 prejudice by one group of participants negatively predicted the PC
-index, calculated using a separate group of participants,
+index, calculated using a \emph{separate group} of participants,
 \(b = -0.03, SE = 0.002, Z = -10.97, p < .001\) (Figure 3). The more
 socially acceptable a prejudice, the less people opt for the
 \enquote{politically correct} floor of the scale.
@@ -635,7 +634,7 @@ location (i.e., \(\mu\)), scale (i.e., \(\sigma\)), and shape (i.e.,
 a wide variety of models, including beta regression models. A number of
 algorithms to estimate the coefficients can be used, described in detail
 by M. D. Stasinopoulos, Rigby, Heller, Voudouris, and De Bastiani
-(2017). To first demonstrate that the package works according to the
+(2017). To first demonstrate how the package works according to the
 parameterization discussed in the Statistical Background section, I will
 generate a zero-and-one inflated beta distribution and estimate the
 parameters with an intercepts-only regression using the \texttt{gamlss}
@@ -645,8 +644,8 @@ real data.
 \subsection{Intercepts-Only
 Regression}\label{intercepts-only-regression}
 
-We can set a number of parameters for this zero-one-inflated regression
-using the following code:
+We can set a number of parameters for this zero-and-one inflated
+distribution using the following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -662,7 +661,7 @@ using the following code:
 \end{Shaded}
 
 The sample size \texttt{n} \(= 5000\), the mean \texttt{mu} \(= 0.40\),
-the shape parameter \texttt{sigma} \(= 0.60\), the probability of being
+the scale parameter \texttt{sigma} \(= 0.60\), the probability of being
 0 is \texttt{p0} \(= 0.13\), the probability of being 1 is \texttt{p1}
 \(= 0.17\), and the probability of being between 0 and 1 is \texttt{p2}
 \(= 1 - p_0 - p_1 = .70\). Using the equations in the Statistical
@@ -688,34 +687,35 @@ using the following code:
 \end{Highlighting}
 \end{Shaded}
 
-I generate a random number, \texttt{rand}, between 0 to 1. If
-\texttt{rand} \(\leq\) \texttt{p0}, then the case is 0; if \texttt{rand}
-\(>\) \texttt{p0} and \texttt{rand} \(\leq\) \texttt{p0\ +\ p1}, then
-the case is 1; otherwise, the case comes from a beta distribution with
-shape parameters of \texttt{a} and \texttt{b}. The \texttt{gamlss}
-function has four arguments for formulas---one for each of the
-parameters. It also has an argument, \texttt{family}, that determines
-what distribution will be used in fitting the model. For a zero-and-one
-inflated beta regression, the family is \texttt{BEINF()}. One can fit
-the intercepts-only model using the following code:
+I generate a random number, \texttt{rand}, between 0 to 1. This will
+determine if the case is 0, 1, or somewhere in between. If \texttt{rand}
+\(\leq\) \texttt{p0}, then the case is 0; if \texttt{p0} \(<\)
+\texttt{rand} \(\leq\) \texttt{p0\ +\ p1}, then the case is 1;
+otherwise, the case comes from a beta distribution with shape parameters
+of \texttt{a} and \texttt{b}. The \texttt{gamlss} function has four
+arguments for formulas---one for each of the parameters. It also has an
+argument, \texttt{family}, that determines what distribution will be
+used in fitting the model. For a zero-and-one inflated beta regression,
+the family is \texttt{BEINF()}. One can fit the intercepts-only model
+using the following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fit <-}\StringTok{ }\KeywordTok{gamlss}\NormalTok{(}
-  \DataTypeTok{formula =}\NormalTok{ x }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for mu}
+  \DataTypeTok{formula =}\NormalTok{ x }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,     }\CommentTok{# formula for mu}
   \DataTypeTok{formula.sigma =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for sigma}
-  \DataTypeTok{formula.nu =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for nu}
-  \DataTypeTok{formula.tau =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for tau}
-  \DataTypeTok{family =} \KeywordTok{BEINF}\NormalTok{() }\CommentTok{# distribution for model}
+  \DataTypeTok{formula.nu =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,    }\CommentTok{# formula for nu}
+  \DataTypeTok{formula.tau =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,   }\CommentTok{# formula for tau}
+  \DataTypeTok{family =} \KeywordTok{BEINF}\NormalTok{()     }\CommentTok{# distribution for model}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-We can use the inverse link functions to transform the coefficients back
-into the original scale. Then we can compare it to the parameters we set
-above. The estimated parameters are estimated using the code, according
-to the equations and link functions described in the Statistical
-Background section:
+One can use the inverse link functions to transform the coefficients
+back into the original scale; then, one can compare it to the parameters
+set above. The estimated parameters are calculated using the following
+code, according to the equations and link functions described in the
+Statistical Background section:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -731,8 +731,10 @@ Background section:
 
 The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are \(.41\),
 \(.60\), \(.13\), and \(.17\), respectively. These are close estimates
-to the population parameters set above. I now turn to a model using real
-data.
+to the population parameters set above. In research settings, each of
+the parameters would not be set to one number, but be regressed on
+observed variables that a researcher thinks predicts their values. For
+an exmample, I now turn to a model using real data.
 
 \subsection{Modeling Political
 Ideology}\label{modeling-political-ideology}
@@ -752,22 +754,23 @@ unacceptable thing to express, often leading to floor effects. I regress
 SDO on conservatism in both an OLS and beta regression framework to
 compare and contrast the two methods.
 
-The data come from Study 1 of White II and Crandall (2017), where 175
-participants answered an 8-item SDO scale on a 7-point Likert scale (Ho
-et al., 2015) and two 7-point items that assessed conservatism (i.e.,
-identification from Democrat to Republican and liberal to conservative,
-averaged together). Figure 4 shows the histogram of the SDO scale---30\%
-of the sample responded with 1s for each of the 8 items, demonstrating a
-floor effect.
+The data come from Study 1 of White and Crandall (2017), where 175
+participants answered an 8-item, 7-point SDO scale (Ho et al., 2015) and
+two 7-point items that assessed conservatism (i.e., Democrat, 1, to
+Republican, 7, and liberal, 1, to conservative, 7). Scales were
+calculated by averaging their respective items. Figure 4 shows the
+histogram of the SDO scale---30\% of the sample responded with 1s for
+each of the 8 items, demonstrating a floor effect.
 
 \begin{figure}
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-11}The distribution of SDO scores contains
+a floor effect.}
 \end{figure}
 
 The two variables correlated at \(r = .50, p < .001\). Figure 5 shows
-the predicted values against the standardized residuals from regressiong
+the predicted values against the standardized residuals from regressing
 SDO on conservatism using OLS, with a marginal histogram showing the
 distribution of residuals. A loess line is drawn, and a slight jitter
 has been added to the points, given that many points overlapped with one
@@ -779,7 +782,8 @@ of conditional normality. How does this look using beta regression?
 \begin{figure}
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-12-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-12}The residuals plot shows
+heteroskedasticity and conditional non-normality.}
 \end{figure}
 
 First, I need to rescale the data. SDO was measured on a 1-to-7 scale,
@@ -788,37 +792,44 @@ a variable to \(0 \leq y \leq 1\), following the equation described in
 the Modeling Bounded Variables Beyond the Zero Through One Range
 section:
 
-The last thing a researcher has to do is decide which argument to use
-for the \texttt{family} argument in the \texttt{gamlss} function.
-Researchers can follow this guide:
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat}\OperatorTok{$}\NormalTok{sdo <-}\StringTok{ }\NormalTok{(dat}\OperatorTok{$}\NormalTok{sdo }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{7} \OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{itemize}
-\item
-  If no 0s and no 1s are observed, a standard beta regression can be
-  used. The \texttt{family} argument is \texttt{BE()}, and only
-  \texttt{mu} and \texttt{sigma} will have submodels predicting these
-  parameters.
-\item
-  If 0s are observed but 1s are not, a zero-inflated beta regression can
-  be used. The \texttt{family} argument is \texttt{BEINF0()}, and
-  \texttt{mu}, \texttt{sigma}, and \texttt{nu} will have submodels
-  predicting these parameters.
-\item
-  If 0s are not observed but 1s are, a one-inflated beta regression can
-  be used. The \texttt{family} argument is \texttt{BEINF1()}, and
-  \texttt{mu}, \texttt{sigma}, and \texttt{nu} will have submodels
-  predicting these parameters.
-\item
-  If 0s and 1s are observed, a zero-and-one inflated beta regression can
-  be used. The \texttt{family} argument is \texttt{BEINF()}, and
-  \texttt{mu}, \texttt{sigma}, \texttt{nu}, and \texttt{tau} will have
-  submodels predicting these parameters.
-\end{itemize}
+It is important to remember that \(l\) and \(u\) are \emph{not} the
+minimum and maximum \emph{observed} values, but the minimum and maximum
+\emph{possible} values; for example, if lowest SDO score I observed was
+2, \(l\) would still be 1.
 
+\begin{table}[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:unnamed-chunk-14}Guide for Choosing Correct Distribution and Corresponding gamlss Family}
+\begin{tabular}{lllll}
+\toprule
+Any $y_i = 0$? & Any $y_i = 1$? & Distribution & gamlss Family & Submodels\\
+\midrule
+No & No & Beta & BE() & $\mu$, $\sigma$\\
+Yes & No & Zero-Inflated Beta & BEINF0() & $\mu$, $\sigma$, $\nu$\\
+No & Yes & One-Inflated Beta & BEINF1() & $\mu$, $\sigma$, $\nu$\\
+Yes & Yes & Zero-and-One Inflated Beta & BEINF() & $\mu$, $\sigma$, $\nu$, $\tau$\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table}
+
+The last thing a researcher has to do is decide which value to use for
+the \texttt{family} argument in the \texttt{gamlss} function.
+Researchers can follow Table 1 for deciding which value is appropriate.
 One can check to see the minimum and maximum observed by using the
 \texttt{range()} function in R. In this case, \texttt{range(dat\$sdo)}
-returns \texttt{0\ 1}, showing that both 0s and 1s are observed. Now, I
-run the beta regression model using the following code:
+returns \texttt{0\ 1}, showing that both 0s and 1s are observed.
+According to Table 1, I should use \texttt{BEINF()} for the
+\texttt{family}. I run the beta regression model using the following
+code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -828,13 +839,34 @@ run the beta regression model using the following code:
 \end{Shaded}
 
 Finally, one can use the \texttt{summary()} function to examine the
-results. Table 1 shows the coefficients tables for each of the four
-submodels from the summary.
+results. Table 2 shows the coefficients tables for each of the four
+submodels from the summary. The \(\mu\) submodel tells the same story as
+the OLS model: The more conservative one is, the more they support
+hierarchy in society \(b = 0.28, SE = 0.05, t(167) = 5.46, p < .001\).
+Since a logistic link function is used, however, this relationship is
+not linear (see Figure 7). The \(\sigma\) submodel shows that, as people
+get more conservative, they also display more variance in their
+responses to the SDO scale,
+\(b = 0.14, SE = 0.06, t(167) = 2.48, p = .014\); conservatives are not
+just more supportive of hierarchy, they also display a wider range of
+attitudes toward hierarchy. In line with the evidence presented above
+that norms produce invariance, one explanation for this relationship is
+that conservatives are less influenced by norms against expressing
+attitudes in favor of social inequality. The conservatism coefficient
+for the \(\nu\) model is also significant: The more conservatism one
+reports, the less likely they are to respond at the floor (i.e., in a
+``politically correct'' manner, Crandall, 1994),
+\(b = -0.54, SE = 0.12, t(167) = -4.46, p < .001\). Again, an
+interpretation here is that conservatives are less influenced by the
+normative pressure to completely reject social inequality and group
+hierarchies. Lastly, the coefficient for the \(\tau\) submodel is not
+significant; however, this could be an issue of statistical power, given
+that only one participant responded at the ceiling.
 
 \begin{table}[tbp]
 \begin{center}
 \begin{threeparttable}
-\caption{\label{tab:unnamed-chunk-16}}
+\caption{\label{tab:unnamed-chunk-17}Results From the Beta Regression Model}
 \begin{tabular}{llrrrr}
 \toprule
 Submodel & Variable & $b$ & $SE$ & $t$ & $p$\\
@@ -853,23 +885,43 @@ $\tau$ & Intercept & -13.33 & 6.91 & -1.93 & .055\\
 \end{center}
 \end{table}
 
-Figure 6 shows the OLS and sigma of the residuals around it. It is
-constant and goes into where observations cannot be made.
-
-\begin{figure}
-\centering
-\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-17-1.pdf}
-\caption{}
-\end{figure}
-
-Figure 7 demonstrates the heteroskedasticity of the model, also showing
-how variance increases as does conservatism.
+How do the OLS and beta regression results compare? Figure 6 shows a
+scatterplot of SDO regressed onto conservatism using OLS regression. The
+solid line is the regression line. The estimated standard deviation of
+the residuals, \(\sigma_\epsilon\), is added to and subtracted from this
+line; these are the dotted lines. In line with the assumption of
+homoskedasticity, this standard deviation is constant across all levels
+of conservatism. Importantly, the lower dotted line dips below observed
+values---the model assumes that predicted values come from a
+distribution that has values in it that \emph{cannot} be observed with
+the Likert scale used.
 
 \begin{figure}
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-18-1.pdf}
-\caption{}
+\caption{\label{fig:unnamed-chunk-18}SDO regressed on conservatism, using
+OLS regression. Dotted lines represent are one standard deviation (i.e.,
+estimated standard deviation of the residuals) above and below the solid
+regression line.}
 \end{figure}
+
+Figure 7 shows the same figure for the zero-and-one inflated beta
+regression model. The width of the dotted line increases as conservatism
+increases, demonstrating the heteroskedasticity of the model. This also
+shows that variance in SDO scores increases with conservatism; also note
+that the dotted line does not dip below the floor, as values in the beta
+distribution cannot be less than zero.
+
+\begin{figure}
+\centering
+\includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-19-1.pdf}
+\caption{\label{fig:unnamed-chunk-19}SDO regressed on conservatism, using
+beta regression. Dotted lines represent are one standard deviation
+(i.e., estimated standard deviation of the residuals) above and below
+the solid regression line.}
+\end{figure}
+
+\section{Discussion}\label{discussion}
 
 \newpage
 
@@ -918,7 +970,7 @@ self-interest. \emph{Journal of Personality and Social Psychology},
 \emph{66}(5), 882.
 
 \hypertarget{ref-crandall2002social}{}
-Crandall, C. S., Eshleman, A., \& O'brien, L. (2002). Social norms and
+Crandall, C. S., Eshleman, A., \& O'Brien, L. (2002). Social norms and
 the expression and suppression of prejudice: The struggle for
 internalization. \emph{Journal of Personality and Social Psychology},
 \emph{82}(3), 359.
@@ -1064,7 +1116,7 @@ Venables, W. N., \& Ripley, B. D. (2002). \emph{Modern applied
 statistics with s}. New York, NY: Springer.
 
 \hypertarget{ref-white2017freedom}{}
-White II, M. H., \& Crandall, C. S. (2017). Freedom of racist speech:
+White, M. H. I., \& Crandall, C. S. (2017). Freedom of racist speech:
 Ego and expressive threats. \emph{Journal of Personality and Social
 Psychology}, \emph{113}(3), 413.
 

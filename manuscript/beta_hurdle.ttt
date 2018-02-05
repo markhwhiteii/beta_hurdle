@@ -3,7 +3,28 @@
 [tbp]
 \begin{center}
 \begin{threeparttable}
-\caption{\label{tab:unnamed-chunk-16}}
+\caption{\label{tab:unnamed-chunk-14}Guide for Choosing Correct Distribution and Corresponding gamlss Family}
+\begin{tabular}{lllll}
+\toprule
+Any $y_i = 0$? & Any $y_i = 1$? & Distribution & gamlss Family & Submodels\\
+\midrule
+No & No & Beta & BE() & $\mu$, $\sigma$\\
+Yes & No & Zero-Inflated Beta & BEINF0() & $\mu$, $\sigma$, $\nu$\\
+No & Yes & One-Inflated Beta & BEINF1() & $\mu$, $\sigma$, $\nu$\\
+Yes & Yes & Zero-and-One Inflated Beta & BEINF() & $\mu$, $\sigma$, $\nu$, $\tau$\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:unnamed-chunk-17}Results From the Beta Regression Model}
 \begin{tabular}{llrrrr}
 \toprule
 Submodel & Variable & $b$ & $SE$ & $t$ & $p$\\
