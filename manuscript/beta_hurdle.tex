@@ -122,7 +122,7 @@
 \fi
 \hypersetup{breaklinks=true,
             pdfauthor={},
-            pdftitle={Using Beta Regression to Model Normative Aspects of Prejudice and Political Attitudes: With Applications in R},
+            pdftitle={Using Beta Regression to Model Normative Aspects of Prejudice and Political Attitudes},
             colorlinks=true,
             citecolor=blue,
             urlcolor=blue,
@@ -157,7 +157,7 @@
 
 % Essential manuscript parts
   \title{Using Beta Regression to Model Normative Aspects of Prejudice and
-Political Attitudes: With Applications in R}
+Political Attitudes}
 
   \shorttitle{Beta Regression}
 
@@ -173,7 +173,8 @@ Political Attitudes: With Applications in R}
 
   \authornote{
     \newcounter{author}
-    Author note will go here.
+    I would like to thank Dr.~Achim Zeileis and Dr.~Jonathan Templin for
+    comments on an earlier version of this manuscript.
 
                       Correspondence concerning this article should be addressed to Mark H. White II. E-mail: \href{mailto:markhwhiteii@gmail.com}{\nolinkurl{markhwhiteii@gmail.com}}
                 }
@@ -285,7 +286,12 @@ the beta distribution. In terms of these two additional parameters,
 \(p_1 = {\tau \over (1 + \nu + \tau)}\). Rearranging these
 algebraically, \(\nu\) is the odds that a case is 0 to being
 \(0 < y < 1\), \(\nu = p_0 / p_2\), and \(\tau\) is the odds that a case
-is a 1 to being \(0 < y < 1\), \(\tau = p_1 / p_2\).
+is a 1 to being \(0 < y < 1\), \(\tau = p_1 / p_2\). It should be noted,
+however, that this distribution only includes \emph{one} source of 0
+values (i.e., \(p_0\)). For this reason, some would not call it an
+\enquote{inflated} distribution---which has more than one source of 0
+values---but instead a \enquote{hurdle model} (discussed below, see Coxe
+et al., 2013).
 
 \subsection{Beta Regression Models}\label{beta-regression-models}
 
@@ -500,10 +506,10 @@ distributed, which can take on many distributional forms; see Figure 1).
 In economics, hurdle models are often used when dependent variables are
 counts with excess 0s (see Carlevaro, Croissant, \& Hoareau, 2017 for a
 review of applications). The log likelihood function for these models
-can be separated in two parts: First, a logistic (or probit) regression
-modeling the probability of observing \(y = 0\) versus \(y > 0\);
-second, a truncated negative binomial model using just the cases where
-\(y > 0\).
+can be separated in two parts: First, a binary regression (e.g.,
+logistic or probit) modeling the probability of observing \(y = 0\)
+versus \(y > 0\); second, a truncated negative binomial model using just
+the cases where \(y > 0\).
 
 The inflated beta regressions can be seen as hurdle models, as the log
 likelihood for the zero-and-one inflated beta regression can also be
@@ -673,36 +679,32 @@ using the following code:
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{1839}\NormalTok{)}
-\NormalTok{y <-}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, n)}
-\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{n) \{}
-\NormalTok{  rand <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (rand }\OperatorTok{<=}\StringTok{ }\NormalTok{p0) \{}
-\NormalTok{    y[i] <-}\StringTok{ }\DecValTok{0}
-\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ ((p0 }\OperatorTok{<}\StringTok{ }\NormalTok{rand) }\OperatorTok{&}\StringTok{ }\NormalTok{(rand }\OperatorTok{<=}\StringTok{ }\NormalTok{p0 }\OperatorTok{+}\StringTok{ }\NormalTok{p1)) \{}
-\NormalTok{    y[i] <-}\StringTok{ }\DecValTok{1}
-\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
-\NormalTok{    y[i] <-}\StringTok{ }\KeywordTok{rbeta}\NormalTok{(}\DecValTok{1}\NormalTok{, a, b)}
-\NormalTok{  \}}
-\NormalTok{\}}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{rbeta}\NormalTok{(n, a, b)}
+\NormalTok{cat <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{, n, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(p0, p2, p1), }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{y[cat }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{y[cat }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
 \end{Highlighting}
 \end{Shaded}
 
-I generate a random number, \texttt{rand}, between 0 to 1. This will
-determine if the case is 0, 1, or somewhere in between. If \texttt{rand}
-\(\leq\) \texttt{p0}, then the case is 0; if \texttt{p0} \(<\)
-\texttt{rand} \(\leq\) \texttt{p0\ +\ p1}, then the case is 1;
-otherwise, the case comes from a beta distribution with shape parameters
-of \texttt{a} and \texttt{b}. The \texttt{gamlss} function has four
-arguments for formulas---one for each of the parameters. It also has an
-argument, \texttt{family}, that determines what distribution will be
-used in fitting the model. For a zero-and-one inflated beta regression,
-the family is \texttt{BEINF()}. One can fit the intercepts-only model
-using the following code:
+I draw \texttt{n} random numbers from the beta distribution with shape
+parameters \texttt{a} and \texttt{b}. I then draw \texttt{n} numbers
+ranging from 1 to 3 with probabilities \texttt{p0}, \texttt{p2}, and
+\texttt{p1}, respectively. If 1 was drawn, that observation is 0; if 2
+was drawn, it remains being from the beta distribution; if 3 was drawn,
+that observation is 1. In this way, \texttt{p0}, \texttt{p2}, and
+\texttt{p1} determine the probability of being 0, from a beta
+distribution, or being 1, respectively.
+
+The \texttt{gamlss} function has four arguments for formulas---one for
+each of the parameters. It also has an argument, \texttt{family}, that
+determines what distribution will be used in fitting the model. For a
+zero-and-one inflated beta regression, the family is \texttt{BEINF()}.
+One can fit the intercepts-only model using the following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fit <-}\StringTok{ }\KeywordTok{gamlss}\NormalTok{(}
-  \DataTypeTok{formula =}\NormalTok{ x }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,     }\CommentTok{# formula for mu}
+  \DataTypeTok{formula =}\NormalTok{ y }\OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,     }\CommentTok{# formula for mu}
   \DataTypeTok{formula.sigma =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{, }\CommentTok{# formula for sigma}
   \DataTypeTok{formula.nu =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,    }\CommentTok{# formula for nu}
   \DataTypeTok{formula.tau =} \OperatorTok{~}\StringTok{ }\DecValTok{1}\NormalTok{,   }\CommentTok{# formula for tau}
@@ -729,12 +731,12 @@ Statistical Background section:
 \end{Highlighting}
 \end{Shaded}
 
-The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are \(.41\),
-\(.60\), \(.13\), and \(.17\), respectively. These are close estimates
-to the population parameters set above. In research settings, each of
-the parameters would not be set to one number, but be regressed on
-observed variables that a researcher thinks predicts their values. For
-an exmample, I now turn to a model using real data.
+The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are
+\(.406\), \(.597\), \(.136\), and \(.171\), respectively. These are
+close estimates to the population parameters set above. In research
+settings, each of the parameters would not be set to one number, but be
+regressed on observed variables that a researcher thinks predicts their
+values. For an exmample, I now turn to a model using real data.
 
 \subsection{Modeling Political
 Ideology}\label{modeling-political-ideology}

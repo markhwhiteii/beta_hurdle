@@ -1,5 +1,5 @@
 ---
-title             : "Using Beta Regression to Model Normative Aspects of Prejudice and Political Attitudes: With Applications in R"
+title             : "Using Beta Regression to Model Normative Aspects of Prejudice and Political Attitudes"
 shorttitle        : "Beta Regression"
 
 author: 
@@ -13,7 +13,7 @@ affiliation:
     institution   : "University of Kansas"
 
 author_note: >
-  Author note will go here.
+  I would like to thank Dr. Achim Zeileis and Dr. Jonathan Templin for comments on an earlier version of this manuscript.
 
 abstract: >
   Abstract will go here.
@@ -92,7 +92,7 @@ These parameters are not inherently meaningful to researchers, however. @rigby20
 \]
 \end{center}
 
-for $0 \leq y \leq 1$, where $f(y;\mu,\sigma)$ is the beta pdf with $\mu$ and $\sigma$ bounded *between* zero and one. The two additional parameters, $\nu$ and $\tau$, are related to $p_0$ and $p_1$, respectively. $p_0$ is the probability that a case equals zero, $p_1$ is the probability that a case equals one, and $p_2$ (i.e., $1 - p_0 - p_1$) is the probability that the case comes from the beta distribution. In terms of these two additional parameters, $p_0 = {\nu \over (1 + \nu + \tau)}$ and $p_1 = {\tau \over (1 + \nu + \tau)}$. Rearranging these algebraically, $\nu$ is the odds that a case is 0 to being $0 < y < 1$, $\nu = p_0 / p_2$, and $\tau$ is the odds that a case is a 1 to being $0 < y < 1$, $\tau = p_1 / p_2$.  
+for $0 \leq y \leq 1$, where $f(y;\mu,\sigma)$ is the beta pdf with $\mu$ and $\sigma$ bounded *between* zero and one. The two additional parameters, $\nu$ and $\tau$, are related to $p_0$ and $p_1$, respectively. $p_0$ is the probability that a case equals zero, $p_1$ is the probability that a case equals one, and $p_2$ (i.e., $1 - p_0 - p_1$) is the probability that the case comes from the beta distribution. In terms of these two additional parameters, $p_0 = {\nu \over (1 + \nu + \tau)}$ and $p_1 = {\tau \over (1 + \nu + \tau)}$. Rearranging these algebraically, $\nu$ is the odds that a case is 0 to being $0 < y < 1$, $\nu = p_0 / p_2$, and $\tau$ is the odds that a case is a 1 to being $0 < y < 1$, $\tau = p_1 / p_2$. It should be noted, however, that this distribution only includes *one* source of 0 values (i.e., $p_0$). For this reason, some would not call it an "inflated" distribution—which has more than one source of 0 values—but instead a "hurdle model" [discussed below, see @coxe2013generalized].  
 
 ## Beta Regression Models
 
@@ -158,7 +158,7 @@ In the realm of prejudice and politics, I argue that it is *not* useful to think
 
 This decision making process can be modeled with the inflated beta regression models described above. Inflations at zero, one, or zero-and-one allow researchers to measuring ceiling effects, floor effects, and both simultaneously. While methodologists in beta regression refer to these models as "inflated" models, a more general label is "two-part" models [@coxe2013generalized]. When one assumes a decision-making process behind the two parts, these models are often referred to as "hurdle" models in the econometrics literature [@cameron2005microeconometrics; @wooldridge2010econometric].  
 
-@cragg1971some demonstrated that hurdle models are a generalization of the Type I Tobit model (but note that, unlike the standard Tobit model, the latent dependent construct is assumed to be conditionally *beta* distributed, which can take on many distributional forms; see Figure 1). In economics, hurdle models are often used when dependent variables are counts with excess 0s [see @carlevaro2016multiple for a review of applications]. The log likelihood function for these models can be separated in two parts: First, a logistic (or probit) regression modeling the probability of observing $y = 0$ versus $y > 0$; second, a truncated negative binomial model using just the cases where $y > 0$.  
+@cragg1971some demonstrated that hurdle models are a generalization of the Type I Tobit model (but note that, unlike the standard Tobit model, the latent dependent construct is assumed to be conditionally *beta* distributed, which can take on many distributional forms; see Figure 1). In economics, hurdle models are often used when dependent variables are counts with excess 0s [see @carlevaro2016multiple for a review of applications]. The log likelihood function for these models can be separated in two parts: First, a binary regression (e.g., logistic or probit) modeling the probability of observing $y = 0$ versus $y > 0$; second, a truncated negative binomial model using just the cases where $y > 0$.  
 
 The inflated beta regressions can be seen as hurdle models, as the log likelihood for the zero-and-one inflated beta regression can also be separated in two parts: First, a multinomial logistic regression modeling the probabilities of observing a $y = 0$, $y = 1$, or $0 < y < 1$; second, a beta regression model using just the cases where $0 < y < 1$. Similarly, the inflated beta regression at *either* zero *or* one has a log likelihood function that can be separated in two parts: First, a logistic regression modeling the probability of observing $y = c$ or $0 < y < 1$; second, a beta regression modeling just the cases where $0 < y < 1$ [@rigby2017distributions].  
 
@@ -248,24 +248,19 @@ The sample size `n` $= 5000$, the mean `mu` $= 0.40$, the scale parameter `sigma
 
 ```{r echo = TRUE}
 set.seed(1839)
-y <- vector("numeric", n)
-for (i in 1:n) {
-  rand <- runif(1)
-  if (rand <= p0) {
-    y[i] <- 0
-  } else if ((p0 < rand) & (rand <= p0 + p1)) {
-    y[i] <- 1
-  } else {
-    y[i] <- rbeta(1, a, b)
-  }
-}
+y <- rbeta(n, a, b)
+cat <- sample(1:3, n, prob = c(p0, p2, p1), replace = TRUE)
+y[cat == 1] <- 0
+y[cat == 3] <- 1
 ```
 
-I generate a random number, `rand`, between 0 to 1. This will determine if the case is 0, 1, or somewhere in between. If `rand` $\leq$ `p0`, then the case is 0; if `p0` $<$ `rand` $\leq$ `p0 + p1`, then the case is 1; otherwise, the case comes from a beta distribution with shape parameters of `a` and `b`. The `gamlss` function has four arguments for formulas—one for each of the parameters. It also has an argument, `family`, that determines what distribution will be used in fitting the model. For a zero-and-one inflated beta regression, the family is `BEINF()`. One can fit the intercepts-only model using the following code:  
+I draw `n` random numbers from the beta distribution with shape parameters `a` and `b`. I then draw `n` numbers ranging from 1 to 3 with probabilities `p0`, `p2`, and `p1`, respectively. If 1 was drawn, that observation is 0; if 2 was drawn, it remains being from the beta distribution; if 3 was drawn, that observation is 1. In this way, `p0`, `p2`, and `p1` determine the probability of being 0, from a beta distribution, or being 1, respectively.  
+
+The `gamlss` function has four arguments for formulas—one for each of the parameters. It also has an argument, `family`, that determines what distribution will be used in fitting the model. For a zero-and-one inflated beta regression, the family is `BEINF()`. One can fit the intercepts-only model using the following code:  
 
 ```{r include = FALSE}
 fit <- gamlss(
-  formula = x ~ 1,
+  formula = y ~ 1,
   formula.sigma = ~ 1,
   formula.nu = ~ 1,
   formula.tau = ~ 1,
@@ -274,7 +269,7 @@ fit <- gamlss(
 ```
 ```{r eval = FALSE, echo = TRUE}
 fit <- gamlss(
-  formula = x ~ 1,     # formula for mu
+  formula = y ~ 1,     # formula for mu
   formula.sigma = ~ 1, # formula for sigma
   formula.nu = ~ 1,    # formula for nu
   formula.tau = ~ 1,   # formula for tau
@@ -294,7 +289,7 @@ fit_p0 <- fit_nu / (1 + fit_nu + fit_tau)
 fit_p1 <- fit_tau / (1 + fit_nu + fit_tau)
 ```
 
-The estimates for $\mu$, $\sigma$, $p_0$, and $p_1$ are $.41$, $.60$, $.13$, and $.17$, respectively. These are close estimates to the population parameters set above. In research settings, each of the parameters would not be set to one number, but be regressed on observed variables that a researcher thinks predicts their values. For an exmample, I now turn to a model using real data.  
+The estimates for $\mu$, $\sigma$, $p_0$, and $p_1$ are $.406$, $.597$, $.136$, and $.171$, respectively. These are close estimates to the population parameters set above. In research settings, each of the parameters would not be set to one number, but be regressed on observed variables that a researcher thinks predicts their values. For an exmample, I now turn to a model using real data.  
 
 ## Modeling Political Ideology
 
