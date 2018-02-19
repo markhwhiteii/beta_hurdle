@@ -209,6 +209,73 @@ Political Attitudes}
 
 
 
+Behavior is a function of the person and the environment (Lewin, 1951),
+and it is important that researchers study the effects of personality
+and situational variables, as well as how they interact. However, Louis,
+Mavor, and Terry (2003) argue that \enquote{normative influence in
+social attitudes and behavior is systematically underestimated}
+(p.~190). The logic behind this argument is that researchers use
+statistical procedures that analyze \emph{variance} and assume
+normality; yet, norms produce \emph{invariance}---norms lead people to
+engage in the same behaviors or respond to survey items in the same way.
+Norms can produce skewed distributions: floor effects (strong norm in
+disagreement with a survey item), ceiling effects (strong norm for
+agreement), and/or strongly leptokurtic distributions (strong norm for
+answering the midpoint).
+
+Louis and colleagues note that using these limited statistical
+procedures influence methodological choices: Researchers look for
+measures that are normally distributed, which they argue stacks the deck
+in favor of personality explanations and \enquote{privileges measures
+that tap unclear or weak norms} (p.~190). This systematically ignores
+phenomena that have strong normative influences, which overestimates the
+influence of personality on attitudes and behavior.
+
+I agree with the authors' contention that variables with non-normal
+distributions and that influenced strongly by norms are crucial to
+study. When personality researchers \emph{do} use variables that are
+highly non-normal using common statistical procedures that are strictly
+linear, it is the deviant cases that drive these linear relationships.
+For example Louis et al. (2003) examine the bivariate relationship
+between right-wing authoritarianism (RWA) and how much people agree with
+the item, \enquote{The White race is the best race.} 72\% of the sample
+selected \enquote{1, \emph{Strongly Disagree}} to the White race item.
+However, what often gets reported in articles is just the correlation:
+\(r = .34\), \(p < .001\). We learn that RWA positive predicts White
+supremacist attitudes. But what we missing when only the correlation is
+reported?
+
+Louis et al. note that, for 72\% of the sample, a correlation can not
+even be calculated. This was because there was no variance in the
+scores: Everyone adhered to the egalitarian norm that it is not OK to
+openly say the White race is the best race. For the rest of the sample,
+the correlation was \(.19\). The authors worry about two things: First,
+that researchers could decide to exclude items like this, because they
+aren't normally distributed; and second, researchers only report the
+correlation, and readers interpret it symmetrically. A
+\enquote{symmetric} interpretation is that people at \emph{both} the
+high and low ends of the authoritarianism spectrum are driving the
+relationship, when we know that is not the case.
+
+\subsection{Aims of the Present Paper}\label{aims-of-the-present-paper}
+
+I second the concerns raised by Louis et al. (2003). The purpose of this
+paper is to propose a possible solution to the issues they raised. They
+lamented that there is \enquote{no conventional analysis of invariance}
+(p.~192), and they gave no concrete suggestions for how else to analyze
+data to mitigate the issues raised. I propose that beta regression
+(presented a year after Louis and colleages' paper) as a concrete
+solution. Smithson and Verkuilen (2006) touch on this briefly, but I
+fully extend the argument here.
+
+I have three goals in the present paper: first, to familiarize
+researchers with the beta distribution and beta regression, which can
+handle non-normal data and model conditional variance; second, to
+empirically demonstrate Louis et al.'s contention that norms produce
+invariance; third, to give a brief tutorial on how researchers can use
+beta regression to address the crucial issues raised by Louis et al.
+(2003), such as modeling normative aspects in survey responses.
+
 \section{Statistical Background}\label{statistical-background}
 
 \subsection{The Beta Distribution}\label{the-beta-distribution}
@@ -238,23 +305,24 @@ These parameters are not inherently meaningful to researchers, however.
 R. Rigby, Stasinopoulos, Heller, and De Bastiani (2017)
 \enquote{reparameterized} the beta distribution so that the two
 parameters determining the shape of the distribution would be more
-useful in a regression framework (but see Ferrari \& Cribari-Neto, 2004
-for a different parameterization). Instead of predicting \(\alpha\) and
-\(\beta\), they parameterize (i.e., algebraically rearrange parameters)
-so that beta regression predicts two different parameters: \(\mu\)
-(called the \enquote{location} parameter) and \(\sigma\) (called the
-\enquote{scale} parameter), where \(\mu={\alpha\over(\alpha+\beta)}\)
-and \(\sigma=\sqrt{1\over(\alpha+\beta+1)}\). \(\mu\) is equivalent to
-the mean, and \(\sigma\) is related positively to the variance (note
-that \(\sigma\) is \emph{not} the standard deviation, even though
-\(\sigma\) commonly refers to the standard deviation). The variance is
-equivalent to \(\sigma^2\mu(1-\mu)\), and there are two things to note
-from this equation: First, the greater the \(\sigma\), the greater the
-variance; second, the variance depends on the mean, which means that
-beta regression will be naturally heteroskedastic (covered shortly).
-Using this distribution in a regression framework cannot handle the
-dependent variable taking on values 0 and 1---how can we model dependent
-variables in the range \(0 \leq y \leq 1\)?
+useful in a regression framework (but see S. Ferrari \& Cribari-Neto,
+2004 for a different parameterization). Instead of predicting \(\alpha\)
+and \(\beta\), they parameterize (i.e., algebraically rearrange
+parameters) so that beta regression predicts two different parameters:
+\(\mu\) (called the \enquote{location} parameter) and \(\sigma\) (called
+the \enquote{scale} parameter), where
+\(\mu={\alpha\over(\alpha+\beta)}\) and
+\(\sigma=\sqrt{1\over(\alpha+\beta+1)}\). \(\mu\) is equivalent to the
+mean, and \(\sigma\) is related positively to the variance (note that
+\(\sigma\) is \emph{not} the standard deviation, even though \(\sigma\)
+commonly refers to the standard deviation). The variance is equivalent
+to \(\sigma^2\mu(1-\mu)\), and there are two things to note from this
+equation: First, the greater the \(\sigma\), the greater the variance;
+second, the variance depends on the mean, which means that beta
+regression will be naturally heteroskedastic (covered shortly). Using
+this distribution in a regression framework cannot handle the dependent
+variable taking on values 0 and 1---how can we model dependent variables
+in the range \(0 \leq y \leq 1\)?
 
 \subsection{Zero-One Inflated Beta
 Distribution}\label{zero-one-inflated-beta-distribution}
@@ -493,11 +561,12 @@ This decision making process can be modeled with the inflated beta
 regression models described above. Inflations at zero, one, or
 zero-and-one allow researchers to measuring ceiling effects, floor
 effects, and both simultaneously. While methodologists in beta
-regression refer to these models as \enquote{inflated} models, a more
-general label is \enquote{two-part} models (Coxe et al., 2013). When one
-assumes a decision-making process behind the two parts, these models are
-often referred to as \enquote{hurdle} models in the econometrics
-literature (Cameron \& Trivedi, 2005; Wooldridge, 2010).
+regression refer to these models as \enquote{inflated} models (e.g.,
+Abdel-Karim, 2017; Ospina \& Ferrari, 2010), a more general label is
+\enquote{two-part} models (Coxe et al., 2013). When one assumes a
+decision-making process behind the two parts, these models are often
+referred to as \enquote{hurdle} models in the econometrics literature
+(Cameron \& Trivedi, 2005; Wooldridge, 2010).
 
 Cragg (1971) demonstrated that hurdle models are a generalization of the
 Type I Tobit model (but note that, unlike the standard Tobit model, the
@@ -535,22 +604,22 @@ discuss these models here, as they are not extended to beta regression.
 \section{Norms Produce Invariance, Ceiling and Floor
 Effects}\label{norms-produce-invariance-ceiling-and-floor-effects}
 
-Louis, Mavor, and Terry (2003) argue that norms produce invariance. I
-empirically demonstrate the relationship between normative strength and
-invariance of attitudes, replicating the methodology used by Crandall,
-Eshleman, and O'Brien (2002). In their Study 1, the authors presented
-participants with 105 social groups (e.g., Black people, librarians,
-deaf people, ugly people, Nazis, drug dealers). Participants were
-assigned to one of two groups: Half of the participants indicated how
-negatively they felt toward the group (i.e., self-reported prejudice),
-while the other half indicated how socially acceptable they perceived it
-was to feel and express negative feelings toward that group (i.e.,
-acceptability of prejudice). Crandall and colleagues averaged the
-prejudice and acceptability scores at the group level, resulting in an
-\(N = 105\) and two variables for each group: prejudice and
-acceptability. They found that expressed prejudice and acceptability of
-prejudice correlated at \(r = .96\); people report prejudices that are
-socially acceptable (see Cary \& Page-Gould, 2014 for a replication).
+Louis et al. (2003) argue that norms produce invariance. I empirically
+demonstrate the relationship between normative strength and invariance
+of attitudes, replicating the methodology used by Crandall, Eshleman,
+and O'Brien (2002). In their Study 1, the authors presented participants
+with 105 social groups (e.g., Black people, librarians, deaf people,
+ugly people, Nazis, drug dealers). Participants were assigned to one of
+two groups: Half of the participants indicated how negatively they felt
+toward the group (i.e., self-reported prejudice), while the other half
+indicated how socially acceptable they perceived it was to feel and
+express negative feelings toward that group (i.e., acceptability of
+prejudice). Crandall and colleagues averaged the prejudice and
+acceptability scores at the group level, resulting in an \(N = 105\) and
+two variables for each group: prejudice and acceptability. They found
+that expressed prejudice and acceptability of prejudice correlated at
+\(r = .96\); people report prejudices that are socially acceptable (see
+Cary \& Page-Gould, 2014 for a replication).
 
 I recruited 405 people from Amazon's Mechanical Turk website and
 randomly assigned them to either a \emph{prejudice} or
@@ -923,7 +992,43 @@ beta regression. Dotted lines represent are one standard deviation
 the solid regression line.}
 \end{figure}
 
-\section{Discussion}\label{discussion}
+\subsection{Diagnostic Checks and Other Models with Conditional
+Variance}\label{diagnostic-checks-and-other-models-with-conditional-variance}
+
+Diagnostic checks---such as inspecting the residuals---for beta
+regression models is still an active area of research, with many
+different authors proposing different techniques for diagnosing issues
+with these models (Espinheira, Ferrari, \& Cribari-Neto, 2008b, 2008a;
+e.g., Espinheira, Santos, \& Cribari-Neto, 2017; Pereira, 2017). There
+does not seem yet to be a agreed-upon method for performing diagnostic
+checks on these models.
+
+Beta regression can also be implemented in the \texttt{betareg} package
+(F. Cribari-Neto \& Zeileis, 2010; Grün, Kosmidis, \& Zeileis, 2012),
+but does not allow for modeling zeros and ones as easily. It also uses a
+separate parameterization than the \texttt{gamlss} package. Beta
+regression is not the only way to model conditional variance---I chose
+to focus on the method here because it is a flexible distribution that
+handles a large range of non-normal shapes. Dispersion can also be
+predicted using double generalized linear models in the \texttt{dglm} R
+package (Smyth, 1989; Smyth \& Verbyla, 1999) or heteroscedastic
+censored and truncated regression using the \texttt{crch} R package
+(Messner, Mayr, \& Zeileis, 2016; Messner, Zeileis, Broecker, \& Mayr,
+2014), among others.
+
+\section{Conclusion}\label{conclusion}
+
+Common statistial procedures that assume normality and homoeskedasticity
+ignore interesting theoretical phenomena in data. I introduced the beta
+regression, demonstrated that norms can produce invariance, and provided
+a tutorial on how to fit numerous beta-regression models using free
+statistical software. Louis et al. (2003) argued that common statistical
+procedures (a) motivate researchers to seek out measures that match the
+assumptions of common statistical procedures, allowing the tools we use
+to influence the phenomena we study, and (b) provide a misleading
+picture of the relationships between variables that are strongly
+influenced by norms. I believe beta regression can be a useful tool for
+addressing these issues.
 
 \newpage
 
@@ -932,6 +1037,12 @@ the solid regression line.}
 \setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\hypertarget{ref-abdel2017extended}{}
+Abdel-Karim, A. H. (2017). Extended zero-one inflated beta and adjusted
+three-part regression models for proportional data analysis.
+\emph{Communications in Statistics-Simulation and Computation},
+\emph{46}(8), 6155--6172.
+
 \hypertarget{ref-brigham1993college}{}
 Brigham, J. C. (1993). College students? Racial attitudes. \emph{Journal
 of Applied Social Psychology}, \emph{23}(23), 1933--1967.
@@ -977,6 +1088,10 @@ the expression and suppression of prejudice: The struggle for
 internalization. \emph{Journal of Personality and Social Psychology},
 \emph{82}(3), 359.
 
+\hypertarget{ref-cribarineto2010beta}{}
+Cribari-Neto, F., \& Zeileis, A. (2010). Beta regression in R.
+\emph{Journal of Statistical Software}, \emph{34}(2).
+
 \hypertarget{ref-duriez2002march}{}
 Duriez, B., \& Van Hiel, A. (2002). The march of modern fascism: A
 comparison of social dominance orientation and authoritarianism.
@@ -993,6 +1108,21 @@ Eskelson, B. N., Madsen, L., Hagar, J. C., \& Temesgen, H. (2011).
 Estimating riparian understory vegetation cover with beta regression and
 copula models. \emph{Forest Science}, \emph{57}(3), 212--221.
 
+\hypertarget{ref-espinheira2008influence}{}
+Espinheira, P. L., Ferrari, S. L., \& Cribari-Neto, F. (2008a).
+Influence diagnostics in beta regression. \emph{Computational Statistics
+\& Data Analysis}, \emph{52}(9), 4417--4431.
+
+\hypertarget{ref-espinheira2008beta}{}
+Espinheira, P. L., Ferrari, S. L., \& Cribari-Neto, F. (2008b). On beta
+regression residuals. \emph{Journal of Applied Statistics},
+\emph{35}(4), 407--419.
+
+\hypertarget{ref-espinheira2017nonlinear}{}
+Espinheira, P. L., Santos, E. G., \& Cribari-Neto, F. (2017). On
+nonlinear beta regression residuals. \emph{Biometrical Journal},
+\emph{59}(3), 445--461.
+
 \hypertarget{ref-everitt2002cambridge}{}
 Everitt, B., \& Skrondal, A. (2010). \emph{The cambridge dictionary of
 statistics}. New York, NY: Cambridge University Press.
@@ -1006,6 +1136,11 @@ rates and proportions. \emph{Journal of Applied Statistics},
 Gallardo, A., Bovea, M. D., Colomer, F. J., \& Prades, M. (2012).
 Analysis of collection systems for sorted household waste in Spain.
 \emph{Waste Management}, \emph{32}(9), 1623--1633.
+
+\hypertarget{ref-grun2012extended}{}
+Grün, B., Kosmidis, I., \& Zeileis, A. (2012). Extended beta regression
+in R: Shaken, stirred, mixed, and partitioned. \emph{Journal of
+Statistical Software}, \emph{48}(11).
 
 \hypertarget{ref-hayes2007using}{}
 Hayes, A. F., \& Cai, L. (2007). Using heteroskedasticity-consistent
@@ -1037,6 +1172,10 @@ Jost, J. T., Glaser, J., Kruglanski, A. W., \& Sulloway, F. J. (2003).
 Political conservatism as motivated social cognition.
 \emph{Psychological Bulletin}, \emph{129}(3), 339.
 
+\hypertarget{ref-lewin1951field}{}
+Lewin, K. (1951). Field theory in social science: Selected theoretical
+papers.
+
 \hypertarget{ref-long2000using}{}
 Long, J. S., \& Ervin, L. H. (2000). Using heteroscedasticity consistent
 standard errors in the linear regression model. \emph{The American
@@ -1053,11 +1192,30 @@ McBee, M. (2010). Modeling outcomes with floor or ceiling effects: An
 introduction to the tobit model. \emph{Gifted Child Quarterly},
 \emph{54}(4), 314--320.
 
+\hypertarget{ref-messner2016heteroscedastic}{}
+Messner, J. W., Mayr, G. J., \& Zeileis, A. (2016). Heteroscedastic
+censored and truncated regression with crch. \emph{R J}, \emph{8}(1),
+173--181.
+
+\hypertarget{ref-messner2014probabilistic}{}
+Messner, J. W., Zeileis, A., Broecker, J., \& Mayr, G. J. (2014).
+Probabilistic wind power forecasts with an inverse power curve
+transformation and censored regression. \emph{Wind Energy},
+\emph{17}(11), 1753--1766.
+
+\hypertarget{ref-ospina2010inflated}{}
+Ospina, R., \& Ferrari, S. L. (2010). Inflated beta distributions.
+\emph{Statistical Papers}, \emph{51}(1), 111.
+
 \hypertarget{ref-peplonska2012rotating}{}
 Peplonska, B., Bukowska, A., Sobala, W., Reszka, E., Gromadzińska, J.,
 Wasowicz, W., \ldots{} Ursin, G. (2012). Rotating night shift work and
 mammographic density. \emph{Cancer, Epidemiology, Biomarkers, \&
 Prevention}, \emph{21}(7), 1028--1037.
+
+\hypertarget{ref-pereira2017quantile}{}
+Pereira, G. H. (2017). On quantile residuals in beta regression.
+\emph{Communications in Statistics-Simulation and Computation}, 1--15.
 
 \hypertarget{ref-pratto2000social}{}
 Pratto, F., Liu, J. H., Levin, S., Sidanius, J., Shih, M., Bachrach, H.,
@@ -1107,6 +1265,21 @@ Methods}, \emph{18}(3), 335.
 Smithson, M., \& Merkle, E. C. (2013). \emph{Generalized linear models
 for categorical and continuous limited dependent variables}. Boca Raton,
 FL: CRC Press.
+
+\hypertarget{ref-smithson2006better}{}
+Smithson, M., \& Verkuilen, J. (2006). A better lemon squeezer?
+Maximum-likelihood regression with beta-distributed dependent variables.
+\emph{Psychological Methods}, \emph{11}(1), 54.
+
+\hypertarget{ref-smyth1989generalized}{}
+Smyth, G. K. (1989). Generalized linear models with varying dispersion.
+\emph{Journal of the Royal Statistical Society. Series B
+(Methodological)}, 47--60.
+
+\hypertarget{ref-smyth1999adjusted}{}
+Smyth, G. K., \& Verbyla, A. P. (1999). Adjusted likelihood methods for
+modelling dispersion in generalized linear models.
+\emph{Environmetrics}, \emph{10}(6), 695--709.
 
 \hypertarget{ref-stasinopoulos2017flexible}{}
 Stasinopoulos, M. D., Rigby, R. A., Heller, G. Z., Voudouris, V., \& De

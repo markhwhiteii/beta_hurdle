@@ -38,6 +38,20 @@ library(tidyverse)
 library(knitr)
 ```
 
+Behavior is a function of the person and the environment [@lewin1951field], and it is important that researchers study the effects of personality and situational variables, as well as how they interact. However, @louis2003reflections argue that "normative influence in social attitudes and behavior is systematically underestimated" (p. 190). The logic behind this argument is that researchers use statistical procedures that analyze *variance* and assume normality; yet, norms produce *invariance*—norms lead people to engage in the same behaviors or respond to survey items in the same way. Norms can produce skewed distributions: floor effects (strong norm in disagreement with a survey item), ceiling effects (strong norm for agreement), and/or strongly leptokurtic distributions (strong norm for answering the midpoint).  
+
+Louis and colleagues note that using these limited statistical procedures influence methodological choices: Researchers look for measures that are normally distributed, which they argue stacks the deck in favor of personality explanations and "privileges measures that tap unclear or weak norms" (p. 190). This systematically ignores phenomena that have strong normative influences, which overestimates the influence of personality on attitudes and behavior.  
+
+I agree with the authors' contention that variables with non-normal distributions and that influenced strongly by norms are crucial to study. When personality researchers *do* use variables that are highly non-normal using common statistical procedures that are strictly linear, it is the deviant cases that drive these linear relationships. For example @louis2003reflections examine the bivariate relationship between right-wing authoritarianism (RWA) and how much people agree with the item, "The White race is the best race." 72% of the sample selected "1, *Strongly Disagree*" to the White race item. However, what often gets reported in articles is just the correlation: $r = .34$, $p < .001$. We learn that RWA positive predicts White supremacist attitudes. But what we missing when only the correlation is reported?  
+
+Louis et al. note that, for 72% of the sample, a correlation can not even be calculated. This was because there was no variance in the scores: Everyone adhered to the egalitarian norm that it is not OK to openly say the White race is the best race. For the rest of the sample, the correlation was $.19$. The authors worry about two things: First, that researchers could decide to exclude items like this, because they aren't normally distributed; and second, researchers only report the correlation, and readers interpret it symmetrically. A "symmetric" interpretation is that people at *both* the high and low ends of the authoritarianism spectrum are driving the relationship, when we know that is not the case.  
+
+## Aims of the Present Paper
+
+I second the concerns raised by @louis2003reflections. The purpose of this paper is to propose a possible solution to the issues they raised. They lamented that there is "no conventional analysis of invariance" (p. 192), and they gave no concrete suggestions for how else to analyze data to mitigate the issues raised. I propose that beta regression (presented a year after Louis and colleages' paper) as a concrete solution. @smithson2006better touch on this briefly, but I fully extend the argument here.  
+
+I have three goals in the present paper: first, to familiarize researchers with the beta distribution and beta regression, which can handle non-normal data and model conditional variance; second, to empirically demonstrate Louis et al.'s contention that norms produce invariance; third, to give a brief tutorial on how researchers can use beta regression to address the crucial issues raised by @louis2003reflections, such as modeling normative aspects in survey responses.  
+
 # Statistical Background
 
 ## The Beta Distribution
@@ -156,7 +170,7 @@ Floor and ceiling effects occur when there are many observations of the dependen
 
 In the realm of prejudice and politics, I argue that it is *not* useful to think of prejudice as coming from a latent normal distribution. I find it unlikely that if, instead of a Likert scales going from 1 to 7, it extended from -7 to +7, one would observe a normal distribution for the Attitude Towards Blacks scale, for example [@brigham1993college]. I find it likely that participants would opt for the new floor—the negative 7. This can be thought of as a decision-making process. Using prejudice as an example, people decide whether or not they are going to admit to feeling any prejudice. If they decide not to, they simply circle or click all 1s (i.e., the floor). If they decide to admit prejudice, they respond to the items. As another example: When offering one's attitudes toward a polarizing political figure, a participant decides whether or not to respond entirely in the negative (i.e., at the floor), entirely in the positive (i.e., at the ceiling), or somewhere in between. This could result in a bimodal distribution, with both ceiling and floor effects.  
 
-This decision making process can be modeled with the inflated beta regression models described above. Inflations at zero, one, or zero-and-one allow researchers to measuring ceiling effects, floor effects, and both simultaneously. While methodologists in beta regression refer to these models as "inflated" models, a more general label is "two-part" models [@coxe2013generalized]. When one assumes a decision-making process behind the two parts, these models are often referred to as "hurdle" models in the econometrics literature [@cameron2005microeconometrics; @wooldridge2010econometric].  
+This decision making process can be modeled with the inflated beta regression models described above. Inflations at zero, one, or zero-and-one allow researchers to measuring ceiling effects, floor effects, and both simultaneously. While methodologists in beta regression refer to these models as "inflated" models [e.g., @abdel2017extended; @ospina2010inflated], a more general label is "two-part" models [@coxe2013generalized]. When one assumes a decision-making process behind the two parts, these models are often referred to as "hurdle" models in the econometrics literature [@cameron2005microeconometrics; @wooldridge2010econometric].  
 
 @cragg1971some demonstrated that hurdle models are a generalization of the Type I Tobit model (but note that, unlike the standard Tobit model, the latent dependent construct is assumed to be conditionally *beta* distributed, which can take on many distributional forms; see Figure 1). In economics, hurdle models are often used when dependent variables are counts with excess 0s [see @carlevaro2016multiple for a review of applications]. The log likelihood function for these models can be separated in two parts: First, a binary regression (e.g., logistic or probit) modeling the probability of observing $y = 0$ versus $y > 0$; second, a truncated negative binomial model using just the cases where $y > 0$.  
 
@@ -422,7 +436,15 @@ ggplot(dat, aes(x = rw_polid, y = sdo)) +
   theme(text = element_text(size = 16))
 ```
 
-# Discussion
+## Diagnostic Checks and Other Models with Conditional Variance
+
+Diagnostic checks—such as inspecting the residuals—for beta regression models is still an active area of research, with many different authors proposing different techniques for diagnosing issues with these models [e.g., @espinheira2017nonlinear; @espinheira2008beta; @espinheira2008influence; @pereira2017quantile]. There does not seem yet to be a agreed-upon method for performing diagnostic checks on these models.  
+
+Beta regression can also be implemented in the `betareg` package [@cribarineto2010beta; @grun2012extended], but does not allow for modeling zeros and ones as easily. It also uses a separate parameterization than the `gamlss` package. Beta regression is not the only way to model conditional variance—I chose to focus on the method here because it is a flexible distribution that handles a large range of non-normal shapes. Dispersion can also be predicted using double generalized linear models in the `dglm` R package [@smyth1989generalized; @smyth1999adjusted] or heteroscedastic censored and truncated regression using the `crch` R package [@messner2016heteroscedastic; @messner2014probabilistic], among others.  
+
+# Conclusion
+
+Common statistial procedures that assume normality and homoeskedasticity ignore interesting theoretical phenomena in data. I introduced the beta regression, demonstrated that norms can produce invariance, and provided a tutorial on how to fit numerous beta-regression models using free statistical software. @louis2003reflections argued that common statistical procedures (a) motivate researchers to seek out measures that match the assumptions of common statistical procedures, allowing the tools we use to influence the phenomena we study, and (b) provide a misleading picture of the relationships between variables that are strongly influenced by norms. I believe beta regression can be a useful tool for addressing these issues.  
 
 \newpage
 
