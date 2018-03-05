@@ -16,7 +16,7 @@ author_note: >
   I would like to thank Dr. Achim Zeileis and Dr. Jonathan Templin for comments on an earlier version of this manuscript. All code and data necessary to reproduce this manuscript can be accessed at https://github.com/markhwhiteii/beta_hurdle.
 
 abstract: >
-  Abstract will go here.
+  Many important phenomena in the psychological study of prejudice and political attitudes involve measuring dependent variables that are strongly influenced by normative pressures. Norms produce invariance, which can create outcome variables with ceiling effects, floor effects, and heteroskedasticity. These characteristics cause problems for ordinary least squares (OLS) regression and analysis of variance (ANOVA), which assume conditional normality and constant variance. I describe the beta distribution and propose beta regression as a way to model doubly-bounded continuous variables (e.g., Likert scales, feeling thermometers). I also demonstrate how beta regression can model conditional variance, ceiling effects, and floor effects as a proxy for norms. Lastly, I provide a brief tutorial on how to implement various beta regression models using R.  
   
 keywords          : "beta regression, hurdle models, gamlss, norms, social attitudes"
 
@@ -30,7 +30,7 @@ lineno            : no
 
 lang              : "english"
 class             : "man"
-output            : papaja::apa6_pdf
+output            : papaja::apa6_word
 ---
 
 ```{r message = FALSE, warning = FALSE, error = FALSE, echo = FALSE}
