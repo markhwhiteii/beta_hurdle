@@ -209,64 +209,62 @@ Political Attitudes}
 
 
 
-Behavior is a function of the person and the environment (Lewin, 1951),
-and it is important that researchers study the effects of personality
-and situational variables, as well as how they interact. However, Louis,
-Mavor, and Terry (2003) argue that \enquote{normative influence in
-social attitudes and behavior is systematically underestimated}
+Behavior is a function of the person and the environment (Lewin, 1951).
+It is important that researchers study the effects of personality
+\emph{and} situational variables, as well as how they interact. However,
+Louis, Mavor, and Terry (2003) argue that \enquote{normative influence
+in social attitudes and behavior is systematically underestimated}
 (p.~190). The logic behind this argument is that researchers use
 statistical procedures that analyze \emph{variance} and assume
-normality; yet, norms produce \emph{invariance}---norms lead people to
+normality. But norms produce \emph{invariance}---they lead people to
 engage in the same behaviors or respond to survey items in the same way.
-Norms can produce skewed distributions: floor effects (strong norm in
-disagreement with a survey item), ceiling effects (strong norm for
-agreement), and/or strongly leptokurtic distributions (strong norm for
+Norms can produce skewed distributions, as well: floor effects (strong
+norm in disagreement with a survey item), ceiling effects (strong norm
+for agreement), or strongly leptokurtic distributions (strong norm for
 answering the midpoint).
 
-Louis and colleagues note that using these limited statistical
-procedures influence methodological choices: Researchers look for
-measures that are normally distributed, which they argue stacks the deck
-in favor of personality explanations and \enquote{privileges measures
-that tap unclear or weak norms} (p.~190). This systematically ignores
-phenomena that have strong normative influences, which overestimates the
+Louis and colleagues note that using only the limited number of common
+statistical procedures (e.g., ordinary least squares, OLS, regression)
+influences theoretical and methodological choices: Researchers look for
+measures that are normally distributed, which they argue favors
+personality explanations and \enquote{privileges measures that tap
+unclear or weak norms} (p.~190). This systematically ignores phenomena
+that are subject to strong normative influences, which overestimates the
 influence of personality on attitudes and behavior.
 
-I agree with the authors' contention that variables with non-normal
-distributions and that influenced strongly by norms are crucial to
-study. When personality researchers \emph{do} use variables that are
-highly non-normal using common statistical procedures that are strictly
-linear, it is the deviant cases that drive these linear relationships.
-For example Louis et al. (2003) examine the bivariate relationship
-between right-wing authoritarianism (RWA) and how much people agree with
-the item, \enquote{The White race is the best race.} 72\% of the sample
-selected \enquote{1, \emph{Strongly Disagree}} to the White race item.
-However, what often gets reported in articles is just the correlation:
-\(r = .34\), \(p < .001\). We learn that RWA positive predicts White
-supremacist attitudes. But what we missing when only the correlation is
-reported?
+When personality researchers \emph{do} model these types of variables
+using OLS regression, it is the deviant cases that drive the linear
+relationships. For example, Louis et al. (2003) examine the bivariate
+relationship between right-wing authoritarianism (RWA) and how much
+people agree with the item, \enquote{The White race is the best race.}
+72\% of the sample selected \enquote{1, \emph{Strongly Disagree}} to the
+White race item. However, what often gets reported in articles is just
+the correlation: \(r = .34\), \(p < .001\). We learn that RWA positively
+predicts White supremacist attitudes. But what are we missing when only
+this is reported?
 
 Louis et al. note that, for 72\% of the sample, a correlation can not
-even be calculated. This was because there was no variance in the
-scores: Everyone adhered to the egalitarian norm that it is not OK to
-openly say the White race is the best race. For the rest of the sample,
-the correlation was \(.19\). The authors worry about two things: First,
-that researchers could decide to exclude items like this, because they
-aren't normally distributed; and second, researchers only report the
-correlation, and readers interpret it symmetrically. A
-\enquote{symmetric} interpretation is that people at \emph{both} the
-high and low ends of the authoritarianism spectrum are driving the
-relationship, when we know that is not the case.
+even be calculated---there was no variance in the scores. Everyone in
+this 72\% adhered to the egalitarian norm that it is not OK to openly
+say the White race is the best race. For the rest of the sample, the
+correlation was \(.19\). The authors raise two concerns: first, that
+researchers could decide to exclude items like this because they aren't
+normally distributed, which prevents one from studying an important
+construct (White supremacy); second, readers interpret correlations
+symmetrically. A \enquote{symmetric} interpretation is that people at
+\emph{both} the high and low ends of the authoritarianism spectrum are
+driving the relationship, when we know that is only the top 28\% of the
+sample.
 
 \subsection{Aims of the Present Paper}\label{aims-of-the-present-paper}
 
 I second the concerns raised by Louis et al. (2003). The purpose of this
-paper is to propose a possible solution to the issues they raised. They
+paper is to propose a concrete solution to the issues raised. They
 lamented that there is \enquote{no conventional analysis of invariance}
-(p.~192), and they gave no concrete suggestions for how else to analyze
-data to mitigate the issues raised. I propose that beta regression
-(presented a year after Louis and colleages' paper) as a concrete
-solution. Smithson and Verkuilen (2006) touch on this briefly, but I
-fully extend the argument here.
+(p.~192), and they gave no suggestions for how else to analyze data to
+mitigate these issues. I propose beta regression (presented a year after
+Louis and colleages' paper) as one solution. Smithson and Verkuilen
+(2006) touch on this briefly, but I fully extend the argument here.
 
 I have three goals in the present paper: first, to familiarize
 researchers with the beta distribution and beta regression, which can
@@ -301,28 +299,27 @@ distributional shapes (Figure 1).
 various combinations of shape parameters.}
 \end{figure}
 
-These parameters are not inherently meaningful to researchers, however.
-R. Rigby, Stasinopoulos, Heller, and De Bastiani (2017)
-\enquote{reparameterized} the beta distribution so that the two
-parameters determining the shape of the distribution would be more
-useful in a regression framework (but see S. Ferrari \& Cribari-Neto,
-2004 for a different parameterization). Instead of predicting \(\alpha\)
-and \(\beta\), they parameterize (i.e., algebraically rearrange
-parameters) so that beta regression predicts two different parameters:
-\(\mu\) (called the \enquote{location} parameter) and \(\sigma\) (called
-the \enquote{scale} parameter), where
-\(\mu={\alpha\over(\alpha+\beta)}\) and
+These parameters are not inherently meaningful to researchers. R. Rigby,
+Stasinopoulos, Heller, and De Bastiani (2017) \enquote{reparameterized}
+the beta distribution so that the two parameters determining the shape
+of the distribution would be more useful in a regression framework (see
+S. Ferrari \& Cribari-Neto, 2004 for a different parameterization).
+Instead of predicting \(\alpha\) and \(\beta\), they parameterize (i.e.,
+algebraically rearrange parameters) the distribution so that beta
+regression predicts two different parameters: \(\mu\) (called the
+\enquote{location} parameter) and \(\sigma\) (called the \enquote{scale}
+parameter), where \(\mu={\alpha\over(\alpha+\beta)}\) and
 \(\sigma=\sqrt{1\over(\alpha+\beta+1)}\). \(\mu\) is equivalent to the
 mean, and \(\sigma\) is related positively to the variance (note that
 \(\sigma\) is \emph{not} the standard deviation, even though \(\sigma\)
 commonly refers to the standard deviation). The variance is equivalent
-to \(\sigma^2\mu(1-\mu)\), and there are two things to note from this
-equation: First, the greater the \(\sigma\), the greater the variance;
+to \(\sigma^2\mu(1-\mu)\). There are two things to note from this
+equation: first, the greater the \(\sigma\), the greater the variance;
 second, the variance depends on the mean, which means that beta
 regression will be naturally heteroskedastic (covered shortly). Using
 this distribution in a regression framework cannot handle the dependent
-variable taking on values 0 and 1---how can we model dependent variables
-in the range \(0 \leq y \leq 1\)?
+variable taking on values 0 and 1, however. How can we model dependent
+variables in the range \(0 \leq y \leq 1\)?
 
 \subsection{Zero-One Inflated Beta
 Distribution}\label{zero-one-inflated-beta-distribution}
@@ -344,12 +341,12 @@ distribution, \(\text{beinf}\), is:
 \end{center}
 
 for \(0 \leq y \leq 1\), where \(f(y;\mu,\sigma)\) is the beta pdf with
-\(\mu\) and \(\sigma\) bounded \emph{between} zero and one. The two
-additional parameters, \(\nu\) and \(\tau\), are related to \(p_0\) and
-\(p_1\), respectively. \(p_0\) is the probability that a case equals
-zero, \(p_1\) is the probability that a case equals one, and \(p_2\)
-(i.e., \(1 - p_0 - p_1\)) is the probability that the case comes from
-the beta distribution. In terms of these two additional parameters,
+\(\mu\) and \(\sigma\) bounded \emph{between} 0 and 1 The two additional
+parameters, \(\nu\) and \(\tau\), are related to \(p_0\) and \(p_1\),
+respectively. \(p_0\) is the probability that a case equals 0, \(p_1\)
+is the probability that a case equals 1, and \(p_2\) (i.e.,
+\(1 - p_0 - p_1\)) is the probability that the case comes from the beta
+distribution. In terms of these two additional parameters,
 \(p_0 = {\nu \over (1 + \nu + \tau)}\) and
 \(p_1 = {\tau \over (1 + \nu + \tau)}\). Rearranging these
 algebraically, \(\nu\) is the odds that a case is 0 to being
@@ -363,18 +360,17 @@ et al., 2013).
 
 \subsection{Beta Regression Models}\label{beta-regression-models}
 
-The goal for a researcher now is to predict these four parameters,
-\(\mu, \sigma, \nu, \tau\), from any number of predictor variables of
-theoretical interest. All four parameters can be predicted by an
-identical set of predictors, none of the same predictors, or any
-mixture. Both \(\mu\) and \(\sigma\) have to be between zero and one
-(since the beta distribution is bounded between 0 and 1), so one can use
-the logistic link function to fit predicted values in this range. Both
-\(\nu\) and \(\tau\) have to be greater than zero (since they are odds),
-so one can use the log link function to fit predicted values in this
-range. Imagine a researcher has one predictor of interest, \(x\). They
-could include this variable as a predictor of all four variables with
-the equations:
+The goal for a researcher is to predict these four parameters,
+\(\mu, \sigma, \nu, \tau\), from variables of theoretical interest. All
+four parameters can be predicted by an identical set of predictors, none
+of the same predictors, or any combination. Both \(\mu\) and \(\sigma\)
+have to be between 0 and 1 (since the beta distribution is bounded
+between 0 and 1), so one can use the logistic link function to fit
+predicted values in this range. Both \(\nu\) and \(\tau\) have to be
+greater than 0 (since they are odds), so one can use the log link
+function to fit predicted values in this range. Imagine a researcher has
+one predictor of interest, \(x\). They could include this variable as a
+predictor of all four parameters with the following equations:
 
 \begin{center}
 $\text{log}({\mu \over 1 - \mu}) = \beta_{10} + \beta_{11}X$\\
@@ -393,8 +389,8 @@ $\tau = e^{\beta_{40} + \beta_{41}X}$
 \end{center}
 
 where \(e^x\) is the natural exponential function. A different inflated
-beta distribution can also be used when the dependent variable contains
-0s but not 1s (e.g., \(0 \leq y < 1\)) or when it contains 1s but not 0s
+beta distribution can be used when the dependent variable contains 0s
+but not 1s (e.g., \(0 \leq y < 1\)) or when it contains 1s but not 0s
 (e.g., \(0 < y \leq 1\)). Let \(c\) be the value---0 or 1---that is
 included (i.e., inflated). The pdf is:
 
@@ -421,12 +417,12 @@ included.
 \subsection{Modeling Bounded Variables Beyond the Zero Through One
 Range}\label{modeling-bounded-variables-beyond-the-zero-through-one-range}
 
-These beta regression models are commonly used when rates and
-proportions are dependent variables, given that these are naturally
-bounded \(0 \leq y \leq 1\) (Buntaine, 2011; Eskelson, Madsen, Hagar, \&
+Beta regression is commonly used when rates and proportions are
+dependent variables, given that these are naturally bounded
+\(0 \leq y \leq 1\) (Buntaine, 2011; Eskelson, Madsen, Hagar, \&
 Temesgen, 2011; Gallardo, Bovea, Colomer, \& Prades, 2012; Hubben et
-al., 2008; Peplonska et al., 2012). More generally, however, the beta
-distribution is a doubly bounded continuous distribution: Although it is
+al., 2008; Peplonska et al., 2012). More generally, the beta
+distribution is a doubly-bounded continuous distribution: Although it is
 on a continuous scale, values cannot be exceed the upper bound, \(u\),
 or be less than the lower bound, \(l\). In the case of the zero-and-one
 inflated beta distribution, \(l = 0\) and \(u = 1\).
@@ -434,21 +430,20 @@ inflated beta distribution, \(l = 0\) and \(u = 1\).
 Most scales used to measure prejudice and political attitudes are doubly
 bounded and continuous. Although researchers generally model variables
 on Likert scales and sliding scales (e.g., feeling thermometers) as
-being conditionally normally distributed (i.e., using ordinary least
-squares regression), these variables are not strictly normal.
-Observations from a normal distribution can take on any value on the
-real number line, while observations from a standard 7-point Likert
-scale can only take on values 1 through 7---and in studying
-controversial and polarizing issues like prejudice and politics, many
-participants score at the lower or upper bounds, causing floor or
-ceiling effects. In these cases, the assumptions of normality and
-homoskedasticity are likely to be violated. Many times researchers
-create, update, or seek out measures to so that the distributional form
-of the dependent variable takes on a normal shape---statistical
-assumptions are directing the phenomenon researchers choose to observe
-and the theoretical questions that they ask. Instead, one can explicitly
-take into account that the response is doubly bounded and
-heteroskedastic by using the beta regression models described above,
+being conditionally normally distributed (i.e., using OLS regression),
+these variables are not strictly normal. Observations from a normal
+distribution can take on any value on the real number line, while
+observations from a standard 7-point Likert scale can only take on
+values 1 through 7. In studying controversial and polarizing issues like
+prejudice and politics, many participants score at the lower or upper
+bounds, causing floor or ceiling effects. In these cases, the
+assumptions of normality and homoskedasticity are likely to be violated.
+Many times researchers create, update, or seek out measures to so that
+the distributional form of the dependent variable takes on a normal
+shape---statistical assumptions are directing the phenomenon researchers
+choose to observe and the theoretical questions that they ask. Instead,
+one can explicitly take into account that the response is doubly-bounded
+and heteroskedastic by using the beta regression models described above,
 using a simple linear rescaling of the data.
 
 If one observes a dependent variable limited between two bounds, there
@@ -470,19 +465,20 @@ regression.
 
 \subsubsection{Conditional variance}\label{conditional-variance}
 
-Observing a dependent variable that is doubly bounded and continuous can
-produce heteroskedasticity. One of the assumptions of an OLS regression
-is homoskedasticity---that the variance of the errors are unrelated to
-any predictor, any linear combination of predictors, and the predicted
-values. A regression equation with one predictor variable \(x\) is often
-written as \(y_i = \beta_0 + \beta_1x_i + \epsilon_i\), where
-\(\epsilon_i\) is how far an osbserved value \(y_i\) is from the
-predicted value (i.e., the residual). Let \(\hat{y_i}\) be the predicted
-value for observation \(i\), where \(\hat{y_i} = \beta_0 + \beta_1x_i\).
-We can simplify the equation to \(y_i = \hat{y_i} + \epsilon_i\), where
-the residuals \(\epsilon\) are normally distributed with a mean of 0 and
-some variance---that is, \(\epsilon \sim N(0, \sigma^2_\epsilon)\). We
-can further simplify this to:
+Observing a dependent variable that is doubly-bounded and continuous can
+produce heteroskedasticity, which violates the assumption of
+homoskedasticity in OLS regression. This assumption holds that the
+variance of the errors is unrelated to any predictor, any linear
+combination of predictors, and the predicted values. A regression
+equation with one predictor variable \(x\) is often written as
+\(y_i = \beta_0 + \beta_1x_i + \epsilon_i\), where \(\epsilon_i\) is how
+far an osbserved value \(y_i\) is from the predicted value (i.e., the
+residual). Let \(\hat{y_i}\) be the predicted value for observation
+\(i\), where \(\hat{y_i} = \beta_0 + \beta_1x_i\). We can simplify the
+equation to \(y_i = \hat{y_i} + \epsilon_i\), where the residuals
+\(\epsilon\) are normally distributed with a mean of 0 and some
+variance---that is, \(\epsilon \sim N(0, \sigma^2_\epsilon)\). We can
+further simplify this to:
 \(y_i|x_i \sim N(\hat{y_i}, \sigma^2_\epsilon)\), which means that each
 observation of the dependent variable we make, given the predictors we
 use, is normally distributed with a mean of that observation's predicted
@@ -507,17 +503,17 @@ errors, transforming the dependent variable, weighted least squares)
 treat it as a nuisance to be corrected for when calculating \(p\)-values
 (Hayes \& Cai, 2007; Long \& Ervin, 2000; Rosopa et al., 2013), it could
 be that explicitly modeling this conditional variance is an interesting
-phenomenon per se. Heteroskedasticity can arise when the error variance
-is predicted by one of the observed predictor variables, and since beta
-regression models predict a shape parameter, \(\sigma\), a researcher
-can explicitly model this relationship. This allows researchers to ask
-questions about conditional variance: \enquote{Does the variance in
-\(y\) increase as \(x\) also increases?} Since the focus of OLS
-regression is the \emph{location} parameter (e.g., conditional mean),
-researchers might be ignoring interesting, potentially
-theoretically-relevant parts of their data. After discussing floor and
-ceiling effects, I will argue that normative influences are one of these
-aspects.
+phenomenon itself, with important theoretical implications.
+Heteroskedasticity can arise when the error variance is predicted by one
+of the observed predictor variables, and since beta regression models
+predict a shape parameter, \(\sigma\), a researcher can explicitly model
+this relationship. This allows researchers to ask questions about
+conditional variance: \enquote{Does the variance in \(y\) increase as
+\(x\) increases?} Since the focus of OLS regression is the
+\emph{location} parameter (e.g., conditional mean), researchers might be
+ignoring interesting, potentially theoretically-relevant aspects of
+their data. After discussing floor and ceiling effects, I will argue
+that normative influences are one of these aspects.
 
 \subsubsection{Floor and ceiling
 effects}\label{floor-and-ceiling-effects}
@@ -525,69 +521,66 @@ effects}\label{floor-and-ceiling-effects}
 Floor and ceiling effects occur when there are many observations of the
 dependent variable at the lower and upper bound of the scale,
 respectively (Everitt \& Skrondal, 2010). Variables displaying these
-effects are likely to violate numerous assumptions of ordinary least
-squares regression, such as conditional normality and homoskedasticity
-of variance, and can be modeled as censored or truncated. Censoring
-occurs when all scores beyond some threshold are recorded at that
-threshold. For example, if a researcher is measuring reaction times,
-censoring occurs if they decide that any times above 5 seconds are
-scored as 5. If many people took longer than 5 seconds, this censoring
-can cause a ceiling effect. Truncating occurs when people who score
-beyond some treshold are excluded from the data. If the researcher
-simply does not record trials that take longer than 5 seconds, then the
-data are truncated. A common regression technique for censored or
-truncated variables are Tobit models (McBee, 2010; Smithson \& Merkle,
-2013). However, standard Tobit models assume that the underlying latent
-construct is normally distributed.
+effects are likely to violate numerous assumptions of OLS regression,
+such as conditional normality and homoskedasticity. One option is to
+model them as censored or truncated. Censoring occurs when all scores
+beyond some threshold are recorded at that threshold. For example, if a
+researcher is measuring reaction times, censoring occurs if they decide
+that any times above 5 seconds are scored as 5. If many people took
+longer than 5 seconds, this censoring can cause a ceiling effect.
+Truncating occurs when people who score beyond some treshold are
+excluded from the data. If the researcher simply does not record trials
+that take longer than 5 seconds, then the data are truncated. A common
+regression technique for censored or truncated variables are Tobit
+models (McBee, 2010; Smithson \& Merkle, 2013). However, standard Tobit
+models assume that the underlying latent construct is normally
+distributed.
 
-In the realm of prejudice and politics, I argue that it is \emph{not}
-useful to think of prejudice as coming from a latent normal
-distribution. I find it unlikely that if, instead of a Likert scales
-going from 1 to 7, it extended from -7 to +7, one would observe a normal
-distribution for the Attitude Towards Blacks scale, for example
-(Brigham, 1993). I find it likely that participants would opt for the
-new floor---the negative 7. This can be thought of as a decision-making
-process. Using prejudice as an example, people decide whether or not
-they are going to admit to feeling any prejudice. If they decide not to,
-they simply circle or click all 1s (i.e., the floor). If they decide to
-admit prejudice, they respond to the items. As another example: When
-offering one's attitudes toward a polarizing political figure, a
-participant decides whether or not to respond entirely in the negative
-(i.e., at the floor), entirely in the positive (i.e., at the ceiling),
-or somewhere in between. This could result in a bimodal distribution,
-with both ceiling and floor effects.
+In the realm of prejudice and politics, I do \emph{not} believe that it
+is useful to think of prejudice as coming from a latent normal
+distribution. Imagine a researcher observes a floor effect when
+measuring prejudice on a Likert scale bounded at 1 and 7. I find it
+unlikely that simply moving the lower bound of this scale to -7 would
+yield a normal distribution in responses. Instead, participants would
+likely opt for the new floor. This can be thought of as a
+decision-making process. People decide whether or not they are going to
+admit to feeling any prejudice. If they decide not to, they simply
+circle or click all 1s (i.e., the floor). If they decide to admit
+prejudice, they respond to the items. As another example: When offering
+one's attitudes toward a polarizing political figure, a participant
+decides whether or not to respond entirely in the negative (i.e., at the
+floor), entirely in the positive (i.e., at the ceiling), or somewhere in
+between. This could result in a distribution with both ceiling and floor
+effects.
 
-This decision making process can be modeled with the inflated beta
-regression models described above. Inflations at zero, one, or
-zero-and-one allow researchers to measuring ceiling effects, floor
-effects, and both simultaneously. While methodologists in beta
-regression refer to these models as \enquote{inflated} models (e.g.,
-Abdel-Karim, 2017; Ospina \& Ferrari, 2010), a more general label is
-\enquote{two-part} models (Coxe et al., 2013). When one assumes a
+This decision-making process can be modeled with the inflated beta
+regression models described above. The beta distribution with inflations
+at zero, one, or zero-and-one allow researchers to measuring ceiling
+effects, floor effects, or both simultaneously. While methodologists in
+beta regression refer to these models as \enquote{inflated} models
+(e.g., Abdel-Karim, 2017; Ospina \& Ferrari, 2010), a more general label
+is \enquote{two-part} models (Coxe et al., 2013). When one assumes a
 decision-making process behind the two parts, these models are often
 referred to as \enquote{hurdle} models in the econometrics literature
 (Cameron \& Trivedi, 2005; Wooldridge, 2010).
 
 Cragg (1971) demonstrated that hurdle models are a generalization of the
-Type I Tobit model (but note that, unlike the standard Tobit model, the
-latent dependent construct is assumed to be conditionally \emph{beta}
-distributed, which can take on many distributional forms; see Figure 1).
-In economics, hurdle models are often used when dependent variables are
-counts with excess 0s (see Carlevaro, Croissant, \& Hoareau, 2017 for a
-review of applications). The log likelihood function for these models
-can be separated in two parts: First, a binary regression (e.g.,
-logistic or probit) modeling the probability of observing \(y = 0\)
-versus \(y > 0\); second, a truncated negative binomial model using just
-the cases where \(y > 0\).
+Type I Tobit model. In economics, hurdle models are often used when
+dependent variables are counts with excess 0s (see Carlevaro, Croissant,
+\& Hoareau, 2017 for a review of applications). The likelihood function
+for these models can be separated in two parts: first, a binary
+regression (e.g., logistic or probit) modeling the probability of
+observing \(y = 0\) versus \(y > 0\); second, a truncated negative
+binomial model using just the cases where \(y > 0\).
 
-The inflated beta regressions can be seen as hurdle models, as the log
+Inflated beta regressions can be seen as hurdle models, as the
 likelihood for the zero-and-one inflated beta regression can also be
-separated in two parts: First, a multinomial logistic regression
-modeling the probabilities of observing a \(y = 0\), \(y = 1\), or
+separated in two parts: first, a multinomial logistic regression
+modeling the probabilities of observing \(y = 0\), \(y = 1\), or
 \(0 < y < 1\); second, a beta regression model using just the cases
 where \(0 < y < 1\). Similarly, the inflated beta regression at
-\emph{either} zero \emph{or} one has a log likelihood function that can
-be separated in two parts: First, a logistic regression modeling the
+\emph{either} zero \emph{or} one has a likelihood function that can be
+separated in two parts: first, a logistic regression modeling the
 probability of observing \(y = c\) or \(0 < y < 1\); second, a beta
 regression modeling just the cases where \(0 < y < 1\) (R. Rigby et al.,
 2017).
@@ -621,15 +614,17 @@ that expressed prejudice and acceptability of prejudice correlated at
 \(r = .96\); people report prejudices that are socially acceptable (see
 Cary \& Page-Gould, 2014 for a replication).
 
+I focused on predicting the \emph{variance} of self-reported prejudice,
+predicting that a stronger norms would be associated with less variance.
 I recruited 405 people from Amazon's Mechanical Turk website and
 randomly assigned them to either a \emph{prejudice} or
 \emph{acceptability} condition. All participants answered questions
 about 30 groups, randomly sampled from a pool of 120 groups. In the
-prejudice condition, participants were asked \enquote{How do you feel
-toward each of these groups?} and to indicate how they feel on a scale
+prejudice condition, participants were asked, \enquote{How do you feel
+toward each of these groups?} and to indicate their feelings on a scale
 from \enquote{very negatively (0) to very positively (100).} I
 reverse-scored these items so that higher scores indicate more
-prejudice. In the acceptability condition, participants were asked
+prejudice. In the acceptability condition, participants were asked,
 \enquote{How OK is it in society for people to feel and say negative
 things about each of these groups?} and to indicate their perception on
 a scale from \enquote{totally unacceptable (0) to completely acceptable
@@ -640,8 +635,8 @@ calculated the median social acceptability score and the variance of the
 self-reported prejudice scores for each of the 120 groups. There was no
 linear relationship between social acceptability and variance of
 reported prejudice, \(b = 0.31, SE = 0.84, t(118) = 0.37, p = .714\);
-however, there was a quadratic relationship regressing variance of
-reported prejudice on social acceptability,
+however, there was a quadratic relationship when regressing variance of
+reported prejudice on social acceptability squared,
 \(\Delta R^2 = .28, b = -1250.07, SE = 187.44, t(117) = -6.67, p < .001\)
 (Figure 2). The more participants perceived prejudice to be influenced
 by norms---either being totally unacceptable (0) or completely
@@ -659,29 +654,29 @@ I also investigated normative influences on floor effects. Crandall
 (1994) proposed a measure for anti-fat prejudice; in Study 5 of this
 paper, Crandall makes the argument that anti-fat attitudes are more
 socially acceptable (and less subject to social desirability biases)
-than anti-Black prejudice. He does this by demonstrating the
-decision-making process described above in the hurdle model: How often
-do people \emph{always} select the least prejudiced option? That is, how
+than anti-Black prejudice. He does this by examining the decision-making
+process described above with regard to hurdle models: How often do
+people \emph{always} select the least prejudiced option? That is, how
 often do people \emph{always} respond at the lower bound of the
 distribution? He calls the proportion of people at the floor of a scale
 the \enquote{politically correct (PC) index,} as this shows how often
 people respond in the most socially acceptable (i.e., politically
 correct) way possible. He finds that his anti-fat scale is less subject
 to these floor effects: 10\% of participants always responded at the
-lower bound for anti-Black prejudice; this was only 3\% for the anti-fat
-scale.
+lower bound for anti-Black prejudice, while this was only 3\% for the
+anti-fat scale.
 
-To show that norms produce floor effects, I calculated Crandall's PC
-index for each of the 120 groups by counting how many people responded
-with a 0 on the reverse-scored prejudice scale (i.e., \enquote{totally
-positive} feelings). Using a negative binomial regression (Venables \&
-Ripley, 2002) for these count data, I regressed the PC index on social
-acceptability of the prejudice. Perceived social acceptability of the
-prejudice by one group of participants negatively predicted the PC
-index, calculated using a \emph{separate group} of participants,
-\(b = -0.03, SE = 0.002, Z = -10.97, p < .001\) (Figure 3). The more
-socially acceptable a prejudice, the less people opt for the
-\enquote{politically correct} floor of the scale.
+To show that norms are associated with floor effects, I calculated
+Crandall's PC index for each of the 120 groups by counting how many
+people responded with a 0 on the reverse-scored prejudice scale (i.e.,
+\enquote{totally positive} feelings). Using a negative binomial
+regression (Venables \& Ripley, 2002) for these count data, I regressed
+the PC index on social acceptability of the prejudice. Perceived social
+acceptability of the prejudice by one group of participants negatively
+predicted the PC index, which was calculated from a \emph{separate
+group} of participants, \(b = -0.03, SE = 0.002, Z = -10.97, p < .001\)
+(Figure 3). The more socially acceptable a prejudice, the less people
+opt for the \enquote{politically correct} floor of the scale.
 
 \begin{figure}
 \centering
@@ -690,15 +685,15 @@ socially acceptable a prejudice, the less people opt for the
 prejudice, the less people opt for the politically correct response.}
 \end{figure}
 
-This evidence shows that norms do positively predict invariance;
-predicting the scale parameter, \(\sigma\), in beta regression could be
+This evidence shows that norms do positively predict invariance.
+Predicting the scale parameter, \(\sigma\), in beta regression could be
 used to investigate how much people adhere to norms regarding the
 expression of certain attitudes. These data also show that normative
-influence can lead to floor effects (or ceiling effects); predicting the
-shape parameters, \(\nu\) and \(\tau\), in beta regression could also be
-used to examine how much people adhere to norms. I now turn to
-demonstrating how these beta regression models can be used in R (R Core
-Team, 2017) via the \texttt{gamlss} package (R. A. Rigby \&
+influence can lead to floor effects (or ceiling effects). Predicting the
+shape parameters, \(\nu\) and \(\tau\), in inflated beta regression
+could also be used to examine how much people adhere to norms. I now
+turn to demonstrating how these beta regression models can be run in R
+(R Core Team, 2017) via the \texttt{gamlss} package (R. A. Rigby \&
 Stasinopoulos, 2005).
 
 \section{Implementation in GAMLSS}\label{implementation-in-gamlss}
@@ -783,9 +778,9 @@ One can fit the intercepts-only model using the following code:
 \end{Shaded}
 
 One can use the inverse link functions to transform the coefficients
-back into the original scale; then, one can compare it to the parameters
-set above. The estimated parameters are calculated using the following
-code, according to the equations and link functions described in the
+back into the original scale as to compare them to the parameters set
+above. The estimated parameters are calculated using the following code,
+according to the equations and link functions described in the
 Statistical Background section:
 
 \begin{Shaded}
@@ -803,9 +798,9 @@ Statistical Background section:
 The estimates for \(\mu\), \(\sigma\), \(p_0\), and \(p_1\) are
 \(.406\), \(.597\), \(.136\), and \(.171\), respectively. These are
 close estimates to the population parameters set above. In research
-settings, each of the parameters would not be set to one number, but be
-regressed on observed variables that a researcher thinks predicts their
-values. For an exmample, I now turn to a model using real data.
+settings, each of the parameters would not be set to one number (i.e.,
+an intercept), but be regressed on observed variables of theoretical
+interest. For an exaample, I now turn to a model using real data.
 
 \subsection{Modeling Political
 Ideology}\label{modeling-political-ideology}
@@ -817,7 +812,7 @@ psychology, it has a robust, oft-replicated positive relationship with
 political conservatism (Duriez \& Van Hiel, 2002; Hiel \& Mervielde,
 2002; Ho et al., 2015; Pratto et al., 2000; Pratto, Stallworth, \&
 Conway-Lanz, 1998; Pratto, Stallworth, \& Sidanius, 1997; Wilson \&
-Sibley, 2013); some consider SDO a central aspect of contemporary
+Sibley, 2013). Some consider SDO a central aspect of contemporary
 American conservatism (Eidelman, Crandall, Goodman, \& Blanchar, 2012;
 Jost, Glaser, Kruglanski, \& Sulloway, 2003). However, openly admitting
 that some groups are inherently better than others is a socially
@@ -848,7 +843,7 @@ has been added to the points, given that many points overlapped with one
 another. One can see a spread of residuals getting wider as predicted
 values increases, suggesting heteroskedasticity; moreover, the histogram
 shows that the residuals are positively skewed, violating the assumption
-of conditional normality. How does this look using beta regression?
+of conditional normality. How does this compare with beta regression?
 
 \begin{figure}
 \centering
@@ -871,8 +866,8 @@ section:
 
 It is important to remember that \(l\) and \(u\) are \emph{not} the
 minimum and maximum \emph{observed} values, but the minimum and maximum
-\emph{possible} values; for example, if lowest SDO score I observed was
-2, \(l\) would still be 1.
+\emph{possible} values; for example, if lowest SDO score observed was 2,
+\(l\) would still be 1.
 
 \begin{table}[tbp]
 \begin{center}
@@ -899,8 +894,9 @@ One can check to see the minimum and maximum observed by using the
 \texttt{range()} function in R. In this case, \texttt{range(dat\$sdo)}
 returns \texttt{0\ 1}, showing that both 0s and 1s are observed.
 According to Table 1, I should use \texttt{BEINF()} for the
-\texttt{family}. I run the beta regression model using the following
-code:
+\texttt{family}. I run the beta regression model, using conservatism
+(i.e., \texttt{rw\_polid}) to predict all four parameters, with the
+following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -926,7 +922,7 @@ that conservatives are less influenced by norms against expressing
 attitudes in favor of social inequality. The conservatism coefficient
 for the \(\nu\) model is also significant: The more conservatism one
 reports, the less likely they are to respond at the floor (i.e., in a
-``politically correct'' manner, Crandall, 1994),
+``politically correct'' manner; Crandall, 1994),
 \(b = -0.54, SE = 0.12, t(167) = -4.46, p < .001\). Again, an
 interpretation here is that conservatives are less influenced by the
 normative pressure to completely reject social inequality and group
@@ -962,8 +958,8 @@ solid line is the regression line. The estimated standard deviation of
 the residuals, \(\sigma_\epsilon\), is added to and subtracted from this
 line; these are the dotted lines. In line with the assumption of
 homoskedasticity, this standard deviation is constant across all levels
-of conservatism. Importantly, the lower dotted line dips below observed
-values---the model assumes that predicted values come from a
+of conservatism. Importantly, the lower dotted line dips below possible
+observed values---the model assumes that predicted values come from a
 distribution that has values in it that \emph{cannot} be observed with
 the Likert scale used.
 
@@ -971,8 +967,8 @@ the Likert scale used.
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-18-1.pdf}
 \caption{\label{fig:unnamed-chunk-18}SDO regressed on conservatism, using
-OLS regression. Dotted lines represent are one standard deviation (i.e.,
-estimated standard deviation of the residuals) above and below the solid
+OLS regression. Dotted lines are one standard deviation (i.e., estimated
+standard deviation of the residuals) above and below the solid
 regression line.}
 \end{figure}
 
@@ -981,15 +977,15 @@ regression model. The width of the dotted line increases as conservatism
 increases, demonstrating the heteroskedasticity of the model. This also
 shows that variance in SDO scores increases with conservatism; also note
 that the dotted line does not dip below the floor, as values in the beta
-distribution cannot be less than zero.
+distribution cannot be less than the lower bound.
 
 \begin{figure}
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-19-1.pdf}
 \caption{\label{fig:unnamed-chunk-19}SDO regressed on conservatism, using
-beta regression. Dotted lines represent are one standard deviation
-(i.e., estimated standard deviation of the residuals) above and below
-the solid regression line.}
+beta regression. Dotted lines are one standard deviation (i.e.,
+estimated standard deviation of the residuals) above and below the solid
+regression line.}
 \end{figure}
 
 \subsection{Diagnostic Checks and Other Models with Conditional
@@ -999,27 +995,28 @@ Diagnostic checks---such as inspecting the residuals---for beta
 regression models is still an active area of research, with many
 different authors proposing different techniques for diagnosing issues
 with these models (Espinheira, Ferrari, \& Cribari-Neto, 2008b, 2008a;
-e.g., Espinheira, Santos, \& Cribari-Neto, 2017; Pereira, 2017). There
-does not seem yet to be a agreed-upon method for performing diagnostic
+Espinheira, Santos, \& Cribari-Neto, 2017; Pereira, 2017). There does
+not seem yet to be an agreed-upon method for performing diagnostic
 checks on these models.
 
 Beta regression can also be implemented in the \texttt{betareg} package
 (F. Cribari-Neto \& Zeileis, 2010; Grün, Kosmidis, \& Zeileis, 2012),
-but does not allow for modeling zeros and ones as easily. It also uses a
-separate parameterization than the \texttt{gamlss} package. Beta
-regression is not the only way to model conditional variance---I chose
-to focus on the method here because it is a flexible distribution that
-handles a large range of non-normal shapes. Dispersion can also be
-predicted using double generalized linear models in the \texttt{dglm} R
-package (Smyth, 1989; Smyth \& Verbyla, 1999) or heteroscedastic
-censored and truncated regression using the \texttt{crch} R package
-(Messner, Mayr, \& Zeileis, 2016; Messner, Zeileis, Broecker, \& Mayr,
-2014), among others.
+but it does not allow for modeling zeros and ones as easily. The
+\texttt{ZOIP} package (Diaz Zapata, 2017) is also available, which can
+be used to model mixed effects. Both of these packages use a separate
+parameterization than the \texttt{gamlss} package. Beta regression is
+not the only way to model conditional variance---I chose to focus on the
+method here because it is a flexible distribution that handles a large
+range of non-normal shapes. Dispersion can also be predicted using
+double generalized linear models in the \texttt{dglm} R package (Smyth,
+1989; Smyth \& Verbyla, 1999) or heteroskedastic censored and truncated
+regression using the \texttt{crch} R package (Messner, Mayr, \& Zeileis,
+2016; Messner, Zeileis, Broecker, \& Mayr, 2014), among others.
 
 \section{Conclusion}\label{conclusion}
 
-Common statistial procedures that assume normality and homoeskedasticity
-ignore interesting theoretical phenomena in data. I introduced the beta
+Common statistial procedures that assume normality and homoskedasticity
+ignore interesting theoretical phenomena in data. I described the beta
 regression, demonstrated that norms can produce invariance, and provided
 a tutorial on how to fit numerous beta-regression models using free
 statistical software. Louis et al. (2003) argued that common statistical
@@ -1042,10 +1039,6 @@ Abdel-Karim, A. H. (2017). Extended zero-one inflated beta and adjusted
 three-part regression models for proportional data analysis.
 \emph{Communications in Statistics-Simulation and Computation},
 \emph{46}(8), 6155--6172.
-
-\hypertarget{ref-brigham1993college}{}
-Brigham, J. C. (1993). College students? Racial attitudes. \emph{Journal
-of Applied Social Psychology}, \emph{23}(23), 1933--1967.
 
 \hypertarget{ref-buntaine2011does}{}
 Buntaine, M. T. (2011). Does the Asian Development Bank respond to past
@@ -1091,6 +1084,11 @@ internalization. \emph{Journal of Personality and Social Psychology},
 \hypertarget{ref-cribarineto2010beta}{}
 Cribari-Neto, F., \& Zeileis, A. (2010). Beta regression in R.
 \emph{Journal of Statistical Software}, \emph{34}(2).
+
+\hypertarget{ref-zoip2017}{}
+Diaz Zapata, J. C. (2017). \emph{ZOIP: ZOIP distribution, ZOIP
+regression, ZOIP mixed regression}. Retrieved from
+\url{https://CRAN.R-project.org/package=ZOIP}
 
 \hypertarget{ref-duriez2002march}{}
 Duriez, B., \& Van Hiel, A. (2002). The march of modern fascism: A
