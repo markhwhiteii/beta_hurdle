@@ -13,7 +13,7 @@ affiliation:
     institution   : "University of Kansas"
 
 author_note: >
-  I would like to thank Dr. Achim Zeileis and Dr. Jonathan Templin for comments on an earlier version of this manuscript.
+  I would like to thank Dr. Achim Zeileis and Dr. Jonathan Templin for comments on an earlier version of this manuscript. All code and data necessary to reproduce this manuscript can be accessed at https://github.com/markhwhiteii/beta_hurdle.
 
 abstract: >
   Abstract will go here.

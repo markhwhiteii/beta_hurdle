@@ -174,7 +174,9 @@ Political Attitudes}
   \authornote{
     \newcounter{author}
     I would like to thank Dr.~Achim Zeileis and Dr.~Jonathan Templin for
-    comments on an earlier version of this manuscript.
+    comments on an earlier version of this manuscript. All code and data
+    necessary to reproduce this manuscript can be accessed at
+    \url{https://github.com/markhwhiteii/beta_hurdle}.
 
                       Correspondence concerning this article should be addressed to Mark H. White II. E-mail: \href{mailto:markhwhiteii@gmail.com}{\nolinkurl{markhwhiteii@gmail.com}}
                 }
@@ -299,12 +301,12 @@ distributional shapes (Figure 1).
 various combinations of shape parameters.}
 \end{figure}
 
-These parameters are not inherently meaningful to researchers. R. Rigby,
+These parameters are not inherently meaningful to researchers. Rigby,
 Stasinopoulos, Heller, and De Bastiani (2017) \enquote{reparameterized}
 the beta distribution so that the two parameters determining the shape
 of the distribution would be more useful in a regression framework (see
-S. Ferrari \& Cribari-Neto, 2004 for a different parameterization).
-Instead of predicting \(\alpha\) and \(\beta\), they parameterize (i.e.,
+Ferrari \& Cribari-Neto, 2004 for a different parameterization). Instead
+of predicting \(\alpha\) and \(\beta\), they parameterize (i.e.,
 algebraically rearrange parameters) the distribution so that beta
 regression predicts two different parameters: \(\mu\) (called the
 \enquote{location} parameter) and \(\sigma\) (called the \enquote{scale}
@@ -324,7 +326,7 @@ variables in the range \(0 \leq y \leq 1\)?
 \subsection{Zero-One Inflated Beta
 Distribution}\label{zero-one-inflated-beta-distribution}
 
-R. Rigby et al. (2017) show that the beta distribution can be
+Rigby et al. (2017) show that the beta distribution can be
 \enquote{inflated} at 0 and 1, meaning the dependent variable contains
 0s and 1s (i.e., \(0 \leq y \leq 1\)), the pdf for this beta inflated
 distribution, \(\text{beinf}\), is:
@@ -582,7 +584,7 @@ where \(0 < y < 1\). Similarly, the inflated beta regression at
 \emph{either} zero \emph{or} one has a likelihood function that can be
 separated in two parts: first, a logistic regression modeling the
 probability of observing \(y = c\) or \(0 < y < 1\); second, a beta
-regression modeling just the cases where \(0 < y < 1\) (R. Rigby et al.,
+regression modeling just the cases where \(0 < y < 1\) (Rigby et al.,
 2017).
 
 Since their likelihoods can be separated, this implies an assumption:
@@ -693,7 +695,7 @@ influence can lead to floor effects (or ceiling effects). Predicting the
 shape parameters, \(\nu\) and \(\tau\), in inflated beta regression
 could also be used to examine how much people adhere to norms. I now
 turn to demonstrating how these beta regression models can be run in R
-(R Core Team, 2017) via the \texttt{gamlss} package (R. A. Rigby \&
+(R Core Team, 2017) via the \texttt{gamlss} package (Rigby \&
 Stasinopoulos, 2005).
 
 \section{Implementation in GAMLSS}\label{implementation-in-gamlss}
@@ -703,8 +705,8 @@ location (i.e., \(\mu\)), scale (i.e., \(\sigma\)), and shape (i.e.,
 \(\nu\) and \(\tau\)). This package gives researchers the ability to use
 a wide variety of models, including beta regression models. A number of
 algorithms to estimate the coefficients can be used, described in detail
-by M. D. Stasinopoulos, Rigby, Heller, Voudouris, and De Bastiani
-(2017). To first demonstrate how the package works according to the
+by Stasinopoulos, Rigby, Heller, Voudouris, and De Bastiani (2017). To
+first demonstrate how the package works according to the
 parameterization discussed in the Statistical Background section, I will
 generate a zero-and-one inflated beta distribution and estimate the
 parameters with an intercepts-only regression using the \texttt{gamlss}
@@ -1000,8 +1002,8 @@ not seem yet to be an agreed-upon method for performing diagnostic
 checks on these models.
 
 Beta regression can also be implemented in the \texttt{betareg} package
-(F. Cribari-Neto \& Zeileis, 2010; Grün, Kosmidis, \& Zeileis, 2012),
-but it does not allow for modeling zeros and ones as easily. The
+(Cribari-Neto \& Zeileis, 2010; Grün, Kosmidis, \& Zeileis, 2012), but
+it does not allow for modeling zeros and ones as easily. The
 \texttt{ZOIP} package (Diaz Zapata, 2017) is also available, which can
 be used to model mixed effects. Both of these packages use a separate
 parameterization than the \texttt{gamlss} package. Beta regression is
@@ -1126,8 +1128,8 @@ Everitt, B., \& Skrondal, A. (2010). \emph{The cambridge dictionary of
 statistics}. New York, NY: Cambridge University Press.
 
 \hypertarget{ref-ferrari2004beta}{}
-Ferrari, S., \& Cribari-Neto, F. (2004). Beta regression for modelling
-rates and proportions. \emph{Journal of Applied Statistics},
+Ferrari, S. L., \& Cribari-Neto, F. (2004). Beta regression for
+modelling rates and proportions. \emph{Journal of Applied Statistics},
 \emph{31}(7), 799--815.
 
 \hypertarget{ref-gallardo2012analysis}{}
@@ -1249,9 +1251,9 @@ models for location, scale and shape,(with discussion). \emph{Applied
 Statistics}, \emph{54.3}, 507--554.
 
 \hypertarget{ref-rigby2017distributions}{}
-Rigby, R., Stasinopoulos, M., Heller, G., \& De Bastiani, F. (2017).
-\emph{Distributions for modelling location, scale, and shape: Using
-GAMLSS in R. Unpublished draft}. Retrieved from
+Rigby, R. A., Stasinopoulos, D. M., Heller, G., \& De Bastiani, F.
+(2017). \emph{Distributions for modelling location, scale, and shape:
+Using GAMLSS in R. Unpublished draft}. Retrieved from
 \url{gamlss.com/books-articles}
 
 \hypertarget{ref-rosopa2013managing}{}
@@ -1280,7 +1282,7 @@ modelling dispersion in generalized linear models.
 \emph{Environmetrics}, \emph{10}(6), 695--709.
 
 \hypertarget{ref-stasinopoulos2017flexible}{}
-Stasinopoulos, M. D., Rigby, R. A., Heller, G. Z., Voudouris, V., \& De
+Stasinopoulos, D. M., Rigby, R. A., Heller, G. Z., Voudouris, V., \& De
 Bastiani, F. (2017). \emph{Flexible regression and smoothing: Using
 GAMLSS in R}. Boca Raton, FL: CRC Press.
 
