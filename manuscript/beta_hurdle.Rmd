@@ -30,7 +30,7 @@ lineno            : no
 
 lang              : "english"
 class             : "man"
-output            : papaja::apa6_word
+output            : papaja::apa6_pdf
 ---
 
 ```{r message = FALSE, warning = FALSE, error = FALSE, echo = FALSE}
