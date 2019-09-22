@@ -3,72 +3,47 @@
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-2-1.pdf}
-\caption{\label{fig:unnamed-chunk-2}Beta probability density functions with
-various combinations of shape parameters.}
+\caption{\label{fig:unnamed-chunk-2}Beta probability density functions with various combinations of shape parameters.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-3-1.pdf}
-\caption{\label{fig:unnamed-chunk-3}The stronger the normative influence on
-prejudice, the smaller the variance of reported prejudice.}
+\caption{\label{fig:unnamed-chunk-3}The stronger the normative influence on prejudice, the smaller the variance of reported prejudice.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-4-1.pdf}
-\caption{\label{fig:unnamed-chunk-4}The more socially acceptable the
-prejudice, the less people opt for the politically correct response.}
+\caption{\label{fig:unnamed-chunk-4}The more socially acceptable the prejudice, the less people opt for the politically correct response.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{\label{fig:unnamed-chunk-11}The distribution of SDO scores contains
-a floor effect.}
+\caption{\label{fig:unnamed-chunk-11}The distribution of SDO scores contains a floor effect.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-12-1.pdf}
-\caption{\label{fig:unnamed-chunk-12}The residuals plot shows
-heteroskedasticity and conditional non-normality.}
+\caption{\label{fig:unnamed-chunk-12}The residuals plot shows heteroskedasticity and conditional non-normality.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-18-1.pdf}
-\caption{\label{fig:unnamed-chunk-18}SDO regressed on conservatism, using
-OLS regression. Dotted lines are one standard deviation (i.e., estimated
-standard deviation of the residuals) above and below the solid
-regression line.}
+\caption{\label{fig:unnamed-chunk-18}SDO regressed on conservatism, using OLS regression. Dotted lines are one standard deviation (i.e., estimated standard deviation of the residuals) above and below the solid regression line.}
 \end{figure*}
-\efloatseparator
- 
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{beta_hurdle_files/figure-latex/unnamed-chunk-19-1.pdf}
-\caption{\label{fig:unnamed-chunk-19}SDO regressed on conservatism, using
-beta regression. Dotted lines are one standard deviation (i.e.,
-estimated standard deviation of the residuals) above and below the solid
-regression line.}
+\caption{\label{fig:unnamed-chunk-19}SDO regressed on conservatism, using beta regression. Dotted lines are one standard deviation (i.e., estimated standard deviation of the residuals) above and below the solid regression line.}
 \end{figure*}
-\efloatseparator
- 

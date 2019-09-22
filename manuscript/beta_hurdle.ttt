@@ -17,8 +17,6 @@ Yes & Yes & Zero-and-One Inflated Beta & BEINF() & $\mu$, $\sigma$, $\nu$, $\tau
 \end{threeparttable}
 \end{center}
 \end{table*}
-\efloatseparator
- 
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
 [tbp]
@@ -42,5 +40,3 @@ $\tau$ & Intercept & -13.33 & 6.91 & -1.93 & .055\\
 \end{threeparttable}
 \end{center}
 \end{table*}
-\efloatseparator
- 
